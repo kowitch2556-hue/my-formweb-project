@@ -1,95 +1,176 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Debug - iPhone Upload</title>
+    <title>Image Debug - Mobile</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        .test { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
-        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; }
-        .log { background: #000; color: #0f0; padding: 10px; margin-top: 20px; font-family: monospace; height: 200px; overflow-y: auto; }
+        /* เพิ่มตามชอบ */
     </style>
 </head>
 <body>
-    <h1>📱 iPhone Upload Quick Debug</h1>
+    <h1>🖼️ Mobile Image Debug</h1>
     
-    <div class="test">
-        <h3>Test 1: เลือกไฟล์</h3>
-        <input type="file" id="file1" accept="image/*">
-        <div id="result1"></div>
-    </div>
+    <input type="file" accept="image/*" id="imageInput">
     
-    <div class="test">
-        <h3>Test 2: เปิดกล้อง</h3>
-        <input type="file" id="file2" accept="image/*" capture="environment">
-        <div id="result2"></div>
-    </div>
-    
-    <div class="test">
-        <h3>Test 3: ทดสอบอัปโหลด</h3>
-        <button onclick="testUpload()">ทดสอบ Upload</button>
-        <div id="result3"></div>
-    </div>
-    
-    <div class="log" id="log"></div>
+    <div id="fileInfo"></div>
+    <div id="testResults"></div>
+    <div id="debugLog"></div>
     
     <script>
-        // Load Eruda for debugging
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/eruda';
-        script.onload = () => eruda.init();
-        document.head.appendChild(script);
-        
-        function log(msg) {
-            const logDiv = document.getElementById('log');
-            logDiv.innerHTML += new Date().toLocaleTimeString() + ': ' + msg + '<br>';
-            console.log(msg);
-        }
-        
-        // Test 1
-        document.getElementById('file1').addEventListener('change', function(e) {
+        document.getElementById('imageInput').addEventListener('change', async (e) => {
             const file = e.target.files[0];
-            const result = file ? `✅ เลือกได้: ${file.name}` : '❌ ไม่ได้เลือก';
-            document.getElementById('result1').innerHTML = result;
-            log(result);
+            if (!file) return;
+            
+            // 1. Log ข้อมูลไฟล์เต็มๆ
+            log('=== FILE ANALYSIS ===');
+            log(`Name: ${file.name}`);
+            log(`Size: ${file.size} bytes (${file.size/1024}KB)`);
+            log(`Type: "${file.type}"`);
+            log(`Last Modified: ${new Date(file.lastModified).toISOString()}`);
+            
+            // 2. ตรวจสอบ MIME type จริง
+            const realType = await detectRealMimeType(file);
+            log(`Detected MIME: ${realType}`);
+            
+            // 3. ตรวจสอบว่าเป็นรูปภาพจริงไหม
+            const isImage = await testIfImage(file);
+            log(`Is valid image: ${isImage}`);
+            
+            // 4. ตรวจสอบ EXIF data
+            const hasExif = await checkForExif(file);
+            log(`Has EXIF data: ${hasExif}`);
+            
+            // 5. ทดสอบอ่านเป็น DataURL (เหมือนในโค้ดจริง)
+            log('=== TESTING FILE READER ===');
+            try {
+                const dataUrl = await readAsDataURL(file);
+                log(`DataURL created: ${dataUrl.substring(0, 50)}...`);
+            } catch (error) {
+                log(`❌ FileReader error: ${error.message}`);
+            }
+            
+            // 6. ทดสอบสร้าง FormData
+            log('=== TESTING FORMDATA ===');
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                // ตรวจสอบว่า FormData ทำงานได้ไหม
+                let entryCount = 0;
+                for (let entry of formData.entries()) {
+                    entryCount++;
+                }
+                log(`FormData entries: ${entryCount}`);
+            } catch (error) {
+                log(`❌ FormData error: ${error.message}`);
+            }
+            
+            // 7. ทดสอบ Upload จริง
+            log('=== TESTING UPLOAD ===');
+            await testUpload(file);
         });
         
-        // Test 2
-        document.getElementById('file2').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const result = file ? `✅ ถ่ายภาพได้: ${file.name}` : '❌ ไม่ได้ถ่าย';
-            document.getElementById('result2').innerHTML = result;
-            log(result);
-        });
-        
-        // Test 3
-        function testUpload() {
-            log('📤 ทดสอบอัปโหลด...');
-            
-            // สร้างไฟล์ทดสอบ
-            const testFile = new File(['test'], 'test.txt', {type: 'text/plain'});
-            
-            const formData = new FormData();
-            formData.append('file', testFile);
-            
-            fetch('https://httpbin.org/post', {
-                method: 'POST',
-                body: formData
-            })
-            .then(r => r.json())
-            .then(data => {
-                document.getElementById('result3').innerHTML = '✅ อัปโหลดสำเร็จ';
-                log('✅ อัปโหลดทดสอบสำเร็จ');
-            })
-            .catch(err => {
-                document.getElementById('result3').innerHTML = '❌ อัปโหลดล้มเหลว';
-                log('❌ อัปโหลดล้มเหลว: ' + err.message);
+        async function detectRealMimeType(file) {
+            // อ่าน bytes แรกเพื่อตรวจสอบ MIME type จริง
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsArrayBuffer(file.slice(0, 4)); // อ่าน 4 bytes แรก
+                reader.onload = (e) => {
+                    const bytes = new Uint8Array(e.target.result);
+                    let mime = 'unknown';
+                    
+                    // ตรวจสอบ magic bytes
+                    if (bytes[0] === 0xFF && bytes[1] === 0xD8) mime = 'image/jpeg';
+                    else if (bytes[0] === 0x89 && bytes[1] === 0x50) mime = 'image/png';
+                    else if (bytes[0] === 0x47 && bytes[1] === 0x49) mime = 'image/gif';
+                    else if (bytes[0] === 0x66 && bytes[1] === 0x74) mime = 'image/heic'; // 'ftyp'
+                    
+                    resolve(mime);
+                };
             });
         }
         
-        log('🚀 เริ่มการทดสอบ...');
-        log('อุปกรณ์: ' + navigator.userAgent);
+        async function testIfImage(file) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                
+                img.onload = () => {
+                    URL.revokeObjectURL(url);
+                    resolve(true);
+                };
+                
+                img.onerror = () => {
+                    URL.revokeObjectURL(url);
+                    resolve(false);
+                };
+                
+                img.src = url;
+            });
+        }
+        
+        function readAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        async function testUpload(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('debug', 'mobile_test');
+            
+            // ทดสอบกับ httpbin ก่อน (รองรับแน่นอน)
+            try {
+                const response = await fetch('https://httpbin.org/post', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                log(`✅ Upload to httpbin: SUCCESS (${response.status})`);
+                log(`📦 Form data received by server: ${JSON.stringify(data.form)}`);
+                
+                // ทดสอบกับ API จริงของคุณต่อ
+                testYourAPI(file);
+                
+            } catch (error) {
+                log(`❌ Upload to httpbin FAILED: ${error.message}`);
+            }
+        }
+        
+        function testYourAPI(file) {
+            // เปลี่ยนเป็น API URL จริงของคุณ
+            const yourApiUrl = '/api/upload';
+            
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            fetch(yourApiUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(async response => {
+                log(`Your API response: ${response.status}`);
+                if (!response.ok) {
+                    const text = await response.text();
+                    log(`❌ Your API error: ${text.substring(0, 200)}`);
+                } else {
+                    log(`✅ Your API: SUCCESS`);
+                }
+            })
+            .catch(error => {
+                log(`❌ Your API failed: ${error.message}`);
+            });
+        }
+        
+        function log(message) {
+            const logDiv = document.getElementById('debugLog');
+            logDiv.innerHTML += `<div>${message}</div>`;
+            console.log(message);
+        }
     </script>
 </body>
 </html>
