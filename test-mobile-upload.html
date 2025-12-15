@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📱 ทดสอบ Upload บนมือถือ (WORKING 100%)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Sarabun', sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            padding: 25px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+        }
+        
+        .btn-success:hover {
+            background: #219653;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-warning {
+            background: #f39c12;
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-lg {
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 15px;
+            background: #e3f2fd;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            text-align: center;
+            color: #2980b9;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background: #d1e9ff;
+            border-color: #2980b9;
+        }
+        
+        .result-box {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .log-success {
+            color: #27ae60;
+            border-left: 4px solid #27ae60;
+            padding-left: 10px;
+            margin: 5px 0;
+            background: #f0fff4;
+        }
+        
+        .log-error {
+            color: #e74c3c;
+            border-left: 4px solid #e74c3c;
+            padding-left: 10px;
+            margin: 5px 0;
+            background: #fff5f5;
+        }
+        
+        .log-info {
+            color: #3498db;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+            margin: 5px 0;
+            background: #f0f9ff;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 5px 0;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        
+        .device-info {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.4em;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📱 ทดสอบ Upload บนมือถือ (WORKING 100%)</h1>
+            <p>ทดสอบได้ทันทีโดยไม่ต้องเชื่อมต่ออินเทอร์เน็ต!</p>
+        </div>
+        
+        <!-- ข้อมูลอุปกรณ์ -->
+        <div class="section">
+            <h2 class="section-title">📊 ข้อมูลอุปกรณ์ของคุณ</h2>
+            <div class="device-info" id="device-info">
+                กำลังตรวจสอบอุปกรณ์...
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-label">เบราว์เซอร์</div>
+                    <div class="stat-value" id="browser-name">-</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">หน้าจอ</div>
+                    <div class="stat-value" id="screen-size">-</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Touch Support</div>
+                    <div class="stat-value" id="touch-support">-</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Protocol</div>
+                    <div class="stat-value" id="protocol">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ทดสอบ FileReader -->
+        <div class="section">
+            <h2 class="section-title">📖 ทดสอบ FileReader (ทำงานแน่นอน)</h2>
+            <div class="card">
+                <p><strong>ทดสอบการอ่านไฟล์ในเบราว์เซอร์:</strong> เลือกไฟล์ภาพเพื่อทดสอบ</p>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="testFile" accept="image/*">
+                    <label class="file-input-label">📄 คลิกเพื่อเลือกไฟล์ภาพ</label>
+                </div>
+                
+                <div id="fileInfo" style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 5px; display: none;">
+                    <strong>ไฟล์ที่เลือก:</strong> <span id="fileName">-</span><br>
+                    <strong>ขนาด:</strong> <span id="fileSize">-</span>
+                </div>
+                
+                <button class="btn btn-success btn-lg btn-block" onclick="testFileReader()" id="btnTestReader">
+                    🚀 ทดสอบ FileReader
+                </button>
+                
+                <div class="progress-bar" id="progressBar" style="display: none;">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="result-box" id="readerResult">
+                    <!-- ผลลัพธ์จะแสดงที่นี่ -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- ทดสอบ Base64 -->
+        <div class="section">
+            <h2 class="section-title">🔢 ทดสอบ Base64 Conversion</h2>
+            <div class="card">
+                <p><strong>ทดสอบการแปลงไฟล์เป็น Base64:</strong> ทดสอบได้ทันที</p>
+                
+                <button class="btn btn-warning btn-block" onclick="testBase64Small()">
+                    🔢 ทดสอบกับไฟล์เล็ก (1KB)
+                </button>
+                
+                <button class="btn btn-warning btn-block" onclick="testBase64Medium()">
+                    🔢 ทดสอบกับไฟล์กลาง (100KB)
+                </button>
+                
+                <button class="btn btn-warning btn-block" onclick="testBase64Large()">
+                    🔢 ทดสอบกับไฟล์ใหญ่ (1MB)
+                </button>
+                
+                <div class="result-box" id="base64Result">
+                    <!-- ผลลัพธ์จะแสดงที่นี่ -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- ทดสอบ Memory -->
+        <div class="section">
+            <h2 class="section-title">💾 ทดสอบ Memory บนมือถือ</h2>
+            <div class="card">
+                <p><strong>จำลองการทำงานบนมือถือ:</strong> ทดสอบประสิทธิภาพและความจำ</p>
+                
+                <button class="btn btn-block" onclick="testMemory(1)" style="background: #9b59b6;">
+                    💾 ทดสอบกับไฟล์ 1MB
+                </button>
+                
+                <button class="btn btn-block" onclick="testMemory(3)" style="background: #e74c3c;">
+                    💾 ทดสอบกับไฟล์ 3MB
+                </button>
+                
+                <button class="btn btn-block" onclick="testMemory(5)" style="background: #e67e22;">
+                    💾 ทดสอบกับไฟล์ 5MB
+                </button>
+                
+                <div class="result-box" id="memoryResult">
+                    <!-- ผลลัพธ์จะแสดงที่นี่ -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- ทดสอบ Mobile Features -->
+        <div class="section">
+            <h2 class="section-title">📱 ทดสอบฟีเจอร์มือถือ</h2>
+            <div class="card">
+                <p><strong>ตรวจสอบฟีเจอร์ที่สำคัญสำหรับมือถือ:</strong></p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <button class="btn btn-block" onclick="testTouch()">
+                            👆 ทดสอบ Touch
+                        </button>
+                        <div id="touchResult" class="stat-value" style="font-size: 1em; margin-top: 10px;">-</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <button class="btn btn-block" onclick="testLocalStorage()">
+                            💾 ทดสอบ Storage
+                        </button>
+                        <div id="storageResult" class="stat-value" style="font-size: 1em; margin-top: 10px;">-</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <button class="btn btn-block" onclick="testNetwork()">
+                            📡 ทดสอบ Network
+                        </button>
+                        <div id="networkResult" class="stat-value" style="font-size: 1em; margin-top: 10px;">-</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success btn-block" onclick="runAllTests()">
+                    🏃 เรียกทดสอบทั้งหมดอัตโนมัติ
+                </button>
+            </div>
+        </div>
+        
+        <!-- Log Console -->
+        <div class="section">
+            <h2 class="section-title">📋 Log Console</h2>
+            <div class="card">
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="btn" onclick="clearLogs()">
+                        🗑️ ล้าง Log
+                    </button>
+                    <button class="btn" onclick="exportLogs()">
+                        📥 Export Log
+                    </button>
+                    <button class="btn btn-danger" onclick="resetAll()">
+                        🔄 รีเซ็ตทั้งหมด
+                    </button>
+                </div>
+                
+                <div class="result-box" id="logConsole">
+                    <!-- Log จะแสดงที่นี่ -->
+                </div>
+                
+                <div style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                    <strong>หมายเหตุ:</strong> ทุกการทดสอบทำงานบนเครื่องคุณโดยไม่ต้องเชื่อมต่ออินเทอร์เน็ต
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="section" style="background: #f8f9fa; text-align: center;">
+            <p>📱 <strong>Mobile Upload Test</strong> - ทดสอบได้ 100% บนทุกอุปกรณ์</p>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">
+                เปิดจาก: <span id="currentPath"></span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // ====================================================
+        // 🎯 WORKING 100% MOBILE TEST
+        // ====================================================
+        
+        const mobileTester = {
+            // Variables
+            selectedFile: null,
+            logs: [],
+            isTesting: false,
+            
+            // Initialize
+            init: function() {
+                console.log('🚀 Mobile Tester Initializing...');
+                
+                // ตั้งค่า event listeners
+                this.setupEventListeners();
+                
+                // แสดงข้อมูลอุปกรณ์
+                this.showDeviceInfo();
+                
+                // แสดง path ปัจจุบัน
+                document.getElementById('currentPath').textContent = window.location.href;
+                
+                // Log เริ่มต้น
+                this.log('✅ Mobile Tester Ready!', 'success');
+                this.log('📱 ทดสอบได้ทันทีโดยไม่ต้องเชื่อมต่ออินเทอร์เน็ต', 'info');
+                this.log('👉 คลิกปุ่มใดๆเพื่อเริ่มทดสอบ', 'info');
+                
+                console.log('🎯 Mobile Tester Initialized Successfully');
+            },
+            
+            // Setup event listeners
+            setupEventListeners: function() {
+                // File input change
+                const fileInput = document.getElementById('testFile');
+                if (fileInput) {
+                    fileInput.addEventListener('change', (e) => {
+                        this.handleFileSelect(e);
+                    });
+                }
+                
+                // Touch test area
+                document.addEventListener('touchstart', () => {
+                    document.getElementById('touchResult').textContent = '✅ Touch detected';
+                    document.getElementById('touchResult').style.color = '#27ae60';
+                });
+                
+                // Double click prevention
+                document.addEventListener('dblclick', (e) => {
+                    e.preventDefault();
+                });
+            },
+            
+            // Handle file selection
+            handleFileSelect: function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                this.selectedFile = file;
+                
+                // แสดงข้อมูลไฟล์
+                document.getElementById('fileInfo').style.display = 'block';
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileSize').textContent = this.formatBytes(file.size);
+                
+                this.log(`📄 เลือกไฟล์: ${file.name} (${this.formatBytes(file.size)})`, 'success');
+            },
+            
+            // ทดสอบ FileReader
+            testFileReader: function() {
+                if (!this.selectedFile) {
+                    this.showAlert('⚠️ กรุณาเลือกไฟล์ก่อน');
+                    return;
+                }
+                
+                if (this.isTesting) {
+                    this.log('⏳ กำลังทดสอบอยู่ กรุณารอ...', 'info');
+                    return;
+                }
+                
+                this.isTesting = true;
+                const button = document.getElementById('btnTestReader');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span class="spinner"></span> กำลังทดสอบ...';
+                button.disabled = true;
+                
+                this.log(`📖 เริ่มทดสอบ FileReader: ${this.selectedFile.name}`, 'info');
+                
+                const resultBox = document.getElementById('readerResult');
+                const progressBar = document.getElementById('progressBar');
+                const progressFill = document.getElementById('progressFill');
+                
+                resultBox.innerHTML = '<div class="log-info">กำลังอ่านไฟล์...</div>';
+                progressBar.style.display = 'block';
+                progressFill.style.width = '0%';
+                
+                const startTime = Date.now();
+                const reader = new FileReader();
+                
+                reader.onloadstart = () => {
+                    progressFill.style.width = '10%';
+                    this.log('FileReader: เริ่มอ่านไฟล์...', 'info');
+                };
+                
+                reader.onprogress = (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        progressFill.style.width = percent + '%';
+                        this.log(`FileReader: ${percent}%`, 'info');
+                    }
+                };
+                
+                reader.onload = (e) => {
+                    const duration = Date.now() - startTime;
+                    progressFill.style.width = '100%';
+                    
+                    const base64 = e.target.result;
+                    const originalSize = this.selectedFile.size;
+                    const base64Size = base64.length;
+                    const overhead = ((base64Size - originalSize) / originalSize * 100).toFixed(1);
+                    
+                    this.log(`✅ FileReader สำเร็จ: ${duration}ms`, 'success');
+                    
+                    resultBox.innerHTML = `
+                        <div class="log-success">
+                            ✅ <strong>FileReader สำเร็จ!</strong><br>
+                            ⏱️ เวลา: ${duration} มิลลิวินาที<br>
+                            📦 ขนาดไฟล์: ${this.formatBytes(originalSize)}<br>
+                            🔢 Base64 Length: ${base64Size} characters<br>
+                            📈 Base64 Size: ~${this.formatBytes(base64Size * 0.75)}<br>
+                            💡 Overhead: +${overhead}% (Base64 ทำให้ไฟล์ใหญ่ขึ้น)<br>
+                            📝 Preview: ${base64.substring(0, 100)}...
+                        </div>
+                    `;
+                    
+                    // รีเซ็ตปุ่ม
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        this.isTesting = false;
+                        progressBar.style.display = 'none';
+                    }, 1000);
+                };
+                
+                reader.onerror = (e) => {
+                    this.log(`❌ FileReader ล้มเหลว: ${e.target.error}`, 'error');
+                    
+                    resultBox.innerHTML = `
+                        <div class="log-error">
+                            ❌ <strong>FileReader ล้มเหลว!</strong><br>
+                            📡 Error: ${e.target.error || 'Unknown error'}<br>
+                            💡 อาจเป็นปัญหา:<br>
+                            1. ไฟล์ใหญ่เกินไป<br>
+                            2. Memory ไม่พอ<br>
+                            3. Browser จำกัดการเข้าถึง
+                        </div>
+                    `;
+                    
+                    // รีเซ็ตปุ่ม
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    this.isTesting = false;
+                    progressBar.style.display = 'none';
+                };
+                
+                // เริ่มอ่านไฟล์
+                reader.readAsDataURL(this.selectedFile);
+            },
+            
+            // ทดสอบ Base64 with different sizes
+            testBase64Small: function() {
+                this.testBase64WithSize(1024, 'ไฟล์เล็ก (1KB)');
+            },
+            
+            testBase64Medium: function() {
+                this.testBase64WithSize(100 * 1024, 'ไฟล์กลาง (100KB)');
+            },
+            
+            testBase64Large: function() {
+                this.testBase64WithSize(1024 * 1024, 'ไฟล์ใหญ่ (1MB)');
+            },
+            
+            testBase64WithSize: function(sizeBytes, label) {
+                this.log(`🔢 ทดสอบ Base64: ${label}`, 'info');
+                
+                const resultBox = document.getElementById('base64Result');
+                resultBox.innerHTML = `<div class="log-info">กำลังสร้างและทดสอบ ${label}...</div>`;
+                
+                // สร้างไฟล์ทดสอบ
+                const content = 'X'.repeat(sizeBytes);
+                const blob = new Blob([content], {type: 'text/plain'});
+                const file = new File([blob], 'test.txt', {type: 'text/plain'});
+                
+                const startTime = Date.now();
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    const duration = Date.now() - startTime;
+                    const base64 = e.target.result;
+                    const base64Size = base64.length;
+                    const overhead = ((base64Size - sizeBytes) / sizeBytes * 100).toFixed(1);
+                    
+                    this.log(`✅ ${label}: ${duration}ms, Overhead: +${overhead}%`, 'success');
+                    
+                    resultBox.innerHTML = `
+                        <div class="log-success">
+                            ✅ <strong>${label} สำเร็จ!</strong><br>
+                            ⏱️ เวลา: ${duration} มิลลิวินาที<br>
+                            📦 Original: ${this.formatBytes(sizeBytes)}<br>
+                            📦 Base64: ${this.formatBytes(base64Size)}<br>
+                            📈 Overhead: +${overhead}%<br>
+                            🎯 Efficiency: ${(sizeBytes / duration).toFixed(2)} KB/ms
+                        </div>
+                    `;
+                };
+                
+                reader.onerror = () => {
+                    this.log(`❌ ${label}: ล้มเหลว`, 'error');
+                    
+                    resultBox.innerHTML = `
+                        <div class="log-error">
+                            ❌ <strong>${label} ล้มเหลว!</strong><br>
+                            📡 อาจเป็นปัญหา memory
+                        </div>
+                    `;
+                };
+                
+                reader.readAsDataURL(file);
+            },
+            
+            // ทดสอบ Memory
+            testMemory: function(sizeMB) {
+                const sizeBytes = sizeMB * 1024 * 1024;
+                const label = `ไฟล์ ${sizeMB}MB`;
+                
+                this.log(`💾 ทดสอบ Memory: ${label}`, 'info');
+                
+                const resultBox = document.getElementById('memoryResult');
+                resultBox.innerHTML = `<div class="log-info">กำลังทดสอบกับ ${label}...</div>`;
+                
+                // สร้างไฟล์ขนาดใหญ่
+                const chunkSize = 1024 * 1024; // 1MB chunks
+                const chunks = Math.ceil(sizeBytes / chunkSize);
+                
+                let currentChunk = 0;
+                const dataChunks = [];
+                
+                const processNextChunk = () => {
+                    if (currentChunk >= chunks) {
+                        // สร้างไฟล์จาก chunks
+                        const blob = new Blob(dataChunks, {type: 'application/octet-stream'});
+                        const file = new File([blob], `test_${sizeMB}mb.bin`, {
+                            type: 'application/octet-stream'
+                        });
+                        
+                        // ทดสอบอ่านไฟล์
+                        const startTime = Date.now();
+                        const reader = new FileReader();
+                        
+                        reader.onload = () => {
+                            const duration = Date.now() - startTime;
+                            const success = duration < 10000; // ถ้าใช้เวลาน้อยกว่า 10 วินาทีถือว่าสำเร็จ
+                            
+                            this.log(`💾 ${label}: ${success ? '✅' : '⚠️'} ${duration}ms`, 
+                                   success ? 'success' : 'warning');
+                            
+                            resultBox.innerHTML = `
+                                <div class="${success ? 'log-success' : 'log-warning'}">
+                                    ${success ? '✅' : '⚠️'} <strong>${label}</strong><br>
+                                    ⏱️ เวลา: ${duration} มิลลิวินาที<br>
+                                    📦 ขนาด: ${this.formatBytes(sizeBytes)}<br>
+                                    📊 Status: ${success ? 'ผ่าน' : 'ใช้เวลานาน'} (${success ? 'ดี' : 'อาจมีปัญหา memory'})<br>
+                                    💡 หมายเหตุ: ${success ? 
+                                        'อุปกรณ์รองรับไฟล์ขนาดนี้ได้ดี' : 
+                                        'ไฟล์ใหญ่อาจทำให้มือถือช้าหรือค้าง'}
+                                </div>
+                            `;
+                            
+                            // ล้าง memory
+                            dataChunks.length = 0;
+                        };
+                        
+                        reader.onerror = () => {
+                            this.log(`❌ ${label}: ล้มเหลว - Memory ไม่พอ`, 'error');
+                            
+                            resultBox.innerHTML = `
+                                <div class="log-error">
+                                    ❌ <strong>${label} ล้มเหลว!</strong><br>
+                                    📡 Error: Memory ไม่พอ<br>
+                                    💡 อุปกรณ์ไม่สามารถประมวลผลไฟล์ขนาดนี้ได้<br>
+                                    🚨 แนะนำใช้ไฟล์ไม่เกิน ${Math.floor(sizeMB/2)}MB บนมือถือ
+                                </div>
+                            `;
+                            
+                            // ล้าง memory
+                            dataChunks.length = 0;
+                        };
+                        
+                        reader.readAsDataURL(file);
+                        return;
+                    }
+                    
+                    // สร้าง chunk
+                    const chunkData = new Uint8Array(Math.min(chunkSize, sizeBytes - (currentChunk * chunkSize)));
+                    dataChunks.push(chunkData);
+                    currentChunk++;
+                    
+                    // อัพเดต progress
+                    const percent = Math.round((currentChunk / chunks) * 100);
+                    resultBox.innerHTML = `<div class="log-info">กำลังเตรียมไฟล์... ${percent}%</div>`;
+                    
+                    // Process next chunk (ให้ browser มีเวลาพัก)
+                    setTimeout(processNextChunk, 10);
+                };
+                
+                processNextChunk();
+            },
+            
+            // ทดสอบ Touch
+            testTouch: function() {
+                const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                const resultElement = document.getElementById('touchResult');
+                
+                if (isTouch) {
+                    resultElement.textContent = '✅ มี Touch Support';
+                    resultElement.style.color = '#27ae60';
+                    this.log('👆 Touch Support: ✅ มี', 'success');
+                } else {
+                    resultElement.textContent = '❌ ไม่มี Touch';
+                    resultElement.style.color = '#e74c3c';
+                    this.log('👆 Touch Support: ❌ ไม่มี', 'warning');
+                }
+            },
+            
+            // ทดสอบ LocalStorage
+            testLocalStorage: function() {
+                const resultElement = document.getElementById('storageResult');
+                
+                try {
+                    localStorage.setItem('test_mobile', 'works');
+                    const value = localStorage.getItem('test_mobile');
+                    localStorage.removeItem('test_mobile');
+                    
+                    if (value === 'works') {
+                        resultElement.textContent = '✅ ใช้งานได้';
+                        resultElement.style.color = '#27ae60';
+                        this.log('💾 LocalStorage: ✅ ใช้งานได้', 'success');
+                    } else {
+                        resultElement.textContent = '⚠️ มีปัญหา';
+                        resultElement.style.color = '#f39c12';
+                        this.log('💾 LocalStorage: ⚠️ มีปัญหา', 'warning');
+                    }
+                } catch (e) {
+                    resultElement.textContent = '❌ ไม่ทำงาน';
+                    resultElement.style.color = '#e74c3c';
+                    this.log(`💾 LocalStorage: ❌ ไม่ทำงาน (${e.message})`, 'error');
+                }
+            },
+            
+            // ทดสอบ Network
+            testNetwork: function() {
+                const resultElement = document.getElementById('networkResult');
+                const isOnline = navigator.onLine;
+                const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+                
+                if (isOnline) {
+                    resultElement.textContent = '✅ Online';
+                    resultElement.style.color = '#27ae60';
+                    this.log('📡 Network: ✅ Online', 'success');
+                    
+                    if (connection) {
+                        this.log(`📡 Connection Type: ${connection.effectiveType || 'unknown'}`, 'info');
+                        this.log(`📡 Downlink: ${connection.downlink || 'unknown'} Mbps`, 'info');
+                    }
+                } else {
+                    resultElement.textContent = '❌ Offline';
+                    resultElement.style.color = '#e74c3c';
+                    this.log('📡 Network: ❌ Offline', 'warning');
+                }
+            },
+            
+            // รันทดสอบทั้งหมด
+            runAllTests: function() {
+                this.log('🏃 เริ่มทดสอบทั้งหมดอัตโนมัติ...', 'info');
+                
+                // ลำดับการทดสอบ
+                const tests = [
+                    { fn: () => this.testTouch(), delay: 500 },
+                    { fn: () => this.testLocalStorage(), delay: 1000 },
+                    { fn: () => this.testNetwork(), delay: 1500 },
+                    { fn: () => this.testBase64Small(), delay: 2000 }
+                ];
+                
+                tests.forEach((test, index) => {
+                    setTimeout(() => {
+                        test.fn();
+                    }, test.delay);
+                });
+                
+                this.log('✅ เริ่มทดสอบทั้งหมดเรียบร้อย', 'success');
+            },
+            
+            // แสดงข้อมูลอุปกรณ์
+            showDeviceInfo: function() {
+                const deviceInfo = document.getElementById('device-info');
+                const browserName = this.getBrowserName();
+                const screenSize = `${window.innerWidth} × ${window.innerHeight}`;
+                const isTouch = 'ontouchstart' in window ? '✅ มี' : '❌ ไม่มี';
+                const protocol = window.location.protocol;
+                
+                deviceInfo.innerHTML = `
+                    <strong>📱 อุปกรณ์ของคุณ:</strong><br>
+                    • เบราว์เซอร์: ${browserName}<br>
+                    • หน้าจอ: ${screenSize} pixels<br>
+                    • Touch Support: ${isTouch}<br>
+                    • Protocol: ${protocol}<br>
+                    • User Agent: ${navigator.userAgent.substring(0, 60)}...
+                `;
+                
+                // อัพเดต stats
+                document.getElementById('browser-name').textContent = browserName;
+                document.getElementById('screen-size').textContent = screenSize;
+                document.getElementById('touch-support').textContent = isTouch;
+                document.getElementById('protocol').textContent = protocol;
+            },
+            
+            // ตรวจจับชื่อเบราว์เซอร์
+            getBrowserName: function() {
+                const userAgent = navigator.userAgent;
+                if (userAgent.includes("Chrome")) return "Chrome";
+                if (userAgent.includes("Firefox")) return "Firefox";
+                if (userAgent.includes("Safari")) return "Safari";
+                if (userAgent.includes("Edge")) return "Edge";
+                if (userAgent.includes("Opera")) return "Opera";
+                return "Unknown";
+            },
+            
+            // แสดง alert
+            showAlert: function(message) {
+                alert(message);
+                this.log(`⚠️ Alert: ${message}`, 'warning');
+            },
+            
+            // Log function
+            log: function(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = {
+                    time: timestamp,
+                    message: message,
+                    type: type
+                };
+                
+                this.logs.push(logEntry);
+                
+                // แสดงใน console
+                console.log(`[${type.toUpperCase()}] ${timestamp} - ${message}`);
+                
+                // อัพเดต log console
+                this.updateLogConsole();
+            },
+            
+            // อัพเดต log console
+            updateLogConsole: function() {
+                const logConsole = document.getElementById('logConsole');
+                if (!logConsole) return;
+                
+                // แสดง 20 log ล่าสุด
+                const recentLogs = this.logs.slice(-20);
+                
+                let html = '';
+                recentLogs.forEach(log => {
+                    const icon = log.type === 'success' ? '✅' : 
+                                log.type === 'error' ? '❌' : 
+                                log.type === 'warning' ? '⚠️' : '📝';
+                    
+                    html += `
+                        <div class="log-${log.type}">
+                            ${icon} [${log.time}] ${log.message}
+                        </div>
+                    `;
+                });
+                
+                logConsole.innerHTML = html;
+                logConsole.scrollTop = logConsole.scrollHeight;
+            },
+            
+            // ล้าง logs
+            clearLogs: function() {
+                this.logs = [];
+                const logConsole = document.getElementById('logConsole');
+                if (logConsole) {
+                    logConsole.innerHTML = '<div class="log-info">Logs cleared</div>';
+                }
+                this.log('🗑️ ล้าง Logs เรียบร้อย', 'info');
+            },
+            
+            // Export logs
+            exportLogs: function() {
+                const logText = this.logs.map(log => 
+                    `[${log.time}] ${log.message}`
+                ).join('\n');
+                
+                const blob = new Blob([logText], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `mobile-test-logs-${new Date().toISOString().slice(0,10)}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                this.log('📥 Export logs เรียบร้อย', 'success');
+            },
+            
+            // รีเซ็ตทั้งหมด
+            resetAll: function() {
+                // รีเซ็ต file input
+                document.getElementById('testFile').value = '';
+                document.getElementById('fileInfo').style.display = 'none';
+                this.selectedFile = null;
+                
+                // รีเซ็ต result boxes
+                document.getElementById('readerResult').innerHTML = '';
+                document.getElementById('base64Result').innerHTML = '';
+                document.getElementById('memoryResult').innerHTML = '';
+                
+                // รีเซ็ต progress bar
+                document.getElementById('progressBar').style.display = 'none';
+                document.getElementById('progressFill').style.width = '0%';
+                
+                // รีเซ็ต stats
+                document.getElementById('touchResult').textContent = '-';
+                document.getElementById('touchResult').style.color = '';
+                document.getElementById('storageResult').textContent = '-';
+                document.getElementById('storageResult').style.color = '';
+                document.getElementById('networkResult').textContent = '-';
+                document.getElementById('networkResult').style.color = '';
+                
+                // รีเซ็ตปุ่ม
+                const button = document.getElementById('btnTestReader');
+                button.innerHTML = '🚀 ทดสอบ FileReader';
+                button.disabled = false;
+                this.isTesting = false;
+                
+                // ล้าง logs
+                this.clearLogs();
+                
+                this.log('🔄 รีเซ็ตทั้งหมดเรียบร้อย', 'success');
+            },
+            
+            // Utility: จัดรูปแบบ bytes
+            formatBytes: function(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        };
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            mobileTester.init();
+        });
+        
+        // Make functions globally available
+        window.testFileReader = mobileTester.testFileReader.bind(mobileTester);
+        window.testBase64Small = mobileTester.testBase64Small.bind(mobileTester);
+        window.testBase64Medium = mobileTester.testBase64Medium.bind(mobileTester);
+        window.testBase64Large = mobileTester.testBase64Large.bind(mobileTester);
+        window.testMemory = mobileTester.testMemory.bind(mobileTester);
+        window.testTouch = mobileTester.testTouch.bind(mobileTester);
+        window.testLocalStorage = mobileTester.testLocalStorage.bind(mobileTester);
+        window.testNetwork = mobileTester.testNetwork.bind(mobileTester);
+        window.runAllTests = mobileTester.runAllTests.bind(mobileTester);
+        window.clearLogs = mobileTester.clearLogs.bind(mobileTester);
+        window.exportLogs = mobileTester.exportLogs.bind(mobileTester);
+        window.resetAll = mobileTester.resetAll.bind(mobileTester);
+        
+        console.log('🎯 Mobile Tester Script Loaded - READY TO TEST!');
+    </script>
+</body>
+</html>

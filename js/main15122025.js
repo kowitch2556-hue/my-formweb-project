@@ -1,4 +1,4 @@
-// js/main.js - แก้ไขให้รองรับทั้ง 3 ฟอร์ม (Dashboard ทำงานแยกอิสระ) + Mobile Test Page
+// js/main.js - แก้ไขให้รองรับทั้ง 3 ฟอร์ม (Dashboard ทำงานแยกอิสระ)
 // ====================================================
 // ⭐ GLOBAL CONFIGURATION
 // ====================================================
@@ -682,90 +682,6 @@ window.resetStudentWorkFormOnly = function() {
 };
 
 /**
- * ⭐ ฟังก์ชันใหม่: รีเซ็ตเฉพาะหน้า test-mobile-upload.html
- */
-window.resetMobileTestFormOnly = function() {
-    console.log('🔄 Resetting mobile test form (staying on same page)...');
-    
-    // ✅ 1. ล้างไฟล์ที่เลือกทั้งหมด
-    if (typeof window.mobileTest !== 'undefined') {
-        window.mobileTest.selectedFiles = {
-            reader: null,
-            base64: null,
-            upload: null
-        };
-    }
-    
-    // ✅ 2. รีเซ็ต input files
-    const fileInputs = document.querySelectorAll('.file-input');
-    fileInputs.forEach(input => {
-        input.value = '';
-    });
-    
-    // ✅ 3. ล้างผลลัพธ์ทั้งหมด
-    const resultAreas = [
-        'connection-result',
-        'reader-result',
-        'base64-result',
-        'upload-result',
-        'largefile-result'
-    ];
-    
-    resultAreas.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.innerHTML = '';
-        }
-    });
-    
-    // ✅ 4. ซ่อน progress bars
-    const progressBars = [
-        'reader-progress',
-        'upload-progress'
-    ];
-    
-    progressBars.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.style.display = 'none';
-        }
-    });
-    
-    // ✅ 5. รีเซ็ต progress fills
-    const progressFills = [
-        'reader-progress-fill',
-        'upload-progress-fill'
-    ];
-    
-    progressFills.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.style.width = '0%';
-        }
-    });
-    
-    // ✅ 6. ซ่อน chunk info
-    const chunkInfo = document.getElementById('upload-chunk-info');
-    if (chunkInfo) {
-        chunkInfo.style.display = 'none';
-    }
-    
-    // ✅ 7. รีเซ็ต checkboxes
-    const useCompression = document.getElementById('use-compression');
-    if (useCompression) {
-        useCompression.checked = false;
-    }
-    
-    const simulateSlow = document.getElementById('simulate-slow');
-    if (simulateSlow) {
-        simulateSlow.checked = true;
-    }
-    
-    console.log('✅ Mobile test form reset complete (stayed on same page)');
-    return true;
-};
-
-/**
  * ⭐ ฟังก์ชันเดิม: รีเซ็ตฟอร์มทั้งหมดรวมถึง dropdown (ถ้ายังต้องการ)
  */
 window.resetTrainingForm = function() {
@@ -927,7 +843,7 @@ function executeScriptsFromHTML(html) {
 }
 
 // ====================================================
-// 📝 FORM FUNCTIONS - สำหรับทั้ง 3 ฟอร์ม + Mobile Test
+// 📝 FORM FUNCTIONS - สำหรับทั้ง 3 ฟอร์ม
 // ====================================================
 
 function showTrainingForm() {
@@ -943,12 +859,6 @@ function showTeacherAwardForm() {
 function showStudentWorkForm() {
     console.log('👨‍🎓 Loading Student Work Form...');
     loadContent('pages/studentwork.html', 'main-content');
-}
-
-// ✅ ฟังก์ชันใหม่: แสดง Mobile Test Page
-function showMobileTest() {
-    console.log('📱 Loading Mobile Test Page...');
-    loadContent('pages/test-mobile-upload.html', 'main-content');
 }
 
 // ✅ ฟังก์ชัน: แสดง Dashboard (Dashboard จะทำงานอิสระ)
@@ -980,18 +890,16 @@ function showHomepage() {
     loadContent('pages/homepage.html', 'main-content');
 }
 
-// ✅ Expose functions globally
 window.showTrainingForm = showTrainingForm;
 window.showTeacherAwardForm = showTeacherAwardForm;
 window.showStudentWorkForm = showStudentWorkForm;
-window.showMobileTest = showMobileTest; // ✅ เพิ่มฟังก์ชันนี้
 window.showDashboard = showDashboard;
 window.showReports = showReports;
 window.showExport = showExport;
 window.showHomepage = showHomepage;
 
 // ====================================================
-// 🔧 PAGE SCRIPT EXECUTION - แก้ไขแล้วให้รองรับ Dashboard + Mobile Test
+// 🔧 PAGE SCRIPT EXECUTION - แก้ไขแล้วให้รองรับ Dashboard
 // ====================================================
 
 function executePageScripts(url, html = null) {
@@ -1047,35 +955,6 @@ function executePageScripts(url, html = null) {
                 }
             }
         }, 100);
-    }
-    
-    // ✅ Mobile Test Page
-    if (url.includes('test-mobile-upload.html')) {
-        console.log('📱 Mobile Test page detected - Initializing mobile test...');
-        
-        // รอให้ mobile test script โหลดและ execute เสร็จ
-        setTimeout(() => {
-            console.log('🚀 Attempting to initialize mobile test...');
-            
-            // ตรวจสอบว่ามีฟังก์ชัน mobileTest.init หรือไม่
-            if (typeof window.mobileTest !== 'undefined' && 
-                typeof window.mobileTest.init === 'function') {
-                console.log('🎯 Calling mobileTest.init() from main.js...');
-                try {
-                    window.mobileTest.init();
-                    console.log('✅ Mobile Test initialized successfully via main.js');
-                } catch (error) {
-                    console.error('❌ Error calling mobileTest.init():', error);
-                }
-            } else {
-                console.error('❌ No mobileTest initialization function found');
-                console.log('Available functions:', {
-                    hasMobileTest: typeof window.mobileTest,
-                    hasMobileTestInit: typeof window.mobileTest !== 'undefined' ? 
-                                     typeof window.mobileTest.init : 'no mobileTest'
-                });
-            }
-        }, 500); // รอ 500ms ให้ scripts โหลดเสร็จ
     }
     
     // ✅ Dashboard: เรียก initDashboard() เมื่อโหลดเสร็จ
@@ -1165,11 +1044,11 @@ window.onload = function() {
         }
     });
     
-    console.log('✅ Application initialized (พร้อมรองรับ Dashboard และ Mobile Test)');
+    console.log('✅ Application initialized (พร้อมรองรับ Dashboard)');
 };
 
 // ====================================================
-// 📤 SUBMIT FUNCTION - แก้ไขให้รองรับ Mobile Test
+// 📤 SUBMIT FUNCTION
 // ====================================================
 
 async function submitToGoogleAppsScript(data) {
@@ -1241,13 +1120,6 @@ async function submitToGoogleAppsScript(data) {
                         if (typeof window.resetStudentWorkFormOnly === 'function') {
                             setTimeout(() => {
                                 window.resetStudentWorkFormOnly();
-                            }, 500);
-                        }
-                    } else if (formType.includes('testMobileUpload') || data.action === 'testMobileUpload') {
-                        // ✅ สำหรับ Mobile Test Page
-                        if (typeof window.resetMobileTestFormOnly === 'function') {
-                            setTimeout(() => {
-                                window.resetMobileTestFormOnly();
                             }, 500);
                         }
                     }
@@ -1363,30 +1235,6 @@ window.initDashboard = function() {
     }
 };
 
-// ✅ ฟังก์ชันใหม่: เรียก init สำหรับ mobile test
-window.initMobileTest = function() {
-    console.log('🎯 initMobileTest called from main.js');
-    
-    if (typeof window.mobileTest === 'undefined') {
-        console.error('❌ mobileTest is not defined');
-        return false;
-    }
-    
-    if (typeof window.mobileTest.init !== 'function') {
-        console.error('❌ mobileTest.init is not a function');
-        return false;
-    }
-    
-    try {
-        console.log('🚀 Initializing mobile test...');
-        window.mobileTest.init();
-        return true;
-    } catch (error) {
-        console.error('❌ Error initializing mobile test:', error);
-        return false;
-    }
-};
-
 window.loadPersonnelData = async function() {
     console.log('👥 loadPersonnelData called from main.js');
     
@@ -1475,7 +1323,7 @@ window.addEventListener('resize', function() {
     if (window.innerWidth > 768) closeMobileMenu();
 });
 
-console.log('✅ Main.js loaded successfully (พร้อมรองรับ Dashboard และ Mobile Test auto-load)');
+console.log('✅ Main.js loaded successfully (พร้อมรองรับ Dashboard auto-load)');
 
 // ✅ เพิ่ม CSS สำหรับ loading animation และ notifications
 const loadingStyle = document.createElement('style');
