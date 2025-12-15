@@ -332,6 +332,66 @@
         to { transform: rotate(360deg) !important; }
     }
     
+    /* 📊 Progress Bar Styles */
+    #studentwork-form-container .upload-progress-container {
+        margin-top: 15px !important;
+        background: #f8f9fa !important;
+        border-radius: 6px !important;
+        padding: 15px !important;
+        display: none !important;
+    }
+    
+    #studentwork-form-container .upload-progress-container.active {
+        display: block !important;
+    }
+    
+    #studentwork-form-container .progress-info {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: 8px !important;
+        font-size: 0.85em !important;
+        color: #666 !important;
+    }
+    
+    #studentwork-form-container .progress-bar {
+        height: 8px !important;
+        background: #e9ecef !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+    
+    #studentwork-form-container .progress-fill {
+        height: 100% !important;
+        background: linear-gradient(90deg, #28a745, #20c997) !important;
+        width: 0% !important;
+        transition: width 0.3s ease !important;
+    }
+    
+    #studentwork-form-container .chunk-info {
+        margin-top: 10px !important;
+        font-size: 0.8em !important;
+        color: #6c757d !important;
+        text-align: center !important;
+    }
+    
+    /* 🔄 Cancel Button */
+    #studentwork-form-container .cancel-upload-btn {
+        margin-top: 10px !important;
+        background: #dc3545 !important;
+        color: white !important;
+        border: none !important;
+        padding: 6px 15px !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 0.85em !important;
+        display: inline-block !important;
+        transition: background 0.3s !important;
+    }
+    
+    #studentwork-form-container .cancel-upload-btn:hover {
+        background: #c82333 !important;
+    }
+    
     /* 📱 Responsive */
     @media (max-width: 768px) {
         #studentwork-form-container .form-row {
@@ -507,7 +567,7 @@
                     <button type="button" class="certificate-upload-btn" onclick="studentWorkApp.triggerCertificateUpload()">
                         📄 เลือกไฟล์
                     </button>
-                    <input type="file" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png" 
+                    <input type="file" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
                            onchange="studentWorkApp.handleCertificateUpload(event)"
                            class="file-input">
                 </div>
@@ -522,10 +582,27 @@
                         ลบไฟล์
                     </button>
                 </div>
+                
+                <!-- 📊 Progress Bar Container -->
+                <div id="upload-progress" class="upload-progress-container">
+                    <div class="progress-info">
+                        <span id="progress-percentage">0%</span>
+                        <span id="progress-status">กำลังเตรียมไฟล์...</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div id="chunk-info" class="chunk-info">
+                        <span id="current-chunk">0</span>/<span id="total-chunks">0</span> chunks
+                    </div>
+                    <button type="button" id="cancel-upload-btn" class="cancel-upload-btn" onclick="studentWorkApp.cancelUpload()">
+                        ❌ ยกเลิกการอัพโหลด
+                    </button>
+                </div>
             </div>
             
             <div style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 0.81em; color: #666;">
-                <p style="margin: 0;">💡 <strong>หมายเหตุ:</strong> รองรับไฟล์ PDF, JPG, PNG (สูงสุด 10MB)</p>
+                <p style="margin: 0;">💡 <strong>หมายเหตุ:</strong> รองรับไฟล์ PDF, JPG, PNG, DOC, DOCX (สูงสุด 20MB) - ไฟล์ใหญ่จะถูกแบ่งอัพโหลดอัตโนมัติ</p>
             </div>
         </div>
         
@@ -554,7 +631,7 @@
 
 <script>
     // ========================================
-    // 🎓 STUDENT WORK APPLICATION - FIX MOBILE UPLOAD
+    // 🎓 STUDENT WORK APPLICATION - CHUNK UPLOAD VERSION
     // ========================================
     
     const studentWorkApp = {
@@ -565,13 +642,26 @@
         maxRetries: 3,
         isMobile: false,
         
+        // Chunk upload variables
+        isUploading: false,
+        cancelUpload: false,
+        uploadId: null,
+        totalChunks: 0,
+        uploadedChunks: 0,
+        chunkSize: 1024 * 1024, // 1MB chunks
+        
         // Initialize the form
         init: function() {
-            console.log('🎓 Student Work Form Initializing...');
+            console.log('🎓 Student Work Form Initializing (Chunk Upload)...');
             
             // ตรวจสอบว่าเป็นมือถือหรือไม่
             this.isMobile = this.detectMobile();
             console.log('📱 Is Mobile:', this.isMobile);
+            
+            // ตั้งค่า chunk size สำหรับมือถือ
+            if (this.isMobile) {
+                this.chunkSize = 512 * 1024; // 512KB chunks for mobile
+            }
             
             // Setup event listeners
             this.setupEventListeners();
@@ -590,7 +680,7 @@
             // ✅ ตั้งค่าอัพเดตอัตโนมัติ (ทุก 2 นาที)
             this.setupAutoRefresh();
             
-            console.log('✅ Student Work Form Initialized');
+            console.log('✅ Student Work Form Initialized (Chunk Upload Ready)');
         },
         
         // ตรวจสอบว่าเป็นมือถือ
@@ -922,17 +1012,24 @@
             });
             
             // Validate file type
-            const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+            const validTypes = [
+                'application/pdf', 
+                'image/jpeg', 
+                'image/jpg', 
+                'image/png',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            ];
             if (!validTypes.includes(file.type)) {
-                alert('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)');
+                alert('กรุณาเลือกไฟล์ PDF, ภาพ หรือเอกสาร Word เท่านั้น (PDF, JPG, PNG, DOC, DOCX)');
                 event.target.value = '';
                 return;
             }
             
             // Validate file size
-            const maxSize = 10 * 1024 * 1024; // 10MB
+            const maxSize = 20 * 1024 * 1024; // 20MB
             if (file.size > maxSize) {
-                alert('ไฟล์ขนาดใหญ่เกินไป (สูงสุด 10MB)');
+                alert('ไฟล์ขนาดใหญ่เกินไป (สูงสุด 20MB)');
                 event.target.value = '';
                 return;
             }
@@ -1046,7 +1143,242 @@
                 fileInput.value = '';
             }
             
+            // ซ่อน progress bar
+            this.hideProgressBar();
+            
             console.log('🗑️ Certificate removed');
+        },
+        
+        // ✅ ฟังก์ชันแสดง progress bar
+        showProgressBar: function() {
+            const progressContainer = document.getElementById('upload-progress');
+            if (progressContainer) {
+                progressContainer.classList.add('active');
+            }
+        },
+        
+        // ✅ ฟังก์ชันซ่อน progress bar
+        hideProgressBar: function() {
+            const progressContainer = document.getElementById('upload-progress');
+            if (progressContainer) {
+                progressContainer.classList.remove('active');
+            }
+        },
+        
+        // ✅ อัพเดต progress bar
+        updateProgress: function(current, total, currentChunk, totalChunks, status) {
+            const percentage = Math.round((current / total) * 100);
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercentage = document.getElementById('progress-percentage');
+            const progressStatus = document.getElementById('progress-status');
+            const currentChunkSpan = document.getElementById('current-chunk');
+            const totalChunksSpan = document.getElementById('total-chunks');
+            
+            if (progressFill) {
+                progressFill.style.width = percentage + '%';
+            }
+            
+            if (progressPercentage) {
+                progressPercentage.textContent = percentage + '%';
+            }
+            
+            if (progressStatus) {
+                progressStatus.textContent = status || `กำลังอัพโหลด...`;
+            }
+            
+            if (currentChunkSpan && totalChunksSpan) {
+                currentChunkSpan.textContent = currentChunk;
+                totalChunksSpan.textContent = totalChunks;
+            }
+        },
+        
+        // ✅ ตั้งค่าเริ่มต้น progress bar
+        resetProgress: function(totalChunks) {
+            this.updateProgress(0, 100, 0, totalChunks, 'กำลังเตรียมไฟล์...');
+            this.showProgressBar();
+            this.cancelUpload = false;
+            this.isUploading = true;
+        },
+        
+        // ✅ ฟังก์ชันยกเลิกการอัพโหลด
+        cancelUpload: function() {
+            this.cancelUpload = true;
+            this.isUploading = false;
+            this.hideProgressBar();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<span>💾</span> บันทึกผลงานนักเรียน';
+                submitBtn.disabled = false;
+            }
+            
+            console.log('❌ Upload cancelled by user');
+        },
+        
+        // ✅ ฟังก์ชันแบ่งไฟล์เป็น chunks
+        splitFileIntoChunks: function(file) {
+            const chunks = [];
+            const totalChunks = Math.ceil(file.size / this.chunkSize);
+            
+            for (let i = 0; i < totalChunks; i++) {
+                const start = i * this.chunkSize;
+                const end = Math.min(start + this.chunkSize, file.size);
+                chunks.push(file.slice(start, end));
+            }
+            
+            return { chunks, totalChunks };
+        },
+        
+        // ✅ ฟังก์ชันอัพโหลดแบบ chunk
+        uploadInChunks: function(file, uploadId, formData) {
+            return new Promise((resolve, reject) => {
+                const { chunks, totalChunks } = this.splitFileIntoChunks(file);
+                this.totalChunks = totalChunks;
+                this.uploadedChunks = 0;
+                
+                // สร้าง upload session บน server
+                this.createUploadSession(file, uploadId, totalChunks)
+                    .then(sessionResult => {
+                        if (!sessionResult.success) {
+                            throw new Error(sessionResult.error || 'Failed to create upload session');
+                        }
+                        
+                        // อัพโหลด chunks แบบลำดับ
+                        return this.uploadChunksSequentially(chunks, uploadId, formData, sessionResult);
+                    })
+                    .then(finalResult => {
+                        resolve(finalResult);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        },
+        
+        // ✅ สร้าง upload session บน server
+        createUploadSession: function(file, uploadId, totalChunks) {
+            return new Promise((resolve) => {
+                const sessionData = {
+                    action: 'createUploadSession',
+                    uploadId: uploadId,
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type,
+                    totalChunks: totalChunks,
+                    chunkSize: this.chunkSize
+                };
+                
+                if (typeof window.submitToGoogleAppsScript === 'function') {
+                    window.submitToGoogleAppsScript(sessionData)
+                        .then(resolve)
+                        .catch(() => {
+                            resolve({ success: true }); // ถ้า server ไม่รองรับ session ก็ข้ามไป
+                        });
+                } else {
+                    resolve({ success: true });
+                }
+            });
+        },
+        
+        // ✅ อัพโหลด chunks แบบลำดับ
+        uploadChunksSequentially: function(chunks, uploadId, formData, sessionResult) {
+            return new Promise((resolve, reject) => {
+                let currentChunk = 0;
+                
+                const uploadNextChunk = () => {
+                    if (this.cancelUpload) {
+                        reject(new Error('Upload cancelled by user'));
+                        return;
+                    }
+                    
+                    if (currentChunk >= chunks.length) {
+                        // ✅ อัพโหลด chunks ครบแล้ว
+                        this.completeUpload(uploadId, formData)
+                            .then(resolve)
+                            .catch(reject);
+                        return;
+                    }
+                    
+                    const chunk = chunks[currentChunk];
+                    const chunkNumber = currentChunk + 1;
+                    
+                    // อัพเดต progress
+                    this.updateProgress(
+                        chunkNumber,
+                        chunks.length,
+                        chunkNumber,
+                        chunks.length,
+                        `กำลังอัพโหลดส่วนที่ ${chunkNumber}/${chunks.length}`
+                    );
+                    
+                    // อ่าน chunk เป็น base64
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const base64Data = e.target.result.split(',')[1];
+                        
+                        // ส่ง chunk ไปยัง server
+                        const chunkData = {
+                            ...formData,
+                            action: 'uploadChunk',
+                            uploadId: uploadId,
+                            chunkNumber: chunkNumber,
+                            totalChunks: chunks.length,
+                            chunkData: base64Data,
+                            isLastChunk: chunkNumber === chunks.length
+                        };
+                        
+                        if (typeof window.submitToGoogleAppsScript === 'function') {
+                            window.submitToGoogleAppsScript(chunkData)
+                                .then(result => {
+                                    if (result.success) {
+                                        currentChunk++;
+                                        this.uploadedChunks = currentChunk;
+                                        
+                                        // ถัดไปช้าก่อนเพื่อไม่ให้เบราเซอร์ค้าง
+                                        setTimeout(uploadNextChunk, this.isMobile ? 300 : 100);
+                                    } else {
+                                        reject(new Error(result.error || 'Chunk upload failed'));
+                                    }
+                                })
+                                .catch(error => {
+                                    reject(error);
+                                });
+                        } else {
+                            reject(new Error('Upload function not found'));
+                        }
+                    };
+                    
+                    reader.onerror = () => {
+                        reject(new Error('Failed to read chunk'));
+                    };
+                    
+                    reader.readAsDataURL(chunk);
+                };
+                
+                // เริ่มต้นอัพโหลด chunk แรก
+                uploadNextChunk();
+            });
+        },
+        
+        // ✅ ฟังก์ชัน complete upload
+        completeUpload: function(uploadId, formData) {
+            return new Promise((resolve, reject) => {
+                const completeData = {
+                    ...formData,
+                    action: 'completeUpload',
+                    uploadId: uploadId,
+                    uploadedChunks: this.uploadedChunks,
+                    totalChunks: this.totalChunks
+                };
+                
+                if (typeof window.submitToGoogleAppsScript === 'function') {
+                    window.submitToGoogleAppsScript(completeData)
+                        .then(resolve)
+                        .catch(reject);
+                } else {
+                    reject(new Error('Upload function not found'));
+                }
+            });
         },
         
         // Form validation
@@ -1112,7 +1444,7 @@
             return isValid;
         },
         
-        // ✅ Form Submission - แก้ไขเฉพาะสำหรับมือถือ
+        // ✅ Form Submission - รองรับ chunk upload
         submitForm: function() {
             if (!this.validateForm()) {
                 const errorMsg = document.getElementById('error-message');
@@ -1131,10 +1463,8 @@
             submitBtn.innerHTML = '<span class="loading-spinner"></span> กำลังบันทึกผลงาน...';
             submitBtn.disabled = true;
             
-            console.log('📱 Mobile submission:', this.isMobile);
-            
             // Prepare data
-            const data = {
+            const formData = {
                 action: 'recordStudentWork',
                 studentName: document.getElementById('studentName').value.trim(),
                 workType: this.getWorkType(),
@@ -1142,43 +1472,73 @@
                 advisorName: this.getAdvisorName(),
                 awardLevel: this.getAwardLevel(),
                 awardDate: document.getElementById('awardDate').value,
-                isMobile: this.isMobile
+                isMobile: this.isMobile,
+                useChunkUpload: false
             };
             
-            // ✅ สำคัญ: แยกการทำงานระหว่างมีไฟล์และไม่มีไฟล์
+            // ✅ ตรวจสอบว่าไฟล์ใหญ่เกินไปหรือไม่
             if (this.certificateFile) {
-                console.log('📱 Processing file for upload...');
+                const largeFileThreshold = 5 * 1024 * 1024; // 5MB
                 
-                // แสดงสถานะการประมวลผลไฟล์
-                submitBtn.innerHTML = '<span class="loading-spinner"></span> กำลังอ่านไฟล์...';
-                
-                // ✅ ใช้ setTimeout เพื่อให้ UI อัพเดต
-                setTimeout(() => {
-                    this.readAndSendFile(data, submitBtn, originalText);
-                }, 100);
+                if (this.certificateFile.size > largeFileThreshold) {
+                    console.log('📦 Large file detected, using chunk upload');
+                    
+                    // ใช้ chunk upload สำหรับไฟล์ใหญ่
+                    this.uploadId = 'sw_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    formData.useChunkUpload = true;
+                    formData.uploadId = this.uploadId;
+                    
+                    // แสดง progress bar
+                    this.resetProgress(Math.ceil(this.certificateFile.size / this.chunkSize));
+                    
+                    // เริ่มต้นอัพโหลดแบบ chunk
+                    this.uploadInChunks(this.certificateFile, this.uploadId, formData)
+                        .then(result => {
+                            console.log('✅ Chunk upload completed:', result);
+                            this.handleSubmissionSuccess(result, submitBtn, originalText);
+                        })
+                        .catch(error => {
+                            console.error('❌ Chunk upload failed:', error);
+                            
+                            // ลองใช้วิธีเดิมถ้าล้มเหลว
+                            if (error.message !== 'Upload cancelled by user') {
+                                this.tryRegularUpload(formData, submitBtn, originalText);
+                            } else {
+                                submitBtn.innerHTML = originalText;
+                                submitBtn.disabled = false;
+                            }
+                        });
+                } else {
+                    // ใช้วิธีปกติสำหรับไฟล์เล็ก
+                    this.tryRegularUpload(formData, submitBtn, originalText);
+                }
             } else {
-                this.sendData(data, submitBtn, originalText);
+                // ไม่มีไฟล์แนบ
+                this.sendData(formData, submitBtn, originalText);
             }
         },
         
-        // ✅ ฟังก์ชันอ่านและส่งไฟล์แยกออกมา
-        readAndSendFile: function(data, submitBtn, originalText) {
+        // ✅ ลองใช้วิธีปกติ
+        tryRegularUpload: function(formData, submitBtn, originalText) {
+            submitBtn.innerHTML = '<span class="loading-spinner"></span> กำลังอ่านไฟล์...';
+            
+            setTimeout(() => {
+                this.readAndSendFile(formData, submitBtn, originalText);
+            }, 100);
+        },
+        
+        // ✅ ฟังก์ชันอ่านและส่งไฟล์แบบปกติ
+        readAndSendFile: function(formData, submitBtn, originalText) {
             const reader = new FileReader();
             
-            reader.onloadstart = () => {
-                console.log('📖 Starting to read file...');
-            };
-            
             reader.onload = (e) => {
-                console.log('✅ File read successfully');
-                
                 try {
                     const base64Data = e.target.result.split(',')[1];
                     if (!base64Data) {
                         throw new Error('Base64 conversion failed');
                     }
                     
-                    data.certificate = {
+                    formData.certificate = {
                         base64Data: base64Data,
                         fileName: this.certificateFile.name,
                         mimeType: this.certificateFile.type,
@@ -1186,14 +1546,14 @@
                     };
                     
                     console.log('📤 File processed, sending data...');
-                    this.sendData(data, submitBtn, originalText);
+                    this.sendData(formData, submitBtn, originalText);
                     
                 } catch (error) {
                     console.error('❌ Error processing file:', error);
                     
                     // ส่งเฉพาะข้อมูลข้อความ
                     alert('⚠️ ไม่สามารถประมวลผลไฟล์ได้ จะบันทึกเฉพาะข้อมูลข้อความ');
-                    this.sendData(data, submitBtn, originalText);
+                    this.sendData(formData, submitBtn, originalText);
                 }
             };
             
@@ -1202,7 +1562,7 @@
                 
                 // ส่งเฉพาะข้อมูลข้อความ
                 alert('⚠️ เกิดข้อผิดพลาดในการอ่านไฟล์ จะบันทึกเฉพาะข้อมูลข้อความ');
-                this.sendData(data, submitBtn, originalText);
+                this.sendData(formData, submitBtn, originalText);
             };
             
             reader.onprogress = (event) => {
@@ -1217,21 +1577,21 @@
                 }
             };
             
-            // ✅ สำคัญ: ใช้ readAsDataURL สำหรับมือถือ
             reader.readAsDataURL(this.certificateFile);
         },
         
-        // ✅ Send data to server (แก้ไขสำหรับมือถือ)
-        sendData: function(data, submitBtn, originalText) {
+        // ✅ Send data to server
+        sendData: function(formData, submitBtn, originalText) {
             console.log('📤 Submitting data:', {
-                hasFile: !!data.certificate,
+                hasFile: !!formData.certificate,
                 isMobile: this.isMobile,
-                dataSize: JSON.stringify(data).length
+                useChunkUpload: formData.useChunkUpload || false,
+                dataSize: JSON.stringify(formData).length
             });
             
             if (typeof window.submitToGoogleAppsScript === 'function') {
                 // ✅ ใช้ Promise.race เพื่อป้องกัน timeout
-                const submissionPromise = window.submitToGoogleAppsScript(data);
+                const submissionPromise = window.submitToGoogleAppsScript(formData);
                 
                 // ✅ สำหรับมือถือ: timeout นานขึ้น (30 วินาที)
                 const timeout = this.isMobile ? 30000 : 15000;
@@ -1242,28 +1602,41 @@
                 Promise.race([submissionPromise, timeoutPromise])
                     .then(result => {
                         console.log('✅ Submission result:', result);
-                        
-                        if (result.success || result.status === 'SUCCESS') {
-                            this.showSuccess(data);
-                            setTimeout(() => this.resetFormOnSamePage(), 2000);
-                        } else {
-                            throw new Error(result.error || result.message || 'เกิดข้อผิดพลาด');
-                        }
+                        this.handleSubmissionSuccess(result, submitBtn, originalText);
                     })
                     .catch(error => {
                         console.error('❌ Submit error:', error);
                         this.showError(error);
                     })
                     .finally(() => {
+                        this.isUploading = false;
+                        this.hideProgressBar();
                         submitBtn.innerHTML = originalText;
                         submitBtn.disabled = false;
                     });
             } else {
                 console.error('submitToGoogleAppsScript function not found');
                 alert('ฟังก์ชันส่งข้อมูลไม่พบ');
+                this.isUploading = false;
+                this.hideProgressBar();
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
+        },
+        
+        // ✅ จัดการผลลัพธ์การส่งข้อมูล
+        handleSubmissionSuccess: function(result, submitBtn, originalText) {
+            if (result.success || result.status === 'SUCCESS') {
+                this.showSuccess(result.data || result);
+                setTimeout(() => this.resetFormOnSamePage(), 2000);
+            } else {
+                throw new Error(result.error || result.message || 'เกิดข้อผิดพลาด');
+            }
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            this.isUploading = false;
+            this.hideProgressBar();
         },
         
         // ✅ ฟังก์ชันแสดงผลสำเร็จ
@@ -1272,8 +1645,9 @@
             const successDetails = document.getElementById('success-details');
             
             if (successMsg && successDetails) {
+                const studentName = data.studentName || 'นักเรียน';
                 const fileInfo = data.certificate ? ' (พร้อมไฟล์)' : '';
-                successDetails.textContent = `บันทึกผลงานนักเรียน "${data.studentName}" สำเร็จ${fileInfo}`;
+                successDetails.textContent = `บันทึกผลงานนักเรียน "${studentName}" สำเร็จ${fileInfo}`;
                 successMsg.style.display = 'flex';
                 successMsg.scrollIntoView({ behavior: 'smooth' });
             }
@@ -1360,7 +1734,7 @@
     
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 DOM Content Loaded - Student Work Form');
+        console.log('📄 DOM Content Loaded - Student Work Form (Chunk Upload)');
         studentWorkApp.init();
     });
     
@@ -1373,5 +1747,5 @@
     // Make app available globally
     window.studentWorkApp = studentWorkApp;
     
-    console.log('🎓 Student Work Form Script Loaded');
+    console.log('🎓 Student Work Form Script Loaded (Chunk Upload Ready)');
 </script>
