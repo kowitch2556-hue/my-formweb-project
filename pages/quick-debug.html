@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Debug - iPhone Upload</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; }
+        .log { background: #000; color: #0f0; padding: 10px; margin-top: 20px; font-family: monospace; height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>📱 iPhone Upload Quick Debug</h1>
+    
+    <div class="test">
+        <h3>Test 1: เลือกไฟล์</h3>
+        <input type="file" id="file1" accept="image/*">
+        <div id="result1"></div>
+    </div>
+    
+    <div class="test">
+        <h3>Test 2: เปิดกล้อง</h3>
+        <input type="file" id="file2" accept="image/*" capture="environment">
+        <div id="result2"></div>
+    </div>
+    
+    <div class="test">
+        <h3>Test 3: ทดสอบอัปโหลด</h3>
+        <button onclick="testUpload()">ทดสอบ Upload</button>
+        <div id="result3"></div>
+    </div>
+    
+    <div class="log" id="log"></div>
+    
+    <script>
+        // Load Eruda for debugging
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/eruda';
+        script.onload = () => eruda.init();
+        document.head.appendChild(script);
+        
+        function log(msg) {
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML += new Date().toLocaleTimeString() + ': ' + msg + '<br>';
+            console.log(msg);
+        }
+        
+        // Test 1
+        document.getElementById('file1').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const result = file ? `✅ เลือกได้: ${file.name}` : '❌ ไม่ได้เลือก';
+            document.getElementById('result1').innerHTML = result;
+            log(result);
+        });
+        
+        // Test 2
+        document.getElementById('file2').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const result = file ? `✅ ถ่ายภาพได้: ${file.name}` : '❌ ไม่ได้ถ่าย';
+            document.getElementById('result2').innerHTML = result;
+            log(result);
+        });
+        
+        // Test 3
+        function testUpload() {
+            log('📤 ทดสอบอัปโหลด...');
+            
+            // สร้างไฟล์ทดสอบ
+            const testFile = new File(['test'], 'test.txt', {type: 'text/plain'});
+            
+            const formData = new FormData();
+            formData.append('file', testFile);
+            
+            fetch('https://httpbin.org/post', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('result3').innerHTML = '✅ อัปโหลดสำเร็จ';
+                log('✅ อัปโหลดทดสอบสำเร็จ');
+            })
+            .catch(err => {
+                document.getElementById('result3').innerHTML = '❌ อัปโหลดล้มเหลว';
+                log('❌ อัปโหลดล้มเหลว: ' + err.message);
+            });
+        }
+        
+        log('🚀 เริ่มการทดสอบ...');
+        log('อุปกรณ์: ' + navigator.userAgent);
+    </script>
+</body>
+</html>
