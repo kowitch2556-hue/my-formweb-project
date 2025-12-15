@@ -1,0 +1,450 @@
+/* dashboard.css - Enhanced Styles for Auto-Update System */
+
+/* ======================================== */
+/* 🔔 NOTIFICATION STYLES */
+/* ======================================== */
+
+#web-notification {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    color: white !important;
+    padding: 15px 20px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3) !important;
+    z-index: 99999 !important;
+    animation: slideIn 0.3s ease !important;
+    cursor: pointer !important;
+    max-width: 350px !important;
+    border-left: 4px solid #ffc107 !important;
+    font-family: 'Sarabun', sans-serif !important;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ======================================== */
+/* 🔄 SYNC STATUS STYLES */
+/* ======================================== */
+
+.sync-status-container {
+    background: #f8f9fa !important;
+    border-radius: 6px !important;
+    padding: 10px 15px !important;
+    margin: 0 0 15px 0 !important;
+    border: 1px solid #e9ecef !important;
+    font-family: 'Sarabun', sans-serif !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.sync-status-info {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.sync-icon {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 10px !important;
+}
+
+.sync-icon.syncing {
+    background: #ffc107 !important;
+    color: #212529 !important;
+    animation: spin 1s linear infinite !important;
+}
+
+.sync-icon.success {
+    background: #28a745 !important;
+    color: white !important;
+}
+
+.sync-icon.error {
+    background: #dc3545 !important;
+    color: white !important;
+}
+
+.sync-icon.new-data {
+    background: #007bff !important;
+    color: white !important;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.sync-time {
+    font-size: 0.85em !important;
+    color: #6c757d !important;
+}
+
+/* ======================================== */
+/* 🎨 SUMMARY CARDS - Enhanced */
+/* ======================================== */
+
+.summary-cards {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 15px !important;
+    margin: 0 0 20px 0 !important;
+}
+
+.summary-card {
+    background: white !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid #e9ecef !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.summary-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-icon {
+    font-size: 2.5em !important;
+    margin-bottom: 15px !important;
+}
+
+.card-content {
+    flex: 1 !important;
+    width: 100% !important;
+}
+
+.card-content h3 {
+    font-size: 1em !important;
+    color: #2c3e50 !important;
+    margin-bottom: 10px !important;
+    font-weight: 600 !important;
+}
+
+.card-stats {
+    margin-bottom: 15px !important;
+}
+
+.stat-number {
+    font-size: 2em !important;
+    font-weight: 700 !important;
+    color: #2c3e50 !important;
+    line-height: 1 !important;
+}
+
+.stat-label {
+    font-size: 0.9em !important;
+    color: #6c757d !important;
+    margin-top: 5px !important;
+}
+
+.card-btn {
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    color: #495057 !important;
+    padding: 8px 15px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+    font-family: 'Sarabun', sans-serif !important;
+}
+
+.card-btn:hover {
+    background: #e9ecef !important;
+    border-color: #adb5bd !important;
+}
+
+/* Card Colors */
+.training-card {
+    border-top: 4px solid #007bff !important;
+}
+
+.training-card .card-icon {
+    color: #007bff !important;
+}
+
+.training-card .stat-number {
+    color: #007bff !important;
+}
+
+.student-card {
+    border-top: 4px solid #28a745 !important;
+}
+
+.student-card .card-icon {
+    color: #28a745 !important;
+}
+
+.student-card .stat-number {
+    color: #28a745 !important;
+}
+
+.teacher-card {
+    border-top: 4px solid #ffc107 !important;
+}
+
+.teacher-card .card-icon {
+    color: #ffc107 !important;
+}
+
+.teacher-card .stat-number {
+    color: #ffc107 !important;
+}
+
+.personnel-card {
+    border-top: 4px solid #6f42c1 !important;
+}
+
+.personnel-card .card-icon {
+    color: #6f42c1 !important;
+}
+
+.personnel-card .stat-number {
+    color: #6f42c1 !important;
+}
+
+/* ======================================== */
+/* 📊 TABLE STYLES */
+/* ======================================== */
+
+.data-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-family: 'Sarabun', sans-serif !important;
+}
+
+.data-table th {
+    background: #f8f9fa !important;
+    padding: 12px 15px !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    border-bottom: 2px solid #dee2e6 !important;
+    font-size: 0.9em !important;
+}
+
+.data-table td {
+    padding: 12px 15px !important;
+    border-bottom: 1px solid #e9ecef !important;
+    font-size: 0.9em !important;
+}
+
+.data-table tr:hover {
+    background: #f8f9fa !important;
+}
+
+/* Badges */
+.badge {
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 0.8em !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+}
+
+.badge.training {
+    background: #e3f2fd !important;
+    color: #007bff !important;
+}
+
+.badge.student {
+    background: #e8f5e9 !important;
+    color: #28a745 !important;
+}
+
+.badge.teacher {
+    background: #fff3cd !important;
+    color: #ffc107 !important;
+}
+
+.status {
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    font-size: 0.8em !important;
+    font-weight: 500 !important;
+}
+
+.status.completed {
+    background: #d4edda !important;
+    color: #155724 !important;
+}
+
+/* Action Buttons */
+.action-btn {
+    padding: 6px 12px !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    font-size: 0.85em !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Sarabun', sans-serif !important;
+}
+
+.view-btn {
+    background: #007bff !important;
+    color: white !important;
+    border-color: #007bff !important;
+}
+
+.view-btn:hover {
+    background: #0056b3 !important;
+    border-color: #0056b3 !important;
+}
+
+/* ======================================== */
+/* 🎯 CONTROL PANEL */
+/* ======================================== */
+
+.control-panel {
+    display: flex !important;
+    gap: 10px !important;
+    margin: 0 0 15px 0 !important;
+    flex-wrap: wrap !important;
+}
+
+.control-btn {
+    padding: 8px 16px !important;
+    background: white !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    font-size: 0.9em !important;
+    font-weight: 500 !important;
+    color: #495057 !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Sarabun', sans-serif !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.control-btn:hover {
+    background: #f8f9fa !important;
+    border-color: #adb5bd !important;
+}
+
+.control-btn.active {
+    background: #007bff !important;
+    color: white !important;
+    border-color: #007bff !important;
+}
+
+/* ======================================== */
+/* ⏳ LOADING OVERLAY */
+/* ======================================== */
+
+.loading-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    display: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 999999 !important;
+    flex-direction: column !important;
+}
+
+.loading-spinner {
+    width: 50px !important;
+    height: 50px !important;
+    border: 4px solid #f3f3f3 !important;
+    border-top: 4px solid #007bff !important;
+    border-radius: 50% !important;
+    animation: spin 1s linear infinite !important;
+    margin-bottom: 20px !important;
+}
+
+.loading-text {
+    font-family: 'Sarabun', sans-serif !important;
+    color: #2c3e50 !important;
+    font-size: 1.1em !important;
+}
+
+/* ======================================== */
+/* 📱 RESPONSIVE DESIGN */
+/* ======================================== */
+
+@media (max-width: 1200px) {
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .summary-cards {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .control-panel {
+        flex-direction: column !important;
+    }
+    
+    .control-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    #web-notification {
+        left: 10px !important;
+        right: 10px !important;
+        max-width: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-card {
+        padding: 15px !important;
+    }
+    
+    .card-icon {
+        font-size: 2em !important;
+    }
+    
+    .stat-number {
+        font-size: 1.5em !important;
+    }
+    
+    .sync-status-container {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+}

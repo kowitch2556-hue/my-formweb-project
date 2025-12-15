@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Training Record System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Global CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+    
+    <style>
+        /* เก็บเฉพาะ inline styles ที่จำเป็นจริงๆ */
+        
+        /* Body Reset */
+        body { 
+            margin: 0; 
+            font-family: 'Sarabun', 'Segoe UI', sans-serif; 
+            background-color: #f8f9fa; 
+            font-size: 16px;
+        }
+        
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            padding-top: 0;
+        }
+        
+        /* 🆕 Mobile Header */
+        #mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #007bff;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 0 15px;
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        #menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            line-height: 1;
+            display: none;
+        }
+        
+        .mobile-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+        }
+        
+        /* ⚙️ Sidebar Styling */
+        .sidebar {
+            margin-left: 15px; 
+            width: 250px; 
+            background-color: #1a1a1a; 
+            color: white;
+            padding-top: 20px;
+            flex-shrink: 0;
+            font-size: 0.95em; 
+            padding-left: 0; 
+            position: relative;
+            height: 100vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+        
+        /* สำหรับ Mobile: ซ่อน sidebar เริ่มต้น */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: calc(100vh - 60px);
+                transition: left 0.3s ease-out;
+                z-index: 999;
+                margin-left: 0;
+                padding-top: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+        }
+        
+        /* 📝 Content Area */
+        .content-area {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            min-width: 0;
+            margin-left: 15px;
+            box-sizing: border-box;
+            background-color: #f4f4f9;
+        }
+        
+        /* 🆕 Overlay สำหรับปิดเมนูเมื่อคลิกนอกพื้นที่ (Mobile) */
+        #mobile-overlay {
+            display: none; 
+            position: fixed; 
+            top: 60px; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            z-index: 998;
+        }
+        
+        /* 📱 Responsive Styles สำหรับ Mobile */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                height: auto; 
+                padding-top: 60px;
+            }
+            
+            #mobile-header {
+                display: flex;
+            }
+            
+            #menu-toggle {
+                display: block;
+            }
+            
+            .content-area {
+                width: 100%;
+                padding: 10px;
+                margin-left: 0;
+                margin-top: 0;
+            }
+        }
+        
+        /* 📱 Responsive Styles สำหรับ Tablet (769px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .content-area {
+                padding: 15px;
+            }
+        }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 123, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #007bff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 🆕 Mobile Header (แสดงเฉพาะใน Mobile/Tablet) -->
+    <div id="mobile-header">
+        <div id="menu-toggle" onclick="toggleMobileMenu()">☰</div>
+        <div class="mobile-title">ระบบบันทึกข้อมูลบุคลากร</div>
+    </div>
+    
+    <div class="main-container">
+        <div class="sidebar" id="sidebar"></div>
+        
+        <div class="content-area" id="main-content">
+            <!-- เนื้อหาจะถูกโหลดโดย JavaScript -->
+            <div style="text-align: center; padding: 40px;">
+                <div class="loading-spinner"></div>
+                <p>กำลังโหลด...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 🆕 Overlay สำหรับปิดเมนูเมื่อคลิกนอกพื้นที่ (Mobile) -->
+    <div id="mobile-overlay" onclick="closeMobileMenu()"></div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

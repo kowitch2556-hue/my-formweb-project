@@ -1,0 +1,1616 @@
+<!-- pages/dashboard.html -->
+<div class="main-dashboard-container" id="dashboard-container" style="margin-top: 0 !important; padding-top: 0 !important; position: relative; top: -10px;">
+    <style>
+    /* ======================================== */
+    /* 🎨 DASHBOARD STYLES */
+    /* ======================================== */
+    
+    #dashboard-container .dashboard-container {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        margin-top: 0 !important;
+        padding: 15px !important;
+        padding-top: 0 !important;
+        font-family: 'Sarabun', sans-serif !important;
+        position: relative !important;
+        top: -5px !important;
+    }
+    
+    #dashboard-container .dashboard-header {
+        background: white !important;
+        padding: 12px 20px !important;
+        margin-bottom: 10px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        border-bottom: 2px solid #e9ecef !important;
+        border-radius: 8px !important;
+    }
+    
+    #dashboard-container .dashboard-header h1 {
+        color: #2c3e50 !important;
+        font-size: 1.15em !important;
+        margin-bottom: 4px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 600 !important;
+    }
+    
+    #dashboard-container .dashboard-header p {
+        color: #666 !important;
+        font-size: 0.9em !important;
+        margin-bottom: 8px !important;
+    }
+    
+    #dashboard-container .header-actions {
+        display: flex !important;
+        gap: 8px !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        margin-top: 5px !important;
+    }
+    
+    #dashboard-container #refresh-btn {
+        background: #007bff !important;
+        color: white !important;
+        border: none !important;
+        padding: 6px 14px !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 0.9em !important;
+        font-weight: 500 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        transition: all 0.2s ease !important;
+        font-family: 'Sarabun', sans-serif !important;
+    }
+    
+    #dashboard-container #refresh-btn:hover {
+        background: #0056b3 !important;
+    }
+    
+    #dashboard-container #last-updated {
+        background: #f8f9fa !important;
+        padding: 5px 10px !important;
+        border-radius: 4px !important;
+        font-size: 0.85em !important;
+        color: #666 !important;
+        border: 1px solid #e9ecef !important;
+        margin-top: 0 !important;
+    }
+    
+    /* Summary Cards - 4 กล่องเล็กเท่ากัน */
+    #dashboard-container .summary-cards {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
+        padding: 0 !important;
+    }
+    
+    #dashboard-container .summary-card {
+        background: white !important;
+        border-radius: 6px !important;
+        padding: 12px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.2s ease !important;
+        position: relative !important;
+        overflow: hidden !important;
+        height: auto !important;
+        min-height: 115px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    #dashboard-container .summary-card:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        transform: translateY(-1px) !important;
+    }
+    
+    #dashboard-container .summary-card::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 3px !important;
+    }
+    
+    #dashboard-container .training-card::before {
+        background: #007bff !important;
+    }
+    
+    #dashboard-container .student-card::before {
+        background: #28a745 !important;
+    }
+    
+    #dashboard-container .teacher-card::before {
+        background: #ffc107 !important;
+    }
+    
+    #dashboard-container .personnel-card::before {
+        background: #6f42c1 !important;
+    }
+    
+    #dashboard-container .card-header {
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    #dashboard-container .card-icon {
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 14px !important;
+        color: white !important;
+        flex-shrink: 0 !important;
+    }
+    
+    #dashboard-container .training-card .card-icon {
+        background: #007bff !important;
+    }
+    
+    #dashboard-container .student-card .card-icon {
+        background: #28a745 !important;
+    }
+    
+    #dashboard-container .teacher-card .card-icon {
+        background: #ffc107 !important;
+    }
+    
+    #dashboard-container .personnel-card .card-icon {
+        background: #6f42c1 !important;
+    }
+    
+    #dashboard-container .card-title {
+        font-size: 0.9em !important;
+        font-weight: 500 !important;
+        color: #2c3e50 !important;
+        line-height: 1.3 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+    }
+    
+    #dashboard-container .card-stats {
+        margin-bottom: 6px !important;
+    }
+    
+    #dashboard-container .stat-number {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        margin-bottom: 2px !important;
+        line-height: 1 !important;
+    }
+    
+    #dashboard-container .training-card .stat-number {
+        color: #007bff !important;
+    }
+    
+    #dashboard-container .student-card .stat-number {
+        color: #28a745 !important;
+    }
+    
+    #dashboard-container .teacher-card .stat-number {
+        color: #ffc107 !important;
+    }
+    
+    #dashboard-container .personnel-card .stat-number {
+        color: #6f42c1 !important;
+    }
+    
+    #dashboard-container .stat-label {
+        font-size: 0.8em !important;
+        color: #95a5a6 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.2px !important;
+    }
+    
+    #dashboard-container .card-btn {
+        width: 100% !important;
+        padding: 6px !important;
+        background: #f8f9fa !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 4px !important;
+        color: #2c3e50 !important;
+        font-size: 0.85em !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 4px !important;
+        transition: all 0.2s ease !important;
+        font-family: 'Sarabun', sans-serif !important;
+    }
+    
+    #dashboard-container .training-card .card-btn:hover {
+        background: #007bff !important;
+        border-color: #007bff !important;
+        color: white !important;
+    }
+    
+    #dashboard-container .student-card .card-btn:hover {
+        background: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
+    
+    #dashboard-container .teacher-card .card-btn:hover {
+        background: #ffc107 !important;
+        border-color: #ffc107 !important;
+        color: white !important;
+    }
+    
+    #dashboard-container .personnel-card .card-btn:hover {
+        background: #6f42c1 !important;
+        border-color: #6f42c1 !important;
+        color: white !important;
+    }
+    
+    /* Data Section */
+    #dashboard-container .data-section {
+        background: white !important;
+        border-radius: 6px !important;
+        padding: 12px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        margin: 0 0 15px 0 !important;
+        border: 1px solid #e9ecef !important;
+        margin-top: 10px !important;
+    }
+    
+    #dashboard-container .section-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 12px !important;
+    }
+    
+    #dashboard-container .section-header h3 {
+        font-size: 1em !important;
+        color: #2c3e50 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        font-weight: 600 !important;
+    }
+    
+    #dashboard-container .data-status {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 12px !important;
+        background: #f8f9fa !important;
+        padding: 8px 12px !important;
+        border-radius: 4px !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    #dashboard-container .status-info {
+        font-size: 0.9em !important;
+        color: #666 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+    
+    #dashboard-container .status-info .badge {
+        background: #007bff !important;
+        color: white !important;
+        padding: 2px 8px !important;
+        border-radius: 10px !important;
+        font-size: 0.8em !important;
+        font-weight: 500 !important;
+    }
+    
+    #dashboard-container .view-toggle {
+        display: flex !important;
+        gap: 8px !important;
+    }
+    
+    #dashboard-container .view-btn {
+        padding: 4px 12px !important;
+        border: 1px solid #dee2e6 !important;
+        background: white !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 0.85em !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        font-family: 'Sarabun', sans-serif !important;
+        color: #333 !important;
+    }
+    
+    #dashboard-container .view-btn.active {
+        background: #007bff !important;
+        color: white !important;
+        border-color: #007bff !important;
+    }
+    
+    #dashboard-container .view-btn:hover:not(.active) {
+        background: #e9ecef !important;
+        border-color: #adb5bd !important;
+    }
+    
+    #dashboard-container .detail-buttons {
+        display: flex !important;
+        gap: 10px !important;
+        margin-top: 12px !important;
+        justify-content: center !important;
+    }
+    
+    #dashboard-container .detail-btn {
+        padding: 6px 16px !important;
+        border: 1px solid #dee2e6 !important;
+        background: #f8f9fa !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 0.9em !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        font-family: 'Sarabun', sans-serif !important;
+        color: #333 !important;
+    }
+    
+    #dashboard-container .detail-btn:hover {
+        background: #e9ecef !important;
+        border-color: #adb5bd !important;
+    }
+    
+    #dashboard-container .detail-btn.active {
+        background: #007bff !important;
+        color: white !important;
+        border-color: #007bff !important;
+    }
+    
+    #dashboard-container .data-tabs {
+        display: flex !important;
+        gap: 6px !important;
+        background: #f8f9fa !important;
+        padding: 4px !important;
+        border-radius: 4px !important;
+        margin-bottom: 12px !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    #dashboard-container .data-tab {
+        padding: 6px 12px !important;
+        border: none !important;
+        background: none !important;
+        border-radius: 3px !important;
+        cursor: pointer !important;
+        font-size: 0.9em !important;
+        font-weight: 500 !important;
+        color: #7f8c8d !important;
+        transition: all 0.2s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        font-family: 'Sarabun', sans-serif !important;
+        flex: 1 !important;
+        justify-content: center !important;
+    }
+    
+    #dashboard-container .data-tab.active {
+        background: white !important;
+        color: #007bff !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    #dashboard-container .data-tab:hover:not(.active) {
+        color: #007bff !important;
+    }
+    
+    /* Table */
+    #dashboard-container .table-container {
+        overflow-x: auto !important;
+        border-radius: 4px !important;
+        border: 1px solid #e9ecef !important;
+        margin-bottom: 12px !important;
+        max-height: 350px !important;
+        overflow-y: auto !important;
+    }
+    
+    #dashboard-container .data-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        min-width: 600px !important;
+    }
+    
+    #dashboard-container .data-table thead {
+        background: #f8f9fa !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 10 !important;
+    }
+    
+    #dashboard-container .data-table th {
+        padding: 8px 10px !important;
+        text-align: left !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        border-bottom: 2px solid #dee2e6 !important;
+        font-size: 0.9em !important;
+        white-space: nowrap !important;
+    }
+    
+    #dashboard-container .data-table td {
+        padding: 8px 10px !important;
+        border-bottom: 1px solid #e9ecef !important;
+        font-size: 0.9em !important;
+        vertical-align: top !important;
+    }
+    
+    #dashboard-container .data-table tbody tr {
+        transition: all 0.2s ease !important;
+    }
+    
+    #dashboard-container .data-table tbody tr:hover {
+        background: #f8f9fa !important;
+    }
+    
+    #dashboard-container .badge {
+        padding: 3px 8px !important;
+        border-radius: 10px !important;
+        font-size: 0.8em !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.2px !important;
+        display: inline-block !important;
+    }
+    
+    #dashboard-container .badge-training {
+        background: #e3f2fd !important;
+        color: #1976d2 !important;
+    }
+    
+    #dashboard-container .badge-workshop {
+        background: #fff3e0 !important;
+        color: #f57c00 !important;
+    }
+    
+    #dashboard-container .badge-seminar {
+        background: #e8f5e9 !important;
+        color: #388e3c !important;
+    }
+    
+    /* Loading */
+    #dashboard-container .loading-overlay {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        z-index: 9999 !important;
+        display: none !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    #dashboard-container .loading-spinner {
+        width: 35px !important;
+        height: 35px !important;
+        border: 3px solid #f3f3f3 !important;
+        border-top: 3px solid #007bff !important;
+        border-radius: 50% !important;
+        animation: spin 1s linear infinite !important;
+    }
+    
+    #dashboard-container .loading-text {
+        font-size: 0.95em !important;
+        color: #2c3e50 !important;
+        font-weight: 500 !important;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg) !important; }
+        100% { transform: rotate(360deg) !important; }
+    }
+    
+    /* Messages */
+    #dashboard-container .message-container {
+        position: fixed !important;
+        top: 15px !important;
+        right: 15px !important;
+        z-index: 10000 !important;
+        max-width: 280px !important;
+    }
+    
+    #dashboard-container .alert {
+        padding: 8px 12px !important;
+        border-radius: 4px !important;
+        margin-bottom: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        animation: slideIn 0.3s ease !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+        font-size: 0.9em !important;
+    }
+    
+    #dashboard-container .alert-success {
+        background: #d4edda !important;
+        color: #155724 !important;
+        border-left: 3px solid #28a745 !important;
+    }
+    
+    #dashboard-container .alert-error {
+        background: #f8d7da !important;
+        color: #721c24 !important;
+        border-left: 3px solid #dc3545 !important;
+    }
+    
+    #dashboard-container .alert-info {
+        background: #d1ecf1 !important;
+        color: #0c5460 !important;
+        border-left: 3px solid #17a2b8 !important;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%) !important;
+            opacity: 0 !important;
+        }
+        to {
+            transform: translateX(0) !important;
+            opacity: 1 !important;
+        }
+    }
+    
+    /* Footer */
+    #dashboard-container .dashboard-footer {
+        text-align: center !important;
+        padding: 10px !important;
+        color: #95a5a6 !important;
+        font-size: 0.85em !important;
+        margin: 0 !important;
+        border-top: 1px solid #e9ecef !important;
+        margin-top: 10px !important;
+    }
+    
+    /* Empty State */
+    #dashboard-container .empty-state {
+        text-align: center !important;
+        padding: 20px 15px !important;
+        color: #95a5a6 !important;
+    }
+    
+    #dashboard-container .empty-state i {
+        font-size: 24px !important;
+        margin-bottom: 6px !important;
+        opacity: 0.5 !important;
+    }
+    
+    #dashboard-container .empty-state p {
+        font-size: 0.9em !important;
+    }
+    
+    /* Data Type Indicator */
+    #dashboard-container .data-type-indicator {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        font-size: 0.9em !important;
+        color: #666 !important;
+        margin-bottom: 8px !important;
+    }
+    
+    #dashboard-container .data-type-indicator span {
+        background: #f0f0f0 !important;
+        padding: 2px 6px !important;
+        border-radius: 10px !important;
+        font-size: 0.8em !important;
+    }
+    
+    /* 📱 Responsive */
+    @media (max-width: 1024px) {
+        #dashboard-container .summary-cards {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+        
+        #dashboard-container .summary-card {
+            min-height: 110px !important;
+            height: auto !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        #dashboard-container .dashboard-container {
+            padding: 0 8px !important;
+        }
+        
+        #dashboard-container .summary-cards {
+            grid-template-columns: 1fr !important;
+            gap: 6px !important;
+            padding: 0 !important;
+        }
+        
+        #dashboard-container .data-section {
+            padding: 10px !important;
+            margin: 0 0 12px 0 !important;
+        }
+        
+        #dashboard-container .section-header {
+            flex-direction: column !important;
+            gap: 8px !important;
+            align-items: flex-start !important;
+        }
+        
+        #dashboard-container .data-status {
+            flex-direction: column !important;
+            gap: 8px !important;
+            align-items: stretch !important;
+        }
+        
+        #dashboard-container .view-toggle {
+            width: 100% !important;
+            justify-content: space-between !important;
+        }
+        
+        #dashboard-container .data-tabs {
+            flex-wrap: wrap !important;
+        }
+        
+        #dashboard-container .data-tab {
+            min-width: 90px !important;
+            padding: 6px 8px !important;
+        }
+        
+        #dashboard-container .header-actions {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+        }
+        
+        #dashboard-container #last-updated {
+            width: 100% !important;
+            text-align: center !important;
+            font-size: 0.8em !important;
+        }
+        
+        #dashboard-container .detail-buttons {
+            flex-direction: column !important;
+        }
+        
+        #dashboard-container .detail-btn {
+            width: 100% !important;
+        }
+        
+        #dashboard-container .dashboard-footer {
+            font-size: 0.8em !important;
+        }
+    }
+    </style>
+    
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1>📊 แดชบอร์ดระบบบันทึกผลงาน</h1>
+            <p>สรุปข้อมูลการอบรม ผลงานนักเรียน และรางวัลครู จาก Google Sheet</p>
+            <div class="header-actions">
+                <button id="refresh-btn" onclick="dashboardApp.refreshRealData()">
+                    🔄 อัพเดตล่าสุด
+                </button>
+                <div id="last-updated">
+                    อัพเดตล่าสุด: -
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards - 4 กล่องเล็กเท่ากัน -->
+        <div class="summary-cards">
+            <!-- อบรม/ศึกษาดูงาน/วิทยากร -->
+            <div class="summary-card training-card">
+                <div class="card-header">
+                    <div class="card-icon">🎓</div>
+                    <div>
+                        <h3 class="card-title">อบรม/ศึกษาดูงาน/วิทยากร</h3>
+                    </div>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-number" id="training-count">0</div>
+                    <div class="stat-label">รายการ</div>
+                </div>
+                <button class="card-btn" onclick="dashboardApp.showTrainingDetails()">
+                    📋 ดูรายละเอียด
+                </button>
+            </div>
+
+            <!-- ผลงานนักเรียน -->
+            <div class="summary-card student-card">
+                <div class="card-header">
+                    <div class="card-icon">👨‍🎓</div>
+                    <div>
+                        <h3 class="card-title">ผลงานนักเรียน</h3>
+                    </div>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-number" id="student-count">0</div>
+                    <div class="stat-label">ผลงาน</div>
+                </div>
+                <button class="card-btn" onclick="dashboardApp.showStudentDetails()">
+                    📋 ดูรายละเอียด
+                </button>
+            </div>
+
+            <!-- ผลงานรางวัลครู -->
+            <div class="summary-card teacher-card">
+                <div class="card-header">
+                    <div class="card-icon">🏆</div>
+                    <div>
+                        <h3 class="card-title">ผลงานรางวัลครู</h3>
+                    </div>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-number" id="teacher-count">0</div>
+                    <div class="stat-label">รางวัล</div>
+                </div>
+                <button class="card-btn" onclick="dashboardApp.showTeacherDetails()">
+                    📋 ดูรายละเอียด
+                </button>
+            </div>
+
+            <!-- บุคลากรทั้งหมด -->
+            <div class="summary-card personnel-card">
+                <div class="card-header">
+                    <div class="card-icon">👥</div>
+                    <div>
+                        <h3 class="card-title">บุคลากรทั้งหมด</h3>
+                    </div>
+                </div>
+                <div class="card-stats">
+                    <div class="stat-number" id="personnel-count">0</div>
+                    <div class="stat-label">คน</div>
+                </div>
+                <button class="card-btn" onclick="dashboardApp.showPersonnelDetails()">
+                    📋 ดูรายชื่อ
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Tables Section -->
+        <div class="data-section">
+            <div class="section-header">
+                <h3>📋 รายการล่าสุด</h3>
+            </div>
+
+            <!-- Data Type Indicator -->
+            <div class="data-type-indicator" id="data-type-indicator">
+                <span>ปัจจุบันแสดง:</span>
+                <strong id="current-data-type">ข้อมูลการอบรม</strong>
+            </div>
+
+            <!-- Data Status and View Toggle -->
+            <div class="data-status" id="data-status">
+                <div class="status-info">
+                    <span id="view-mode-text">แสดงรายการล่าสุด 5 รายการ</span>
+                    <span class="badge" id="item-count-badge">0/0</span>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" onclick="dashboardApp.switchViewMode('latest')" id="view-latest">
+                        ล่าสุด
+                    </button>
+                    <button class="view-btn" onclick="dashboardApp.switchViewMode('all')" id="view-all">
+                        ทั้งหมด
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="data-tabs">
+                <button class="data-tab active" onclick="dashboardApp.switchTable('training')" id="tab-training">
+                    🎓 การอบรม
+                </button>
+                <button class="data-tab" onclick="dashboardApp.switchTable('student')" id="tab-student">
+                    👨‍🎓 ผลงานนักเรียน
+                </button>
+                <button class="data-tab" onclick="dashboardApp.switchTable('teacher')" id="tab-teacher">
+                    🏆 รางวัลครู
+                </button>
+            </div>
+
+            <!-- Table Container -->
+            <div class="table-container">
+                <table class="data-table" id="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">#</th>
+                            <th style="min-width: 150px;">ชื่อ-นามสกุล</th>
+                            <th style="min-width: 180px;">หลักสูตร/กิจกรรม</th>
+                            <th style="min-width: 90px;">วันที่</th>
+                            <th style="min-width: 80px;">สถานะ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 25px;">
+                                <div class="empty-state">
+                                    <div>⏳</div>
+                                    <p>กำลังโหลดข้อมูลจาก Google Sheet...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ปุ่มรายละเอียดใต้ตาราง -->
+            <div class="detail-buttons">
+                <button class="detail-btn active" onclick="dashboardApp.showAllTrainings()" id="btn-training">
+                    📋 ดูรายละเอียดการอบรมทั้งหมด
+                </button>
+                <button class="detail-btn" onclick="dashboardApp.showAllStudentWorks()" id="btn-student">
+                    📋 ดูรายละเอียดผลงานนักเรียน
+                </button>
+                <button class="detail-btn" onclick="dashboardApp.showAllTeacherAwards()" id="btn-teacher">
+                    📋 ดูรายละเอียดรางวัลครู
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">กำลังโหลดข้อมูลจาก Google Sheet...</div>
+        </div>
+
+        <!-- Message Container -->
+        <div class="message-container" id="message-container"></div>
+
+        <!-- Footer -->
+        <div class="dashboard-footer">
+            <p>© 2025 ระบบบันทึกผลงาน - พัฒนาโดย Google Apps Script & JavaScript</p>
+            <p style="margin-top: 3px; font-size: 0.8em;">อัปเดตล่าสุดจาก Google Sheet แบบเรียลไทม์</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========================================
+// 🎯 DASHBOARD STANDALONE SETUP
+// ========================================
+
+// 1. ตั้งค่า API URL จาก main.js (ถ้ามี) หรือใช้ค่า default
+const GAS_API_URL = window.GAS_API_URL || window.API_URL || window.GAS_WEB_APP_URL || 
+                   'https://script.google.com/macros/s/AKfycbz6pqVa04Xt0k_bDTy2jHbhShT4IUnZoJXTkOV6MNwWhNTCQMsmjp7y72c-sBfUFw4J/exec';
+
+console.log('🎯 Dashboard Standalone Setup');
+console.log('🔗 API URL:', GAS_API_URL);
+
+// 2. ฟังก์ชัน callGASAPI สำหรับ dashboard ใช้เอง
+async function callDashboardGASAPI(action, payload = {}) {
+    console.log(`📡 DASHBOARD API CALL: ${action}`);
+    
+    return new Promise((resolve) => {
+        try {
+            const xhr = new XMLHttpRequest();
+            const requestData = {
+                action: action,
+                ...payload,
+                timestamp: new Date().toISOString()
+            };
+            
+            const params = new URLSearchParams();
+            params.append('jsonPayload', JSON.stringify(requestData));
+            
+            xhr.open('POST', GAS_API_URL, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+            xhr.timeout = 30000;
+            
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        const result = JSON.parse(xhr.responseText);
+                        resolve({
+                            status: 'SUCCESS',
+                            ...result
+                        });
+                    } catch (parseError) {
+                        resolve({
+                            status: 'ERROR',
+                            error: 'Invalid JSON response'
+                        });
+                    }
+                } else {
+                    resolve({
+                        status: 'ERROR',
+                        error: `HTTP ${xhr.status}`
+                    });
+                }
+            };
+            
+            xhr.onerror = xhr.ontimeout = function() {
+                resolve({
+                    status: 'ERROR',
+                    error: 'Network error'
+                });
+            };
+            
+            xhr.send(params.toString());
+            
+        } catch (error) {
+            resolve({
+                status: 'ERROR',
+                error: error.message
+            });
+        }
+    });
+}
+
+// 3. ตั้งค่าตัวแปร global สำหรับ dashboardApp
+window.GAS_API_URL = GAS_API_URL;
+window.callGASAPI = callDashboardGASAPI;
+
+console.log('✅ Dashboard standalone setup complete');
+
+// ========================================
+// 🎯 DASHBOARD APPLICATION (แก้ไขแล้ว)
+// ========================================
+
+const dashboardApp = {
+    // ==================== GLOBAL VARIABLES ====================
+    currentTable: 'training',
+    currentViewMode: 'latest',
+    allData: {
+        training: [],
+        student: [],
+        teacher: []
+    },
+    displayedData: {
+        training: [],
+        student: [],
+        teacher: []
+    },
+    autoRefreshInterval: null,
+    
+    // ==================== INITIALIZATION ====================
+    init: function() {
+        console.log('🎯 Dashboard Initializing...');
+        
+        const container = document.getElementById('dashboard-container');
+        if (container) {
+            container.classList.add('dashboard-page');
+        }
+        
+        this.setupEventListeners();
+        
+        // ✅ โหลดข้อมูลจาก Google Sheet ทันทีเมื่อเปิดหน้า
+        this.refreshRealData();
+        
+        // ✅ Auto-refresh ทุก 5 นาที
+        this.autoRefreshInterval = setInterval(() => {
+            console.log('🔄 Auto-refresh (every 5 minutes)');
+            this.refreshRealData();
+        }, 5 * 60 * 1000);
+        
+        console.log('✅ Dashboard Initialized');
+    },
+    
+    setupEventListeners: function() {
+        const refreshBtn = document.getElementById('refresh-btn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                this.showMessage('info', 'กำลังโหลดข้อมูลใหม่...', 1500);
+                this.refreshRealData();
+            });
+        }
+    },
+    
+    // ==================== UTILITY FUNCTIONS ====================
+    showLoading: function(show) {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+            overlay.style.display = show ? 'flex' : 'none';
+        }
+    },
+    
+    showMessage: function(type, message, duration = 3000) {
+        const container = document.getElementById('message-container');
+        const alertClass = type === 'error' ? 'alert-error' : 
+                          type === 'warning' ? 'alert-error' : 
+                          type === 'info' ? 'alert-info' : 'alert-success';
+        
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert ${alertClass}`;
+        alertDiv.innerHTML = `
+            <div style="font-size: 16px;">${type === 'error' ? '❌' : type === 'warning' ? '⚠️' : type === 'info' ? 'ℹ️' : '✅'}</div>
+            <div style="font-size: 0.9em;">${message}</div>
+        `;
+        
+        container.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            alertDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (container.contains(alertDiv)) {
+                    container.removeChild(alertDiv);
+                }
+            }, 300);
+        }, duration);
+    },
+    
+    formatDate: function(dateString) {
+        if (!dateString) return '-';
+        try {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            
+            return date.toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        } catch (error) {
+            return dateString;
+        }
+    },
+    
+    // ==================== DATA LOADING FUNCTIONS ====================
+    refreshRealData: async function() {
+        console.log('🔄 กำลังดึงข้อมูลจาก Google Sheet...');
+        this.showLoading(true);
+        
+        try {
+            // ✅ เรียกแค่ getDashboardData เท่านั้น
+            const result = await window.callGASAPI('getDashboardData', {});
+            
+            if (result.status === 'SUCCESS' && result.data) {
+                console.log('✅ ได้ข้อมูลจาก API');
+                this.processDashboardData(result.data);
+            } else {
+                console.error('❌ Invalid response:', result);
+                throw new Error(result.error || 'รูปแบบข้อมูลไม่ถูกต้อง');
+            }
+            
+        } catch (error) {
+            console.error('❌ Error refreshing data:', error);
+            this.showMessage('error', `⚠️ ไม่สามารถอัพเดตข้อมูล: ${error.message}`, 3000);
+            this.loadLocalData(); // fallback
+        } finally {
+            this.showLoading(false);
+        }
+    },
+    
+    // ✅ ฟังก์ชันใหม่: ประมวลผลข้อมูลจาก getDashboardData
+    processDashboardData: function(dashboardData) {
+        console.log('📊 Processing dashboard data...');
+        
+        // 1. อัพเดตตัวเลขสรุป
+        this.updateSummaryFromDashboard(dashboardData);
+        
+        // 2. แยกข้อมูลแต่ละประเภท
+        this.extractDataFromDashboard(dashboardData);
+        
+        // 3. เรียงข้อมูลจากใหม่ไปเก่าก่อนแสดงผล!
+        this.sortDataByDate();
+        
+        // 4. อัพเดตการแสดงผล
+        this.updateDisplayedData();
+        this.renderTable();
+        this.updateLastUpdatedTime();
+        
+        // 5. แสดงข้อความสำเร็จ
+        const totalItems = this.allData.training.length + this.allData.student.length + this.allData.teacher.length;
+        this.showMessage('success', `✅ อัพเดตข้อมูลสำเร็จ (${totalItems} รายการ)`, 3000);
+    },
+    
+    // ✅ อัพเดตตัวเลขจาก dashboard data
+    updateSummaryFromDashboard: function(data) {
+        if (!data.summary || !data.summary.total) {
+            console.warn('❌ No summary data found');
+            return;
+        }
+        
+        const total = data.summary.total;
+        
+        // อัพเดตตัวเลขใน UI
+        document.getElementById('training-count').textContent = total.trainings || 0;
+        document.getElementById('student-count').textContent = total.studentWorks || 0;
+        document.getElementById('teacher-count').textContent = total.teacherAwards || 0;
+        document.getElementById('personnel-count').textContent = total.personnel || 0;
+        
+        console.log('✅ Summary updated:', {
+            trainings: total.trainings,
+            students: total.studentWorks,
+            teachers: total.teacherAwards,
+            personnel: total.personnel
+        });
+    },
+    
+    // ✅ แยกข้อมูลแต่ละประเภทจาก dashboard
+    extractDataFromDashboard: function(data) {
+        // รีเซ็ตข้อมูลเก่า
+        this.allData.training = [];
+        this.allData.student = [];
+        this.allData.teacher = [];
+        
+        // ✅ ดึงข้อมูลการอบรม
+        if (data.recent && data.recent.trainings) {
+            this.allData.training = data.recent.trainings.map(item => ({
+                fullName: item.name || 'ไม่มีข้อมูล',
+                courseName: item.course || 'ไม่มีข้อมูล',
+                startDate: item.startDate || item.timestamp || '',
+                trainingType: item.type || 'อบรม',
+                hours: item.hours || '0',
+                location: item.location || '',
+                certificate: item.certificate || '',
+                timestamp: item.timestamp || ''
+            }));
+            console.log(`✅ ดึงข้อมูลการอบรม: ${this.allData.training.length} รายการ`);
+        }
+        
+        // ✅ ดึงข้อมูลผลงานนักเรียน
+        if (data.recent && data.recent.studentWorks) {
+            this.allData.student = data.recent.studentWorks.map(item => ({
+                studentName: item.studentName || 'ไม่มีข้อมูล',
+                projectName: item.projectName || 'ไม่มีข้อมูล',
+                awardDate: item.awardDate || item.timestamp || '',
+                workType: item.workType || '',
+                level: item.awardLevel || '',
+                teacherAdvisor: item.advisorName || '',
+                timestamp: item.timestamp || ''
+            }));
+            console.log(`✅ ดึงข้อมูลนักเรียน: ${this.allData.student.length} รายการ`);
+        }
+        
+        // ✅ ดึงข้อมูลรางวัลครู
+        if (data.recent && data.recent.teacherAwards) {
+            this.allData.teacher = data.recent.teacherAwards.map(item => ({
+                teacherName: item.teacherName || 'ไม่มีข้อมูล',
+                awardName: item.awardName || 'ไม่มีข้อมูล',
+                awardDate: item.awardDate || item.timestamp || '',
+                awardLevel: item.awardLevel || 'ไม่ระบุระดับ',
+                timestamp: item.timestamp || ''
+            }));
+            console.log(`✅ ดึงข้อมูลครู: ${this.allData.teacher.length} รายการ`);
+        }
+        
+        console.log('📋 Data extracted:', {
+            training: this.allData.training.length,
+            student: this.allData.student.length,
+            teacher: this.allData.teacher.length
+        });
+        
+        // ✅ ถ้าไม่พบข้อมูล ให้ใช้ fallback
+        if (this.allData.training.length === 0 && 
+            this.allData.student.length === 0 && 
+            this.allData.teacher.length === 0) {
+            console.log('⚠️ ไม่พบข้อมูลใน dashboard, ใช้ข้อมูล fallback');
+            this.loadLocalData();
+        }
+    },
+    
+    // ✅ ฟังก์ชัน fallback
+    loadLocalData: function() {
+        console.log('💾 Loading fallback data...');
+        
+        // ข้อมูลสรุป fallback
+        const summary = {
+            trainingCount: 15,
+            studentCount: 6,
+            teacherCount: 6,
+            personnelCount: 26
+        };
+        
+        // ข้อมูลการอบรม fallback
+        this.allData.training = [
+            {
+                fullName: "นางสาวสุนันทา เมฆไตรรัตน์",
+                courseName: "กิจกรรม 5 ส",
+                startDate: "2025-12-11T17:00:00.000Z",
+                trainingType: "อบรม",
+                hours: 2,
+                location: "โรงเรียน"
+            },
+            {
+                fullName: "นางคำมี ชัยรักษา",
+                courseName: "เรียนรู้การใช้งาน AI",
+                startDate: "2025-12-10T17:00:00.000Z",
+                trainingType: "อบรม",
+                hours: 8,
+                location: "โรงเรียน2"
+            }
+        ];
+        
+        // ข้อมูลผลงานนักเรียน fallback
+        this.allData.student = [
+            {
+                studentName: "นายเรียน  มาดี",
+                projectName: "กลอง",
+                workType: "ผลงานด้านดนตรี",
+                awardDate: "2025-12-11T17:00:00.000Z",
+                level: "ระดับนานาชาติ"
+            }
+        ];
+        
+        // ข้อมูลรางวัลครู fallback
+        this.allData.teacher = [
+            {
+                teacherName: "นางวันเพ็ญ ยิ้มประดิษฐ์",
+                awardName: "ดีเด่น",
+                awardDate: "2025-12-11T17:00:00.000Z",
+                awardLevel: "ระดับเขตพื้นที่"
+            }
+        ];
+        
+        // อัปเดตตัวเลขในหน้าจอ
+        document.getElementById('training-count').textContent = summary.trainingCount;
+        document.getElementById('student-count').textContent = summary.studentCount;
+        document.getElementById('teacher-count').textContent = summary.teacherCount;
+        document.getElementById('personnel-count').textContent = summary.personnelCount;
+        
+        this.updateLastUpdatedTime();
+        console.log('✅ Fallback data loaded');
+    },
+    
+    sortDataByDate: function() {
+        const sortByDate = (a, b) => {
+            const getDate = (item) => {
+                const dateStr = item.startDate || item.awardDate || item.timestamp || '1970-01-01';
+                return new Date(dateStr);
+            };
+            return getDate(b) - getDate(a); // จากใหม่ไปเก่า
+        };
+        
+        this.allData.training.sort(sortByDate);
+        this.allData.student.sort(sortByDate);
+        this.allData.teacher.sort(sortByDate);
+        
+        console.log('✅ เรียงข้อมูลจากใหม่ไปเก่าแล้ว');
+    },
+    
+    updateDisplayedData: function() {
+        const dataType = this.currentTable;
+        const allItems = this.allData[dataType] || [];
+        
+        if (this.currentViewMode === 'latest') {
+            // ✅ แก้: แสดงแค่ 5 รายการล่าสุด
+            this.displayedData[dataType] = allItems.slice(0, 5);
+        } else {
+            // ✅ โหมด "ทั้งหมด": แสดงทั้งหมด
+            this.displayedData[dataType] = [...allItems];
+        }
+        
+        this.updateViewStatus();
+    },
+    
+    updateViewStatus: function() {
+        const dataType = this.currentTable;
+        const allItems = this.allData[dataType] || [];
+        const displayedItems = this.displayedData[dataType] || [];
+        
+        const totalCount = allItems.length;
+        const displayedCount = displayedItems.length;
+        
+        const statusText = document.getElementById('view-mode-text');
+        const countBadge = document.getElementById('item-count-badge');
+        
+        if (statusText && countBadge) {
+            if (this.currentViewMode === 'latest') {
+                // ✅ แก้: แสดงข้อความถูกต้อง "แสดงรายการล่าสุด 5 รายการ"
+                const latestCount = Math.min(5, totalCount);
+                statusText.textContent = `แสดงรายการล่าสุด ${latestCount} รายการ`;
+                countBadge.textContent = `${displayedCount}/${totalCount}`;
+            } else {
+                // ✅ โหมด "ทั้งหมด"
+                statusText.textContent = `แสดงทั้งหมด ${displayedCount} รายการ`;
+                countBadge.textContent = `${totalCount}/${totalCount}`;
+            }
+        }
+        
+        // อัปเดตปุ่ม toggle
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        const currentViewBtn = document.getElementById(`view-${this.currentViewMode}`);
+        if (currentViewBtn) {
+            currentViewBtn.classList.add('active');
+        }
+    },
+    
+    updateLastUpdatedTime: function() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('th-TH', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        const dateStr = now.toLocaleDateString('th-TH', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        const lastUpdated = document.getElementById('last-updated');
+        if (lastUpdated) {
+            lastUpdated.innerHTML = `
+                <strong>อัปเดตล่าสุด:</strong> ${dateStr} ${timeStr}
+            `;
+        }
+    },
+    
+    // ==================== VIEW MODE FUNCTIONS ====================
+    switchViewMode: function(mode) {
+        if (mode === this.currentViewMode) return;
+        
+        this.currentViewMode = mode;
+        this.updateDisplayedData();
+        this.renderTable();
+        
+        const tableNames = {
+            'training': 'การอบรม',
+            'student': 'ผลงานนักเรียน', 
+            'teacher': 'รางวัลครู'
+        };
+        const tableName = tableNames[this.currentTable] || 'ข้อมูล';
+        
+        // ✅ แก้: ข้อความแจ้งเตือนถูกต้องตามโหมด
+        const message = mode === 'latest' 
+            ? `แสดง${tableName}ล่าสุด 5 รายการ`
+            : `แสดง${tableName}ทั้งหมด`;
+        
+        this.showMessage('info', message, 1500);
+    },
+    
+    // ==================== TABLE RENDERING ====================
+    renderTable: function() {
+        const data = this.displayedData[this.currentTable] || [];
+        const tbody = document.getElementById('table-body');
+        
+        if (!tbody) return;
+        
+        if (!data || data.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <div>📭</div>
+                            <p>ไม่พบข้อมูลในหมวดหมู่นี้</p>
+                            <p style="font-size: 0.8em; margin-top: 5px;">ลองคลิกปุ่มอัพเดตล่าสุด</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        let html = '';
+        
+        data.forEach((item, index) => {
+            let rowHtml = '';
+            
+            switch(this.currentTable) {
+                case 'training':
+                    const typeBadge = item.trainingType === 'วิทยากร' ? 'badge-workshop' : 
+                                     item.trainingType === 'ศึกษาดูงาน' ? 'badge-seminar' : 'badge-training';
+                    
+                    rowHtml = `
+                        <tr>
+                            <td><strong>${index + 1}</strong></td>
+                            <td>
+                                <div style="font-weight: 500; color: #2c3e50; font-size: 0.95em;">${item.fullName}</div>
+                                <div style="font-size: 0.85em; color: #7f8c8d;">${item.trainingType}</div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 500; margin-bottom: 2px; font-size: 0.95em;">${item.courseName}</div>
+                                <div style="font-size: 0.85em; color: #7f8c8d;">
+                                    ${item.hours && item.hours !== '0' ? `⏱️ ${item.hours} ชั่วโมง` : ''}
+                                    ${item.location ? ` | 📍 ${item.location}` : ''}
+                                </div>
+                            </td>
+                            <td style="font-size: 0.93em;">${this.formatDate(item.startDate)}</td>
+                            <td><span class="badge ${typeBadge}">${item.trainingType}</span></td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'student':
+                    rowHtml = `
+                        <tr>
+                            <td><strong>${index + 1}</strong></td>
+                            <td style="font-weight: 500; color: #2c3e50; font-size: 0.95em;">${item.studentName}</td>
+                            <td>
+                                <div style="font-weight: 500; margin-bottom: 2px; font-size: 0.95em;">${item.projectName}</div>
+                                <div style="font-size: 0.85em; color: #7f8c8d;">
+                                    ${item.workType ? `📁 ${item.workType}` : ''}
+                                    ${item.teacherAdvisor ? ` | 👨‍🏫 ${item.teacherAdvisor}` : ''}
+                                </div>
+                            </td>
+                            <td style="font-size: 0.93em;">${this.formatDate(item.awardDate)}</td>
+                            <td><span class="badge badge-training">${item.level}</span></td>
+                        </tr>
+                    `;
+                    break;
+                    
+                case 'teacher':
+                    const levelColor = item.awardLevel?.includes('ประเทศ') ? '#e74c3c' : 
+                                     item.awardLevel?.includes('จังหวัด') ? '#e67e22' : 
+                                     item.awardLevel?.includes('เขต') ? '#3498db' : 
+                                     item.awardLevel?.includes('โรงเรียน') ? '#2ecc71' : '#95a5a6';
+                    
+                    rowHtml = `
+                        <tr>
+                            <td><strong>${index + 1}</strong></td>
+                            <td style="font-weight: 500; color: #2c3e50; font-size: 0.95em;">${item.teacherName}</td>
+                            <td>
+                                <div style="font-weight: 500; margin-bottom: 2px; font-size: 0.95em;">${item.awardName}</div>
+                                <div style="font-size: 0.85em; color: #7f8c8d;">
+                                    ${item.awardLevel}
+                                </div>
+                            </td>
+                            <td style="font-size: 0.93em;">${this.formatDate(item.awardDate)}</td>
+                            <td>
+                                <span class="badge" style="background: ${levelColor}20; color: ${levelColor}; font-size: 0.85em;">
+                                    ${item.awardLevel}
+                                </span>
+                            </td>
+                        </tr>
+                    `;
+                    break;
+            }
+            
+            html += rowHtml;
+        });
+        
+        tbody.innerHTML = html;
+        this.updateDataIndicator();
+    },
+    
+    updateDataIndicator: function() {
+        const indicator = document.getElementById('data-type-indicator');
+        const currentType = document.getElementById('current-data-type');
+        
+        if (indicator && currentType) {
+            let typeText = '';
+            
+            switch(this.currentTable) {
+                case 'training': typeText = 'ข้อมูลการอบรม'; break;
+                case 'student': typeText = 'ผลงานนักเรียน'; break;
+                case 'teacher': typeText = 'รางวัลครู'; break;
+            }
+            
+            currentType.textContent = typeText;
+        }
+    },
+    
+    // ==================== UI FUNCTIONS ====================
+    switchTable: function(tableType) {
+        this.currentTable = tableType;
+        
+        // อัปเดต tabs
+        document.querySelectorAll('.data-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        const tabElement = document.getElementById(`tab-${tableType}`);
+        if (tabElement) {
+            tabElement.classList.add('active');
+        }
+        
+        // อัปเดต detail buttons
+        document.querySelectorAll('.detail-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        const btnElement = document.getElementById(`btn-${tableType}`);
+        if (btnElement) {
+            btnElement.classList.add('active');
+        }
+        
+        // อัปเดตข้อมูลที่แสดง
+        this.updateDisplayedData();
+        this.renderTable();
+        
+        // แสดงข้อความ
+        const tableNames = {
+            'training': 'การอบรม',
+            'student': 'ผลงานนักเรียน',
+            'teacher': 'รางวัลครู'
+        };
+        this.showMessage('info', `แสดงข้อมูล${tableNames[tableType]}`, 1500);
+    },
+    
+    // ==================== ACTION FUNCTIONS ====================
+    showTrainingDetails: function() {
+        this.currentTable = 'training';
+        this.switchTable('training');
+    },
+    
+    showStudentDetails: function() {
+        this.currentTable = 'student';
+        this.switchTable('student');
+    },
+    
+    showTeacherDetails: function() {
+        this.currentTable = 'teacher';
+        this.switchTable('teacher');
+    },
+    
+    showPersonnelDetails: function() {
+        this.showMessage('info', '🚧 ระบบแสดงรายชื่อบุคลากรทั้งหมด - อยู่ระหว่างการพัฒนา');
+    },
+    
+    showAllTrainings: function() {
+        this.currentTable = 'training';
+        this.switchTable('training');
+        this.switchViewMode('all');
+        this.showMessage('info', 'แสดงรายการการอบรมทั้งหมด', 1500);
+    },
+    
+    showAllStudentWorks: function() {
+        this.currentTable = 'student';
+        this.switchTable('student');
+        this.switchViewMode('all');
+        this.showMessage('info', 'แสดงรายการผลงานนักเรียนทั้งหมด', 1500);
+    },
+    
+    showAllTeacherAwards: function() {
+        this.currentTable = 'teacher';
+        this.switchTable('teacher');
+        this.switchViewMode('all');
+        this.showMessage('info', 'แสดงรายการรางวัลครูทั้งหมด', 1500);
+    },
+    
+    // ==================== CLEANUP ====================
+    cleanup: function() {
+        if (this.autoRefreshInterval) {
+            clearInterval(this.autoRefreshInterval);
+            this.autoRefreshInterval = null;
+        }
+        console.log('🧹 Dashboard cleaned up');
+    }
+};
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 DOM Content Loaded - Dashboard (Standalone)');
+    
+    if (!document.querySelector('#dashboard-animation-style')) {
+        const style = document.createElement('style');
+        style.id = 'dashboard-animation-style';
+        style.textContent = `
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    setTimeout(() => {
+        dashboardApp.init();
+    }, 300);
+});
+
+// สำหรับ main.js เรียกใช้
+window.dashboardApp = dashboardApp;
+window.initDashboard = function() {
+    return dashboardApp.init();
+};
+window.cleanupDashboard = function() {
+    return dashboardApp.cleanup();
+};
+
+console.log('🎯 Dashboard Script Loaded - แก้ไขแล้ว (เปิดมาดึงข้อมูลทันที)');
+</script>

@@ -1,0 +1,261 @@
+<!-- pages/menuslidebar.html - แก้ไขแล้ว -->
+<div class="sidebar-header" style="
+    background-color: #007bff;
+    color: white;
+    padding: 12px 8px; /* ✅ ลด padding ลง */
+    text-align: center;
+    font-weight: 500; /* ✅ เปลี่ยนจาก bold เป็น 500 */
+    font-size: 0.95em; /* ✅ ลดขนาดฟอนต์ลง */
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    min-height: auto;
+    line-height: 1.2; /* ✅ ลด line-height */
+    display: block;
+    overflow: hidden; /* ✅ เพิ่ม overflow hidden */
+">
+    <!-- ✅ แก้ไข: ใช้ div แบ่งบรรทัดให้ชัดเจน -->
+    <div style="font-size: 0.95em; line-height: 1.3; margin: 0;">
+        แบบบันทึกการอบรม/ศึกษาดูงาน/วิทยากร
+        <div style="font-size: 0.9em; margin-top: 2px;">รางวัลครู-นักเรียน</div>
+    </div>
+</div>
+
+<nav style="
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-top: 72px; /* ✅ ปรับจาก 85px เป็น 72px */
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    flex-grow: 1;
+    background-color: #1a1a1a;
+">
+    <!-- หน้าหลัก -->
+    <a href="#" onclick="loadContent('pages/homepage.html', 'main-content'); return false;" 
+       class="main-menu-link" style="
+        color: white;
+        text-decoration: none;
+        display: block;
+        background-color: #1a1a1a;
+        text-align: center;
+        padding: 10px 0; /* ✅ ลด padding ลง */
+        margin: 0;
+        margin-top: 0; /* ✅ เอา margin-top 5px ออก */
+        width: 100%;
+        border: none;
+        outline: none;
+        transition: background-color 0.2s;
+        border-bottom: 1px solid #333; /* ✅ เพิ่มเส้นแบ่ง */
+    ">
+        <h3 style="margin: 0; font-size: 0.9em; font-weight: normal; padding: 0;">📊 หน้าหลัก</h3>
+    </a>
+
+    <!-- แดชบอร์ด -->
+    <div class="menu-section" style="margin: 0; padding: 0; width: 100%;">
+        <h4 style="
+            margin: 0;
+            margin-top: 12px; /* ✅ ลดจาก 15px เป็น 12px */
+            padding: 10px 8px 6px 8px; /* ✅ ลด padding */
+            color: #ccc;
+            font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            background: none;
+            font-weight: normal;
+            width: 100%;
+            box-sizing: border-box;
+        ">
+            <span style="margin-right: 6px;">📈</span> แดชบอร์ด
+        </h4>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li class="menu-item" style="position: relative; width: 100%; box-sizing: border-box; margin: 0; padding: 0;">
+                <a href="#" onclick="loadContent('pages/dashboard.html', 'main-content'); return false;"
+                   class="menu-link" style="
+                    color: #ddd;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px 8px 8px 18px; /* ✅ ลด padding */
+                    transition: all 0.2s;
+                    font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+                    background: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0;
+                ">
+                    <span style="display: inline-block; width: 22px; text-align: center;">📊</span>
+                    <span>แดชบอร์ด</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- การบันทึกข้อมูล -->
+    <div class="menu-section" style="margin: 0; padding: 0; width: 100%;">
+        <h4 style="
+            margin: 0;
+            margin-top: 12px; /* ✅ ลดจาก 15px เป็น 12px */
+            padding: 10px 8px 6px 8px; /* ✅ ลด padding */
+            color: #ccc;
+            font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            background: none;
+            font-weight: normal;
+            width: 100%;
+            box-sizing: border-box;
+        ">
+            <span style="margin-right: 6px;">📝</span> การบันทึกข้อมูล
+        </h4>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li class="menu-item" style="position: relative; width: 100%; box-sizing: border-box; margin: 0; padding: 0;">
+                <a href="#" onclick="loadContent('pages/formtraining.html', 'main-content'); return false;" 
+                   class="menu-link" style="
+                    color: #ddd;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px 8px 8px 18px; /* ✅ ลด padding */
+                    transition: all 0.2s;
+                    font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+                    background: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0;
+                ">
+                    <span style="display: inline-block; width: 22px; text-align: center;">🎓</span>
+                    <span>อบรม/ศึกษาดูงาน/วิทยากร</span>
+                </a>
+            </li>
+            <li class="menu-item" style="position: relative; width: 100%; box-sizing: border-box; margin: 0; padding: 0;">
+                <a href="#" onclick="loadContent('pages/studentwork.html', 'main-content'); return false;" 
+                   class="menu-link" style="
+                    color: #ddd;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px 8px 8px 18px; /* ✅ ลด padding */
+                    transition: all 0.2s;
+                    font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+                    background: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0;
+                ">
+                    <span style="display: inline-block; width: 22px; text-align: center;">👨‍🎓</span>
+                    <span>ผลงานนักเรียน</span>
+                </a>
+            </li>
+            <li class="menu-item" style="position: relative; width: 100%; box-sizing: border-box; margin: 0; padding: 0;">
+                <a href="#" onclick="loadContent('pages/teacheraward.html', 'main-content'); return false;" 
+                   class="menu-link" style="
+                    color: #ddd;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px 8px 8px 18px; /* ✅ ลด padding */
+                    transition: all 0.2s;
+                    font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+                    background: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0;
+                ">
+                    <span style="display: inline-block; width: 22px; text-align: center;">🏆</span>
+                    <span>ผลงานรางวัลครู</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- รายงาน -->
+    <div class="menu-section" style="margin: 0; padding: 0; width: 100%;">
+        <h4 style="
+            margin: 0;
+            margin-top: 12px; /* ✅ ลดจาก 15px เป็น 12px */
+            padding: 10px 8px 6px 8px; /* ✅ ลด padding */
+            color: #ccc;
+            font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            background: none;
+            font-weight: normal;
+            width: 100%;
+            box-sizing: border-box;
+        ">
+            <span style="margin-right: 6px;">📋</span> รายงาน
+        </h4>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            <li class="menu-item" style="position: relative; width: 100%; box-sizing: border-box; margin: 0; padding: 0;">
+                <a href="#" onclick="showReports(); return false;"
+                   class="menu-link" style="
+                    color: #ddd;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px 8px 8px 18px; /* ✅ ลด padding */
+                    transition: all 0.2s;
+                    font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+                    background: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0;
+                ">
+                    <span style="display: inline-block; width: 22px; text-align: center;">📈</span>
+                    <span>สรุปผลการอบรม</span>
+                </a>
+            </li>
+            <li class="menu-item" style="position: relative; width: 100%; box-sizing: border-box; margin: 0; padding: 0;">
+                <a href="#" onclick="showExport(); return false;"
+                   class="menu-link" style="
+                    color: #ddd;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px 8px 8px 18px; /* ✅ ลด padding */
+                    transition: all 0.2s;
+                    font-size: 0.9em; /* ✅ ลดขนาดฟอนต์ */
+                    background: none;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0;
+                ">
+                    <span style="display: inline-block; width: 22px; text-align: center;">📤</span>
+                    <span>ส่งออกข้อมูล</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Footer ของเมนู -->
+    <div class="sidebar-footer" style="
+        margin-top: auto;
+        padding: 12px 8px; /* ✅ ลด padding */
+        border-top: 1px solid #333;
+        color: #888;
+        font-size: 0.75em; /* ✅ ลดขนาดฟอนต์ */
+        text-align: center;
+        background: none;
+        width: 100%;
+        box-sizing: border-box;
+    ">
+        <p style="margin: 0 0 3px 0; font-size: 0.85em;">ระบบบันทึกข้อมูลบุคลากร</p>
+        <p style="margin: 0; font-size: 0.7em;">Version 2.0</p>
+    </div>
+</nav>

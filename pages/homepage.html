@@ -1,0 +1,92 @@
+<div class="main-form-container">
+    <style>
+        /* 🎨 สไตล์สำหรับหน้าแรกแบบย่อสุด */
+        .welcome-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .welcome-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.25);
+        }
+        
+        .welcome-header h1 {
+            margin: 0 0 15px 0;
+            font-size: 2.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .welcome-header p {
+            margin: 0;
+            font-size: 1.1em;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 📱 Responsive Styles */
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 20px 15px;
+            }
+            
+            .welcome-header {
+                padding: 30px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .welcome-header h1 {
+                font-size: 1.6em;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .welcome-header p {
+                font-size: 1.0em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-header h1 {
+                font-size: 1.4em;
+            }
+            
+            .welcome-header p {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+    
+    <div class="welcome-container">
+        <!-- Welcome Header -->
+        <div class="welcome-header">
+            <h1>
+                <span>👋</span>
+                ยินดีต้อนรับสู่ระบบบันทึกข้อมูลบุคลากร
+            </h1>
+            <p>ระบบจัดการข้อมูลการอบรม ผลงานครู และผลงานนักเรียนครบวงจร<br>
+            กรุณาใช้เมนูทางด้านซ้ายมือเพื่อเลือกรายการที่ต้องการ</p>
+        </div>
+        
+        <!-- System Info -->
+        <div style="margin-top: 40px; color: #666; font-size: 0.95em; padding: 20px; background: #f8f9fa; border-radius: 10px; max-width: 500px; margin-left: auto; margin-right: auto;">
+            <p style="margin: 0 0 10px 0; font-weight: 600; color: #007bff;">ระบบบันทึกข้อมูลบุคลากร รุ่น 2.0</p>
+            <p style="margin: 0; font-size: 0.9em;">รองรับการใช้งานบนคอมพิวเตอร์ แท็บเล็ต และสมาร์ทโฟน</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ไม่มี JavaScript ฟังก์ชันพิเศษในหน้าแรกแบบย่อ
+</script>
