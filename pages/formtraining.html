@@ -24,7 +24,7 @@
     
     #training-form-container .tab-btn {
         flex: 1 !important;
-        padding: 12px 20px !important;
+        padding: 10px 20px !important;
         border: none !important;
         background: none !important;
         font-size: 0.98em !important;
@@ -34,8 +34,6 @@
         text-align: center !important;
         color: #555 !important;
         border-right: 1px solid #dee2e6 !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
     }
     
     #training-form-container .tab-btn:last-child {
@@ -145,47 +143,21 @@
     #training-form-container input[type="number"],
     #training-form-container select {
         width: 100% !important;
-        padding: 12px !important;
+        padding: 8px 12px !important;
         border: 1px solid #ced4da !important;
         border-radius: 6px !important;
-        font-size: 16px !important; /* ป้องกัน iOS zoom */
+        font-size: 0.88em !important;
         font-family: 'Sarabun', sans-serif !important;
         transition: border-color 0.3s !important;
         box-sizing: border-box !important;
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
-        touch-action: manipulation !important;
-    }
-    
-    /* iOS specific fixes */
-    @supports (-webkit-touch-callout: none) {
-        #training-form-container input[type="text"],
-        #training-form-container input[type="date"],
-        #training-form-container input[type="number"],
-        #training-form-container select {
-            font-size: 16px !important;
-            min-height: 44px !important; /* เพิ่มขนาดสำหรับการแตะบนมือถือ */
-        }
     }
     
     #training-form-container select.type-select {
-        padding: 12px !important;
+        padding: 8px 12px !important;
     }
     
     #training-form-container input[type="date"] {
-        padding: 12px 10px !important;
-        position: relative !important;
-    }
-    
-    /* iOS date input fix */
-    #training-form-container input[type="date"]::-webkit-inner-spin-button,
-    #training-form-container input[type="date"]::-webkit-calendar-picker-indicator {
-        position: absolute !important;
-        right: 10px !important;
-        width: 20px !important;
-        height: 20px !important;
-        opacity: 0.7 !important;
+        padding: 8px 10px !important;
     }
     
     #training-form-container input:focus,
@@ -203,10 +175,9 @@
     }
     
     #training-form-container .checkbox-container input[type="checkbox"] {
-        width: 22px !important;
-        height: 22px !important;
+        width: 18px !important;
+        height: 18px !important;
         cursor: pointer !important;
-        min-width: 22px !important; /* ป้องกันการหดตัวบนมือถือ */
     }
     
     #training-form-container .checkbox-container label {
@@ -219,16 +190,13 @@
         background: #6c757d !important;
         color: white !important;
         border: none !important;
-        padding: 12px 20px !important;
+        padding: 8px 15px !important;
         border-radius: 4px !important;
         cursor: pointer !important;
-        font-size: 16px !important;
+        font-size: 0.9em !important;
         margin-top: 10px !important;
         display: inline-block !important;
         transition: background 0.3s !important;
-        min-height: 44px !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
     }
     
     #training-form-container .certificate-upload-btn:hover {
@@ -259,8 +227,8 @@
     #training-form-container .course-number {
         background: #007bff !important;
         color: white !important;
-        width: 30px !important;
-        height: 30px !important;
+        width: 25px !important;
+        height: 25px !important;
         border-radius: 50% !important;
         display: flex !important;
         align-items: center !important;
@@ -273,8 +241,8 @@
         background: #dc3545 !important;
         color: white !important;
         border: none !important;
-        width: 30px !important;
-        height: 30px !important;
+        width: 25px !important;
+        height: 25px !important;
         border-radius: 50% !important;
         cursor: pointer !important;
         display: flex !important;
@@ -282,8 +250,6 @@
         justify-content: center !important;
         font-size: 0.95em !important;
         transition: background 0.3s !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
     }
     
     #training-form-container .remove-course:hover {
@@ -294,21 +260,15 @@
         background: #28a745 !important;
         color: white !important;
         border: none !important;
-        padding: 15px 25px !important;
+        padding: 10px 20px !important;
         border-radius: 6px !important;
         cursor: pointer !important;
-        font-size: 16px !important;
+        font-size: 0.86em !important;
         display: flex !important;
         align-items: center !important;
-        justify-content: center !important;
         gap: 8px !important;
         margin: 15px auto !important;
         transition: background 0.3s !important;
-        min-height: 44px !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
-        width: 100% !important;
-        max-width: 300px !important;
     }
     
     #training-form-container .add-course-btn:hover {
@@ -344,8 +304,6 @@
         overflow: hidden !important;
         box-sizing: border-box !important;
         aspect-ratio: 1 / 1 !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
     }
     
     #training-form-container .photo-item:hover {
@@ -409,8 +367,8 @@
         background: rgba(220, 53, 69, 0.9) !important;
         color: white !important;
         border: none !important;
-        width: 28px !important;
-        height: 28px !important;
+        width: 22px !important;
+        height: 22px !important;
         border-radius: 50% !important;
         cursor: pointer !important;
         display: none !important;
@@ -419,8 +377,6 @@
         font-size: 0.8em !important;
         z-index: 2 !important;
         transition: background 0.3s !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
     }
     
     #training-form-container .photo-item.uploaded .remove-photo {
@@ -470,25 +426,14 @@
     
     #training-form-container .personnel-dropdown {
         width: 100% !important;
-        padding: 12px !important;
+        padding: 10px 12px !important;
         border: 2px solid #e0e0e0 !important;
         border-radius: 8px !important;
-        font-size: 16px !important;
+        font-size: 14px !important;
         background: white !important;
         cursor: pointer !important;
         transition: border-color 0.3s !important;
         font-family: 'Sarabun', sans-serif !important;
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-        appearance: none !important;
-        touch-action: manipulation !important;
-    }
-    
-    @supports (-webkit-touch-callout: none) {
-        #training-form-container .personnel-dropdown {
-            font-size: 16px !important;
-            min-height: 44px !important;
-        }
     }
     
     #training-form-container .personnel-dropdown:focus {
@@ -501,8 +446,8 @@
         background: #f8f9fa !important;
         color: #333 !important;
         border: 2px solid #dee2e6 !important;
-        width: 44px !important;
-        height: 44px !important;
+        width: 40px !important;
+        height: 40px !important;
         border-radius: 8px !important;
         cursor: pointer !important;
         font-size: 16px !important;
@@ -510,8 +455,6 @@
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.3s !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
     }
     
     #training-form-container .refresh-btn:hover {
@@ -539,19 +482,13 @@
         border: none !important;
         padding: 15px 40px !important;
         border-radius: 8px !important;
-        font-size: 16px !important;
+        font-size: 0.89em !important;
         font-weight: 500 !important;
         cursor: pointer !important;
         transition: all 0.3s !important;
         display: inline-flex !important;
         align-items: center !important;
-        justify-content: center !important;
         gap: 10px !important;
-        min-height: 44px !important;
-        -webkit-tap-highlight-color: transparent !important;
-        touch-action: manipulation !important;
-        width: 100% !important;
-        max-width: 300px !important;
     }
     
     #training-form-container .submit-btn:hover:not(:disabled) {
@@ -608,55 +545,33 @@
         to { transform: rotate(360deg) !important; }
     }
     
-    /* Mobile Viewport Fix */
-    @media screen and (max-width: 768px) {
-        html, body {
-            width: 100% !important;
-            overflow-x: hidden !important;
+    /* 📱 Responsive */
+    @media (max-width: 1024px) {
+        #training-form-container .photo-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
         }
         
-        #training-form-container {
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 10px !important;
-            margin: 0 !important;
-            overflow-x: hidden !important;
+        #training-form-container .photo-item {
+            height: 140px !important;
         }
-        
-        #training-form-container .form-training-container {
-            padding: 15px !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-        }
-        
-        #training-form-container input[type="text"],
-        #training-form-container input[type="date"],
-        #training-form-container input[type="number"],
-        #training-form-container select {
-            font-size: 16px !important; /* ป้องกัน iOS zoom */
-            padding: 14px 12px !important;
-            min-height: 44px !important;
-        }
-        
-        #training-form-container .personnel-dropdown {
-            font-size: 16px !important;
-            min-height: 44px !important;
-            padding: 14px !important;
+    }
+    
+    @media (max-width: 768px) {
+        #training-form-container .training-tabs {
+            flex-direction: column !important;
         }
         
         #training-form-container .tab-btn {
-            padding: 15px !important;
+            padding: 12px !important;
+            border-right: none !important;
+            border-bottom: 1px solid #dee2e6 !important;
             font-size: 0.86em !important;
-            min-height: 50px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
         }
         
         #training-form-container .form-row {
             flex-direction: column !important;
             gap: 15px !important;
-            margin-bottom: 20px !important;
         }
         
         #training-form-container .form-group,
@@ -664,18 +579,14 @@
         #training-form-container .form-group.checkbox-group {
             min-width: 100% !important;
             flex: 1 !important;
-            width: 100% !important;
         }
         
         #training-form-container .photo-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 10px !important;
         }
         
         #training-form-container .photo-item {
             height: 150px !important;
-            min-height: 150px !important;
-            padding: 10px !important;
         }
         
         #training-form-container .section-title {
@@ -686,81 +597,22 @@
             font-size: 0.83em !important;
         }
         
-        #training-form-container .course-item {
-            padding: 15px !important;
-            margin-bottom: 15px !important;
-        }
-        
-        #training-form-container .course-header {
-            flex-direction: row !important;
-            align-items: center !important;
-        }
-        
-        #training-form-container .add-course-btn,
-        #training-form-container .submit-btn {
-            width: 100% !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-            max-width: none !important;
-        }
-        
-        #training-form-container .refresh-btn {
-            width: 50px !important;
-            height: 50px !important;
-            margin-top: 0 !important;
-            align-self: center !important;
+        #training-form-container input[type="text"],
+        #training-form-container input[type="date"],
+        #training-form-container input[type="number"],
+        #training-form-container select {
+            font-size: 0.80em !important;
         }
     }
     
-    @media screen and (max-width: 480px) {
-        #training-form-container .photo-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-        }
-        
-        #training-form-container .photo-item {
-            height: 140px !important;
-            min-height: 140px !important;
-        }
-        
-        #training-form-container .training-tabs {
-            flex-direction: row !important; /* ให้ tabs อยู่ในแถวเดียว */
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch !important;
-        }
-        
-        #training-form-container .tab-btn {
-            flex: 0 0 auto !important;
-            white-space: nowrap !important;
-            min-width: 160px !important;
-        }
-    }
-    
-    /* iPhone X/XS/11 Pro specific */
-    @media screen and (max-width: 375px) {
+    @media (max-width: 480px) {
         #training-form-container .photo-grid {
             grid-template-columns: 1fr !important;
         }
         
         #training-form-container .photo-item {
             height: 180px !important;
-            min-height: 180px !important;
         }
-    }
-    
-    /* Android specific fixes */
-    @media screen and (-webkit-min-device-pixel-ratio: 0) {
-        #training-form-container select,
-        #training-form-container input[type="date"] {
-            font-size: 16px !important;
-        }
-    }
-    
-    /* Prevent text size adjustment on orientation change */
-    html {
-        -webkit-text-size-adjust: 100% !important;
-        -moz-text-size-adjust: 100% !important;
-        -ms-text-size-adjust: 100% !important;
-        text-size-adjust: 100% !important;
     }
 </style>
     
@@ -770,8 +622,8 @@
         
         <!-- 📑 Tabs Navigation -->
         <div class="training-tabs">
-            <button class="tab-btn active" id="tab-data" data-tab="data">1. แบบบันทึกข้อมูล</button>
-            <button class="tab-btn" id="tab-photos" data-tab="photos">2. รูปกิจกรรม (4 รูป)</button>
+            <button class="tab-btn active" id="tab-data" onclick="trainingApp.switchTab('data')">1. แบบบันทึกข้อมูล</button>
+            <button class="tab-btn" id="tab-photos" onclick="trainingApp.switchTab('photos')">2. รูปกิจกรรม (4 รูป)</button>
         </div>
         
         <!-- 📋 Tab 1: ข้อมูลการอบรม -->
@@ -794,7 +646,7 @@
                     
                     <!-- ✅ ปุ่ม Refresh -->
                     <div class="form-group" style="flex: 0 0 auto; margin-top: 28px;">
-                        <button type="button" class="refresh-btn" id="refresh-personnel-btn">
+                        <button type="button" class="refresh-btn" onclick="refreshPersonnelList('fullName')">
                             🔄
                         </button>
                     </div>
@@ -804,13 +656,13 @@
                 <div id="personnel-search-container" style="display: none;">
                     <input type="text" id="personnel-search" 
                            placeholder="🔍 ค้นหาชื่อ..." 
-                           style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 16px;">
+                           style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em;">
                 </div>
                 
                 <!-- ✅ ช่องกรอกเอง -->
                 <div style="margin-top: 10px;">
                     <input type="text" id="fullNameCustom" placeholder="กรอกชื่อ-นามสกุล (กรณีไม่มีในรายชื่อ)" 
-                           style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 16px; display: none;">
+                           style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em; display: none;">
                 </div>
                 
                 <!-- ✅ จำนวนรายชื่อ (ซ่อนไว้) -->
@@ -827,7 +679,7 @@
                     <!-- Course items will be added here -->
                 </div>
                 
-                <button type="button" class="add-course-btn" id="add-course-btn">
+                <button type="button" class="add-course-btn" onclick="trainingApp.addCourse()">
                     <span>+</span> เพิ่มหลักสูตร/กิจกรรม
                 </button>
             </div>
@@ -846,51 +698,56 @@
                 </p>
                 
                 <!-- Photo Grid -->
-                <div class="photo-grid" id="photo-grid">
+                <div class="photo-grid">
                     <!-- Photo 1 -->
-                    <div class="photo-item" data-index="0">
+                    <div class="photo-item" onclick="trainingApp.triggerFileInput(0)">
                         <div class="photo-placeholder">📷</div>
                         <span class="photo-label">รูปกิจกรรมที่ 1</span>
                         <img class="photo-preview" id="photo-preview-0">
-                        <button type="button" class="remove-photo" data-index="0">×</button>
-                        <input type="file" class="file-input" accept="image/*" data-index="0">
+                        <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 0)">×</button>
+                        <input type="file" class="file-input" accept="image/*" 
+                               onchange="trainingApp.handlePhotoUpload(event, 0)" data-index="0">
                     </div>
                     
                     <!-- Photo 2 -->
-                    <div class="photo-item" data-index="1">
+                    <div class="photo-item" onclick="trainingApp.triggerFileInput(1)">
                         <div class="photo-placeholder">📷</div>
                         <span class="photo-label">รูปกิจกรรมที่ 2</span>
                         <img class="photo-preview" id="photo-preview-1">
-                        <button type="button" class="remove-photo" data-index="1">×</button>
-                        <input type="file" class="file-input" accept="image/*" data-index="1">
+                        <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 1)">×</button>
+                        <input type="file" class="file-input" accept="image/*" 
+                               onchange="trainingApp.handlePhotoUpload(event, 1)" data-index="1">
                     </div>
                     
                     <!-- Photo 3 -->
-                    <div class="photo-item" data-index="2">
+                    <div class="photo-item" onclick="trainingApp.triggerFileInput(2)">
                         <div class="photo-placeholder">📷</div>
                         <span class="photo-label">รูปกิจกรรมที่ 3</span>
                         <img class="photo-preview" id="photo-preview-2">
-                        <button type="button" class="remove-photo" data-index="2">×</button>
-                        <input type="file" class="file-input" accept="image/*" data-index="2">
+                        <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 2)">×</button>
+                        <input type="file" class="file-input" accept="image/*" 
+                               onchange="trainingApp.handlePhotoUpload(event, 2)" data-index="2">
                     </div>
                     
                     <!-- Photo 4 -->
-                    <div class="photo-item" data-index="3">
+                    <div class="photo-item" onclick="trainingApp.triggerFileInput(3)">
                         <div class="photo-placeholder">📷</div>
                         <span class="photo-label">รูปกิจกรรมที่ 4</span>
                         <img class="photo-preview" id="photo-preview-3">
-                        <button type="button" class="remove-photo" data-index="3">×</button>
-                        <input type="file" class="file-input" accept="image/*" data-index="3">
+                        <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 3)">×</button>
+                        <input type="file" class="file-input" accept="image/*" 
+                               onchange="trainingApp.handlePhotoUpload(event, 3)" data-index="3">
                     </div>
                 </div>
                 
                 <!-- Batch Upload -->
                 <div style="text-align: center; margin: 30px 0;">
-                    <button type="button" id="batch-upload-btn" 
-                            style="background: #6c757d; color: white; border: none; padding: 15px 25px; border-radius: 6px; cursor: pointer; font-size: 16px; min-height: 44px;">
+                    <button type="button" onclick="trainingApp.batchUploadPhotos()" 
+                            style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.855em;">
                         📁 เลือกหลายรูปพร้อมกัน (สูงสุด 4 รูป)
                     </button>
-                    <input type="file" id="batch-upload-input" accept="image/*" multiple style="display: none;">
+                    <input type="file" id="batch-upload" accept="image/*" multiple 
+                           style="display: none;" onchange="trainingApp.handleBatchUpload(event)">
                     <p style="font-size: 0.85em; color: #666; margin-top: 10px;">
                         หรือลากไฟล์รูปภาพมาวางในพื้นที่นี้
                     </p>
@@ -921,7 +778,7 @@
             
             <div id="error-message" style="color: #dc3545; margin-bottom: 20px; display: none;"></div>
             
-            <button type="button" class="submit-btn" id="submit-btn">
+            <button type="button" class="submit-btn" onclick="trainingApp.submitForm()" id="submit-btn">
                 <span>💾</span> บันทึกข้อมูล
             </button>
             
@@ -934,7 +791,7 @@
 
 <script>
 // ========================================
-// 🎯 TRAINING FORM APPLICATION - MOBILE FIXED
+// 🎯 TRAINING FORM APPLICATION
 // ========================================
 
 const trainingApp = {
@@ -952,9 +809,6 @@ const trainingApp = {
         this.addCourse();
         this.setupEventListeners();
         
-        // ✅ ตรวจสอบว่าเป็น mobile device
-        this.detectMobileDevice();
-        
         // ✅ โหลดรายชื่อจาก main.js
         setTimeout(() => {
             if (typeof window.loadPersonnelData === 'function') {
@@ -965,156 +819,27 @@ const trainingApp = {
         console.log('✅ Training Form Initialized');
     },
     
-    detectMobileDevice: function() {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        console.log('📱 Device Detection:', {
-            isMobile: isMobile,
-            userAgent: navigator.userAgent.substring(0, 100)
+    setupEventListeners: function() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabName = btn.id === 'tab-data' ? 'data' : 'photos';
+                this.switchTab(tabName);
+            });
         });
         
-        if (isMobile) {
-            document.body.classList.add('mobile-device');
-            console.log('📱 Mobile device detected - applying mobile optimizations');
-        }
-    },
-    
-    setupEventListeners: function() {
-        // ✅ Tab switching with event delegation for mobile
         const tabsContainer = document.querySelector('.training-tabs');
         if (tabsContainer) {
-            tabsContainer.addEventListener('click', (e) => {
-                const tabBtn = e.target.closest('.tab-btn');
-                if (tabBtn) {
-                    e.preventDefault();
-                    const tabName = tabBtn.dataset.tab || 'data';
-                    this.switchTab(tabName);
-                }
-            });
+            tabsContainer.style.display = 'flex';
         }
         
-        // ✅ Add course button
-        const addCourseBtn = document.getElementById('add-course-btn');
-        if (addCourseBtn) {
-            addCourseBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.addCourse();
-            });
-        }
-        
-        // ✅ Refresh personnel button
-        const refreshBtn = document.getElementById('refresh-personnel-btn');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (typeof refreshPersonnelList === 'function') {
-                    refreshPersonnelList('fullName');
-                }
-            });
-        }
-        
-        // ✅ Submit button
-        const submitBtn = document.getElementById('submit-btn');
-        if (submitBtn) {
-            submitBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.submitForm();
-            });
-        }
-        
-        // ✅ Batch upload button
-        const batchUploadBtn = document.getElementById('batch-upload-btn');
-        const batchUploadInput = document.getElementById('batch-upload-input');
-        if (batchUploadBtn && batchUploadInput) {
-            batchUploadBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (this.batchUploadInProgress) {
-                    alert('กำลังอัปโหลดรูปภาพ กรุณารอสักครู่...');
-                    return;
-                }
-                batchUploadInput.value = '';
-                batchUploadInput.click();
-            });
-            
-            batchUploadInput.addEventListener('change', (e) => {
-                this.handleBatchUpload(e);
-            });
-        }
-        
-        // ✅ Photo upload with event delegation
-        const photoGrid = document.getElementById('photo-grid');
-        if (photoGrid) {
-            // Click on photo item
-            photoGrid.addEventListener('click', (e) => {
-                const photoItem = e.target.closest('.photo-item');
-                if (photoItem && !e.target.classList.contains('remove-photo')) {
-                    e.preventDefault();
-                    const index = parseInt(photoItem.dataset.index);
-                    this.triggerFileInput(index);
-                }
-            });
-            
-            // Click on remove photo button
-            photoGrid.addEventListener('click', (e) => {
-                const removeBtn = e.target.closest('.remove-photo');
-                if (removeBtn) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const index = parseInt(removeBtn.dataset.index);
-                    this.removePhoto(e, index);
-                }
-            });
-            
-            // File input change
-            photoGrid.addEventListener('change', (e) => {
-                const fileInput = e.target.closest('.file-input');
-                if (fileInput) {
-                    const index = parseInt(fileInput.dataset.index);
-                    this.handlePhotoUpload(e, index);
-                }
-            });
-        }
-        
-        // ✅ Drag and drop for mobile
         this.setupDragAndDrop();
-        
-        // ✅ ป้องกันการ zoom บน mobile
-        this.preventMobileZoom();
-        
-        // ✅ ป้องกันการ bounce บน iOS
-        this.preventIosBounce();
-    },
-    
-    preventMobileZoom: function() {
-        // ป้องกันการ zoom เมื่อ double tap บน mobile
-        document.addEventListener('touchstart', function(event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-        
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-    },
-    
-    preventIosBounce: function() {
-        // ป้องกันการ bounce บน iOS
-        document.body.addEventListener('touchmove', function(e) {
-            if (e.target.classList.contains('scrollable') || 
-                e.target.closest('.scrollable')) {
-                return;
-            }
-            e.preventDefault();
-        }, { passive: false });
     },
     
     setupDragAndDrop: function() {
-        const photoGrid = document.getElementById('photo-grid');
+        const photoGrid = document.querySelector('.photo-grid');
         
         if (photoGrid) {
             photoGrid.addEventListener('dragover', (e) => {
@@ -1139,11 +864,6 @@ const trainingApp = {
                     this.handleBatchUpload({ target: { files: files } });
                 }
             });
-            
-            // ✅ Touch events for mobile drag and drop
-            photoGrid.addEventListener('touchstart', (e) => {
-                // เก็บตำแหน่งเริ่มต้นสำหรับ mobile drag
-            }, { passive: true });
         }
     },
     
@@ -1152,7 +872,10 @@ const trainingApp = {
             btn.classList.remove('active');
         });
         
-        const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+        const activeBtn = tabName === 'data' ? 
+            document.getElementById('tab-data') : 
+            document.getElementById('tab-photos');
+        
         if (activeBtn) activeBtn.classList.add('active');
         
         document.querySelectorAll('.tab-content').forEach(content => {
@@ -1160,18 +883,7 @@ const trainingApp = {
         });
         
         const activeContent = document.getElementById(tabName + '-tab');
-        if (activeContent) {
-            activeContent.classList.add('active');
-            // ✅ ปรับ scroll ให้มองเห็น tab content บน mobile
-            if (window.innerWidth <= 768) {
-                setTimeout(() => {
-                    activeContent.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start' 
-                    });
-                }, 100);
-            }
-        }
+        if (activeContent) activeContent.classList.add('active');
         
         this.currentTab = tabName;
     },
@@ -1185,7 +897,7 @@ const trainingApp = {
                 <div class="course-header">
                     <div class="course-number">${this.courseCount}</div>
                     ${this.courseCount > 1 ? 
-                        `<button type="button" class="remove-course" data-course="${courseId}">×</button>` 
+                        `<button type="button" class="remove-course" onclick="trainingApp.removeCourse('${courseId}')">×</button>` 
                         : ''}
                 </div>
                 
@@ -1234,7 +946,8 @@ const trainingApp = {
                     <div class="form-group checkbox-group">
                         <label>มีเกียรติบัตร</label>
                         <div class="checkbox-container">
-                            <input type="checkbox" id="hasCertificate-${this.courseCount}" data-course="${this.courseCount}">
+                            <input type="checkbox" id="hasCertificate-${this.courseCount}" 
+                                   onchange="trainingApp.toggleCertificateUpload(${this.courseCount})">
                             <label for="hasCertificate-${this.courseCount}">มีเกียรติบัตร</label>
                         </div>
                     </div>
@@ -1243,19 +956,20 @@ const trainingApp = {
                 <div class="certificate-upload" id="certificate-upload-${this.courseCount}">
                     <label>อัปโหลดไฟล์เกียรติบัตร (PDF หรือรูปภาพ)</label>
                     <div style="margin-top: 10px;">
-                        <button type="button" class="certificate-upload-btn" data-course="${this.courseCount}">
+                        <button type="button" class="certificate-upload-btn" 
+                                onclick="trainingApp.triggerCertificateUpload(${this.courseCount})">
                             📄 เลือกไฟล์
                         </button>
                         <input type="file" id="certificateFile-${this.courseCount}" 
                                accept=".pdf,.jpg,.jpeg,.png" 
-                               data-course="${this.courseCount}"
+                               onchange="trainingApp.handleCertificateUpload(event, ${this.courseCount})"
                                style="display: none;">
                     </div>
                     <div id="certificate-info-${this.courseCount}" class="certificate-info" style="display: none;">
                         <span>📄</span>
                         <span id="certificate-name-${this.courseCount}"></span>
-                        <button type="button" data-course="${this.courseCount}" 
-                                style="margin-left: auto; background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 0.8em; cursor: pointer; min-height: 30px;">
+                        <button type="button" onclick="trainingApp.removeCertificate(${this.courseCount})" 
+                                style="margin-left: auto; background: #dc3545; color: white; border: none; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; cursor: pointer;">
                             ลบ
                         </button>
                     </div>
@@ -1265,9 +979,6 @@ const trainingApp = {
         
         document.getElementById('courses-container').insertAdjacentHTML('beforeend', courseHTML);
         
-        // ✅ เพิ่ม event listeners สำหรับ course ใหม่
-        this.setupCourseEventListeners(courseId);
-        
         const today = new Date().toISOString().split('T')[0];
         const startDateInput = document.getElementById(`startDate-${this.courseCount}`);
         const endDateInput = document.getElementById(`endDate-${this.courseCount}`);
@@ -1276,111 +987,29 @@ const trainingApp = {
         if (endDateInput) endDateInput.value = today;
     },
     
-    setupCourseEventListeners: function(courseId) {
-        const courseElement = document.getElementById(courseId);
-        if (!courseElement) return;
-        
-        const courseNum = this.courseCount;
-        
-        // ✅ Remove course button
-        const removeBtn = courseElement.querySelector('.remove-course');
-        if (removeBtn) {
-            removeBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.removeCourse(courseId);
-            });
-        }
-        
-        // ✅ Certificate checkbox
-        const certCheckbox = document.getElementById(`hasCertificate-${courseNum}`);
-        if (certCheckbox) {
-            certCheckbox.addEventListener('change', (e) => {
-                this.toggleCertificateUpload(courseNum);
-            });
-        }
-        
-        // ✅ Certificate upload button
-        const certUploadBtn = courseElement.querySelector('.certificate-upload-btn');
-        if (certUploadBtn) {
-            certUploadBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.triggerCertificateUpload(courseNum);
-            });
-        }
-        
-        // ✅ Certificate file input
-        const certFileInput = document.getElementById(`certificateFile-${courseNum}`);
-        if (certFileInput) {
-            certFileInput.addEventListener('change', (e) => {
-                this.handleCertificateUpload(e, courseNum);
-            });
-        }
-        
-        // ✅ Remove certificate button
-        const removeCertBtn = courseElement.querySelector('[data-course]');
-        if (removeCertBtn) {
-            removeCertBtn.addEventListener('click', (e) => {
-                if (e.target.matches('button[data-course]')) {
-                    e.preventDefault();
-                    const courseNum = parseInt(e.target.dataset.course);
-                    this.removeCertificate(courseNum);
-                }
-            });
-        }
-    },
-    
     removeCourse: function(courseId) {
         if (this.courseCount > 1) {
-            const courseElement = document.getElementById(courseId);
-            if (courseElement) {
-                courseElement.remove();
-                this.courseCount--;
-                
-                // ✅ อัปเดต course numbers
-                const courses = document.querySelectorAll('.course-item');
-                courses.forEach((course, index) => {
-                    const courseNumber = index + 1;
-                    const numberElement = course.querySelector('.course-number');
-                    if (numberElement) {
-                        numberElement.textContent = courseNumber;
-                    }
-                    
-                    // ✅ อัปเดต IDs และ event listeners
-                    this.updateCourseIds(course, courseNumber);
-                });
-                
-                // ✅ ลบ certificate ที่เกี่ยวข้อง
-                const courseNum = parseInt(courseId.split('-')[1]);
-                delete this.uploadedCertificates[courseNum];
-            }
-        }
-    },
-    
-    updateCourseIds: function(courseElement, newNumber) {
-        // อัปเดต IDs ภายใน course element
-        const elements = courseElement.querySelectorAll('[id*="-"]');
-        elements.forEach(el => {
-            const oldId = el.id;
-            const parts = oldId.split('-');
-            if (parts.length > 1) {
-                const newId = `${parts[0]}-${newNumber}`;
-                el.id = newId;
-                
-                // อัปเดต for attributes
-                if (el.tagName === 'LABEL' && el.htmlFor) {
-                    el.htmlFor = newId;
+            document.getElementById(courseId).remove();
+            this.courseCount--;
+            
+            const courses = document.querySelectorAll('.course-item');
+            courses.forEach((course, index) => {
+                const courseNumber = index + 1;
+                const numberElement = course.querySelector('.course-number');
+                if (numberElement) {
+                    numberElement.textContent = courseNumber;
                 }
-            }
-        });
+            });
+        }
     },
     
     toggleCertificateUpload: function(courseNum) {
         const checkbox = document.getElementById(`hasCertificate-${courseNum}`);
         const uploadDiv = document.getElementById(`certificate-upload-${courseNum}`);
         
-        if (checkbox && checkbox.checked) {
+        if (checkbox.checked) {
             uploadDiv.classList.add('visible');
-        } else if (uploadDiv) {
+        } else {
             uploadDiv.classList.remove('visible');
             delete this.uploadedCertificates[courseNum];
             const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
@@ -1392,17 +1021,24 @@ const trainingApp = {
     
     triggerCertificateUpload: function(courseNum) {
         const fileInput = document.getElementById(`certificateFile-${courseNum}`);
-        if (fileInput) {
-            // ✅ ใช้ click() แทนที่จะเรียกโดยตรง
-            fileInput.click();
-        }
+        if (fileInput) fileInput.click();
     },
     
     triggerFileInput: function(index) {
-        const fileInputs = document.querySelectorAll('.file-input');
-        if (fileInputs[index]) {
-            // ✅ ใช้ click() แทนที่จะเรียกโดยตรง
-            fileInputs[index].click();
+        const fileInput = document.querySelectorAll('.file-input')[index];
+        if (fileInput) fileInput.click();
+    },
+    
+    batchUploadPhotos: function() {
+        if (this.batchUploadInProgress) {
+            alert('กำลังอัปโหลดรูปภาพ กรุณารอสักครู่...');
+            return;
+        }
+        
+        const batchUploadInput = document.getElementById('batch-upload');
+        if (batchUploadInput) {
+            batchUploadInput.value = '';
+            batchUploadInput.click();
         }
     },
     
@@ -1458,9 +1094,7 @@ const trainingApp = {
                     this.updatePhotoCount();
                 }
                 
-                if (event.target) {
-                    event.target.value = '';
-                }
+                event.target.value = '';
                 return;
             }
             
@@ -1491,7 +1125,7 @@ const trainingApp = {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const preview = document.getElementById(`photo-preview-${slotIndex}`);
-                const photoItem = document.querySelector(`.photo-item[data-index="${slotIndex}"]`);
+                const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
                 
                 if (preview && photoItem) {
                     preview.src = e.target.result;
@@ -1538,7 +1172,7 @@ const trainingApp = {
         const reader = new FileReader();
         reader.onload = (e) => {
             const preview = document.getElementById(`photo-preview-${index}`);
-            const photoItem = document.querySelector(`.photo-item[data-index="${index}"]`);
+            const photoItem = document.querySelectorAll('.photo-item')[index];
             
             if (preview && photoItem) {
                 preview.src = e.target.result;
@@ -1565,13 +1199,10 @@ const trainingApp = {
     },
     
     removePhoto: function(event, index) {
-        if (event) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
+        event.stopPropagation();
         
         const preview = document.getElementById(`photo-preview-${index}`);
-        const photoItem = document.querySelector(`.photo-item[data-index="${index}"]`);
+        const photoItem = document.querySelectorAll('.photo-item')[index];
         
         if (preview && photoItem) {
             preview.src = '';
@@ -1579,7 +1210,7 @@ const trainingApp = {
             photoItem.classList.remove('uploaded');
             this.uploadedPhotos[index] = null;
             
-            const fileInput = document.querySelector(`.file-input[data-index="${index}"]`);
+            const fileInput = document.querySelectorAll('.file-input')[index];
             if (fileInput) fileInput.value = '';
             
             this.updatePhotoCount();
@@ -1589,16 +1220,14 @@ const trainingApp = {
     updatePhotoCount: function() {
         const count = this.uploadedPhotos.filter(photo => photo !== null).length;
         const countElement = document.getElementById('uploaded-count');
-        if (countElement) {
-            countElement.textContent = count;
-            
-            if (count === 4) {
-                countElement.style.color = '#28a745';
-                countElement.style.fontWeight = 'bold';
-            } else {
-                countElement.style.color = '#666';
-                countElement.style.fontWeight = 'normal';
-            }
+        if (countElement) countElement.textContent = count;
+        
+        if (count === 4) {
+            countElement.style.color = '#28a745';
+            countElement.style.fontWeight = 'bold';
+        } else {
+            countElement.style.color = '#666';
+            countElement.style.fontWeight = 'normal';
         }
     },
     
@@ -1637,10 +1266,6 @@ const trainingApp = {
                 infoDiv.style.display = 'flex';
             }
         };
-        reader.onerror = () => {
-            alert('เกิดข้อผิดพลาดในการอ่านไฟล์');
-            event.target.value = '';
-        };
         reader.readAsDataURL(file);
     },
     
@@ -1676,8 +1301,7 @@ const trainingApp = {
         
         if (!fullName) {
             if (fullNameSelect) {
-                const parent = fullNameSelect.closest('.form-group');
-                if (parent) parent.classList.add('error');
+                fullNameSelect.parentElement.classList.add('error');
             }
             isValid = false;
         }
@@ -1690,26 +1314,22 @@ const trainingApp = {
             const endDate = document.getElementById(`endDate-${i}`);
             
             if (type && !type.value) {
-                const parent = type.closest('.form-group');
-                if (parent) parent.classList.add('error');
+                type.parentElement.classList.add('error');
                 isValid = false;
             }
             
             if (courseName && !courseName.value.trim()) {
-                const parent = courseName.closest('.form-group');
-                if (parent) parent.classList.add('error');
+                courseName.parentElement.classList.add('error');
                 isValid = false;
             }
             
             if (startDate && !startDate.value) {
-                const parent = startDate.closest('.form-group');
-                if (parent) parent.classList.add('error');
+                startDate.parentElement.classList.add('error');
                 isValid = false;
             }
             
             if (endDate && !endDate.value) {
-                const parent = endDate.closest('.form-group');
-                if (parent) parent.classList.add('error');
+                endDate.parentElement.classList.add('error');
                 isValid = false;
             }
         }
@@ -1721,16 +1341,6 @@ const trainingApp = {
                 errorMsg.textContent = `กรุณาอัปโหลดรูปกิจกรรมให้ครบ 4 รูป (ปัจจุบัน ${photoCount}/4 รูป)`;
                 errorMsg.style.display = 'block';
                 this.switchTab('photos');
-                
-                // ✅ Scroll to error message บน mobile
-                if (window.innerWidth <= 768) {
-                    setTimeout(() => {
-                        errorMsg.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'center' 
-                        });
-                    }, 300);
-                }
             }
             isValid = false;
         }
@@ -1788,24 +1398,14 @@ const trainingApp = {
         
         // Add courses
         for (let i = 1; i <= this.courseCount; i++) {
-            const typeInput = document.getElementById(`type-${i}`);
-            const courseNameInput = document.getElementById(`courseName-${i}`);
-            const locationInput = document.getElementById(`location-${i}`);
-            const startDateInput = document.getElementById(`startDate-${i}`);
-            const endDateInput = document.getElementById(`endDate-${i}`);
-            const hoursInput = document.getElementById(`hours-${i}`);
-            const hasCertCheckbox = document.getElementById(`hasCertificate-${i}`);
-            
-            if (!typeInput || !courseNameInput || !startDateInput || !endDateInput) continue;
-            
             const course = {
-                type: typeInput.value,
-                courseName: courseNameInput.value.trim(),
-                location: locationInput ? locationInput.value.trim() : '',
-                startDate: startDateInput.value,
-                endDate: endDateInput.value,
-                hours: hoursInput ? (hoursInput.value || '0') : '0',
-                hasCertificate: hasCertCheckbox && hasCertCheckbox.checked ? 'yes' : 'no'
+                type: document.getElementById(`type-${i}`).value,
+                courseName: document.getElementById(`courseName-${i}`).value.trim(),
+                location: document.getElementById(`location-${i}`).value.trim(),
+                startDate: document.getElementById(`startDate-${i}`).value,
+                endDate: document.getElementById(`endDate-${i}`).value,
+                hours: document.getElementById(`hours-${i}`).value || '0',
+                hasCertificate: document.getElementById(`hasCertificate-${i}`).checked ? 'yes' : 'no'
             };
             
             if (this.uploadedCertificates[i]) {
@@ -1835,19 +1435,10 @@ const trainingApp = {
                         if (successMsg && successDetails) {
                             successDetails.textContent = `บันทึกข้อมูลการอบรม ${data.courses.length} หลักสูตรสำเร็จ`;
                             successMsg.style.display = 'flex';
-                            
-                            // ✅ Scroll to success message บน mobile
-                            if (window.innerWidth <= 768) {
-                                setTimeout(() => {
-                                    successMsg.scrollIntoView({ 
-                                        behavior: 'smooth', 
-                                        block: 'center' 
-                                    });
-                                }, 300);
-                            }
+                            successMsg.scrollIntoView({ behavior: 'smooth' });
                         }
                         
-                        // ✅ รีเซ็ตฟอร์มที่หน้าเดิม ไม่เด้งไปหน้า home
+                        // ✅ แก้ไขตรงนี้: รีเซ็ตฟอร์มที่หน้าเดิม ไม่เด้งไปหน้า home
                         setTimeout(() => {
                             this.resetForm();
                         }, 2000);
@@ -1870,16 +1461,7 @@ const trainingApp = {
                     if (errorMsg) {
                         errorMsg.textContent = `⚠️ ${errorMessage}`;
                         errorMsg.style.display = 'block';
-                        
-                        // ✅ Scroll to error message บน mobile
-                        if (window.innerWidth <= 768) {
-                            setTimeout(() => {
-                                errorMsg.scrollIntoView({ 
-                                    behavior: 'smooth', 
-                                    block: 'center' 
-                                });
-                            }, 300);
-                        }
+                        errorMsg.scrollIntoView({ behavior: 'smooth' });
                     }
                 })
                 .finally(() => {
@@ -1909,13 +1491,14 @@ const trainingApp = {
     resetForm: function() {
         console.log('🔄 Resetting form on same page...');
         
-        // ✅ รีเซ็ตฟอร์มแบบเฉพาะหน้า
+        // ✅ 1. รีเซ็ตฟอร์มแบบเฉพาะหน้า (ไม่ใช้ฟังก์ชันจาก main.js ที่อาจจะเปลี่ยนหน้า)
         this.resetFormOnSamePage();
         
         console.log('✅ Form reset complete - staying on same page');
     },
     
     resetFormOnSamePage: function() {
+        // ✅ รีเซ็ตเฉพาะหน้า formtraining.html เท่านั้น
         console.log('🔄 Resetting form locally...');
         
         // 1. รีเซ็ต dropdown ชื่อ
@@ -1931,33 +1514,23 @@ const trainingApp = {
         }
         
         // 2. รีเซ็ต courses
-        const coursesContainer = document.getElementById('courses-container');
-        if (coursesContainer) {
-            coursesContainer.innerHTML = '';
-        }
+        document.getElementById('courses-container').innerHTML = '';
         this.courseCount = 0;
         this.uploadedCertificates = {};
         this.addCourse();
         
         // 3. รีเซ็ต photos
         this.uploadedPhotos = Array(4).fill(null);
-        for (let i = 0; i < 4; i++) {
-            const preview = document.getElementById(`photo-preview-${i}`);
-            if (preview) {
-                preview.src = '';
-                preview.style.display = 'none';
-            }
-            
-            const photoItem = document.querySelector(`.photo-item[data-index="${i}"]`);
-            if (photoItem) {
-                photoItem.classList.remove('uploaded');
-            }
-            
-            const fileInput = document.querySelector(`.file-input[data-index="${i}"]`);
-            if (fileInput) {
-                fileInput.value = '';
-            }
-        }
+        document.querySelectorAll('.photo-preview').forEach(preview => {
+            preview.src = '';
+            preview.style.display = 'none';
+        });
+        document.querySelectorAll('.photo-item').forEach(item => {
+            item.classList.remove('uploaded');
+        });
+        document.querySelectorAll('.file-input').forEach(input => {
+            input.value = '';
+        });
         this.updatePhotoCount();
         
         // 4. รีเซ็ต success message
@@ -2010,5 +1583,5 @@ window.initTrainingForm = function() {
     return trainingApp.init();
 };
 
-console.log('🎯 Training Form Script Loaded - Mobile Optimized');
+console.log('🎯 Training Form Script Loaded');
 </script>
