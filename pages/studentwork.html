@@ -392,44 +392,34 @@
         background: #c82333 !important;
     }
     
-    /* 📱 Mobile-Specific Styles */
-    #studentwork-form-container .mobile-warning {
+    /* 📱 Mobile Fix Styles */
+    #studentwork-form-container .mobile-fix-notice {
         background: #fff3cd !important;
         color: #856404 !important;
-        padding: 8px 12px !important;
+        padding: 10px 15px !important;
         border-radius: 6px !important;
-        margin-top: 10px !important;
-        font-size: 0.8em !important;
+        margin-bottom: 20px !important;
+        font-size: 0.85em !important;
         border-left: 4px solid #ffc107 !important;
         display: none !important;
     }
     
-    #studentwork-form-container .mobile-warning.show {
+    #studentwork-form-container .mobile-fix-notice.show {
         display: block !important;
     }
     
-    #studentwork-form-container .network-status {
-        display: inline-block !important;
-        padding: 3px 8px !important;
-        border-radius: 12px !important;
-        font-size: 0.7em !important;
-        margin-left: 5px !important;
-        font-weight: bold !important;
+    #studentwork-form-container .debug-info {
+        background: #f8f9fa !important;
+        padding: 10px !important;
+        border-radius: 4px !important;
+        margin-top: 10px !important;
+        font-size: 0.75em !important;
+        color: #666 !important;
+        display: none !important;
     }
     
-    #studentwork-form-container .network-status.wifi {
-        background: #d4edda !important;
-        color: #155724 !important;
-    }
-    
-    #studentwork-form-container .network-status.mobile {
-        background: #cce5ff !important;
-        color: #004085 !important;
-    }
-    
-    #studentwork-form-container .network-status.slow {
-        background: #fff3cd !important;
-        color: #856404 !important;
+    #studentwork-form-container .debug-info.show {
+        display: block !important;
     }
     
     /* 📱 Responsive */
@@ -466,19 +456,6 @@
         #studentwork-form-container input[type="date"] {
             min-width: 100% !important;
         }
-        
-        /* ปรับขนาดปุ่มสำหรับมือถือ */
-        #studentwork-form-container .submit-btn {
-            padding: 12px 24px !important;
-            font-size: 0.85em !important;
-            width: 100% !important;
-            max-width: 300px !important;
-        }
-        
-        #studentwork-form-container .certificate-upload-btn {
-            padding: 10px 20px !important;
-            font-size: 0.85em !important;
-        }
     }
     
     @media (max-width: 480px) {
@@ -494,23 +471,17 @@
         #studentwork-form-container input[type="date"] {
             font-size: 0.84em !important;
         }
-        
-        #studentwork-form-container .certificate-upload {
-            padding: 12px !important;
-        }
     }
     </style>
     
     <div class="form-studentwork-container">
+        <!-- 📱 Mobile Fix Notice -->
+        <div id="mobile-fix-notice" class="mobile-fix-notice">
+            <strong>📱 โหมดมือถือ:</strong> ระบบจะใช้วิธีการอัพโหลดที่เหมาะสมกับอุปกรณ์ของคุณอัตโนมัติ
+        </div>
+        
         <h1 style="margin: 0 0 10px 0; color: #333; font-size: 1.2em;">🎓 บันทึกผลงานนักเรียน</h1>
         <p style="margin: 0 0 15px 0; color: #666; font-size: 0.95em;">กรอกข้อมูลให้ครบถ้วนเพื่อบันทึกลงใน Sheet "ข้อมูลผลงานนักเรียน"</p>
-        
-        <!-- 📱 Mobile Status Display -->
-        <div id="mobile-status" class="mobile-warning">
-            <strong>📱 โหมดมือถือ:</strong> 
-            <span id="connection-type">กำลังตรวจสอบเครือข่าย...</span>
-            <span id="network-indicator" class="network-status">⚡</span>
-        </div>
         
         <!-- 👤 ข้อมูลนักเรียน -->
         <div class="form-section">
@@ -641,8 +612,8 @@
                     <div>
                         <div id="certificate-name" style="font-weight: 500;"></div>
                         <div id="certificate-size" style="font-size: 0.85em; color: #666;"></div>
-                        <div id="mobile-optimization" style="font-size: 0.75em; color: #28a745; display: none;">
-                            ✅ ไฟล์นี้จะถูกอัพโหลดแบบ optimized สำหรับมือถือ
+                        <div id="file-warning" style="font-size: 0.75em; color: #dc3545; display: none;">
+                            ⚠️ ไฟล์ใหญ่ ระบบจะปรับแต่งการอัพโหลด
                         </div>
                     </div>
                     <button type="button" class="remove-certificate" onclick="studentWorkApp.removeCertificate()">
@@ -666,31 +637,19 @@
                         ❌ ยกเลิกการอัพโหลด
                     </button>
                 </div>
-                
-                <!-- 📱 Mobile Upload Options -->
-                <div id="mobile-options" style="margin-top: 15px; display: none;">
-                    <div style="font-size: 0.85em; color: #666; margin-bottom: 10px;">
-                        <strong>📱 ตัวเลือกสำหรับมือถือ:</strong>
-                    </div>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button type="button" onclick="studentWorkApp.useSimpleUpload()" 
-                                style="background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 4px; font-size: 0.8em; cursor: pointer;">
-                            🚀 อัพโหลดแบบเร็ว
-                        </button>
-                        <button type="button" onclick="studentWorkApp.compressAndUpload()" 
-                                style="background: #17a2b8; color: white; border: none; padding: 8px 15px; border-radius: 4px; font-size: 0.8em; cursor: pointer;">
-                            🗜️ บีบอัดแล้วอัพโหลด
-                        </button>
-                        <button type="button" onclick="studentWorkApp.uploadWithoutFile()" 
-                                style="background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 4px; font-size: 0.8em; cursor: pointer;">
-                            📝 อัพโหลดเฉพาะข้อมูล
-                        </button>
-                    </div>
-                </div>
             </div>
             
             <div style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 0.81em; color: #666;">
-                <p style="margin: 0;">💡 <strong>สำหรับมือถือ:</strong> ระบบจะปรับแต่งการอัพโหลดอัตโนมัติสำหรับเครือข่ายและอุปกรณ์ของคุณ</p>
+                <p style="margin: 0;">💡 <strong>สำหรับมือถือ:</strong> รองรับไฟล์ PDF, JPG, PNG, DOC, DOCX (แนะนำไม่เกิน 5MB)</p>
+            </div>
+            
+            <!-- Debug Info -->
+            <div id="debug-info" class="debug-info">
+                <strong>Debug Info:</strong>
+                <div id="debug-content"></div>
+                <button onclick="studentWorkApp.toggleDebug()" style="margin-top: 5px; background: #6c757d; color: white; border: none; padding: 3px 8px; border-radius: 3px; font-size: 0.7em;">
+                    Toggle Debug
+                </button>
             </div>
         </div>
         
@@ -719,7 +678,7 @@
 
 <script>
     // ========================================
-    // 🎓 STUDENT WORK APPLICATION - MOBILE FIXED VERSION
+    // 🎓 STUDENT WORK APPLICATION - MOBILE FIX
     // ========================================
     
     const studentWorkApp = {
@@ -729,26 +688,20 @@
         retryCount: 0,
         maxRetries: 3,
         isMobile: false,
-        isSlowNetwork: false,
-        useWiFi: false,
-        
-        // Upload variables
-        isUploading: false,
-        cancelUploadFlag: false,
-        uploadId: null,
-        currentUploadMethod: 'auto', // 'auto', 'simple', 'chunk', 'compress'
-        
-        // Mobile-specific settings
-        mobileChunkSize: 256 * 1024, // 256KB สำหรับมือถือ
-        mobileMaxFileSize: 10 * 1024 * 1024, // 10MB limit สำหรับมือถือ
-        mobileTimeout: 45000, // 45 seconds สำหรับมือถือ
+        useDebug: false,
         
         // Initialize the form
         init: function() {
-            console.log('🎓 Student Work Form Initializing (Mobile Optimized)...');
+            console.log('🎓 Student Work Form Initializing (Mobile Fix)...');
             
-            // ตรวจสอบอุปกรณ์และเครือข่าย
-            this.detectDeviceAndNetwork();
+            // ตรวจสอบว่าเป็นมือถือ
+            this.isMobile = this.detectMobile();
+            console.log('📱 Is Mobile:', this.isMobile);
+            
+            // แสดง notice สำหรับมือถือ
+            if (this.isMobile) {
+                this.showMobileNotice();
+            }
             
             // Setup event listeners
             this.setupEventListeners();
@@ -767,125 +720,26 @@
             // ✅ ตั้งค่าอัพเดตอัตโนมัติ
             this.setupAutoRefresh();
             
-            // ✅ แสดงสถานะมือถือ
-            this.showMobileStatus();
-            
-            console.log('✅ Student Work Form Initialized (Mobile Ready)');
+            console.log('✅ Student Work Form Initialized (Mobile Fix)');
         },
         
-        // ตรวจสอบอุปกรณ์และเครือข่าย
-        detectDeviceAndNetwork: function() {
-            // ตรวจสอบว่าเป็นมือถือ
-            this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            console.log('📱 Is Mobile:', this.isMobile);
-            
-            // ตรวจสอบเครือข่าย
-            if (navigator.connection) {
-                const connection = navigator.connection;
-                this.isSlowNetwork = connection.effectiveType === 'slow-2g' || 
-                                     connection.effectiveType === '2g' ||
-                                     connection.saveData === true;
-                this.useWiFi = connection.type === 'wifi';
-                
-                console.log('📡 Network Info:', {
-                    type: connection.effectiveType,
-                    saveData: connection.saveData,
-                    isSlow: this.isSlowNetwork,
-                    isWiFi: this.useWiFi
-                });
-                
-                // ฟังการเปลี่ยนแปลงเครือข่าย
-                connection.addEventListener('change', () => {
-                    this.updateNetworkStatus();
-                });
-            }
-            
-            // ตรวจจับเมื่อแอพอยู่ในพื้นหลัง
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    console.log('📱 App in background');
-                    if (this.isUploading) {
-                        this.showMobileNotification('📱 แอพอยู่ในพื้นหลัง แต่การอัพโหลดจะดำเนินต่อไป');
-                    }
-                }
-            });
+        // ตรวจสอบว่าเป็นมือถือ
+        detectMobile: function() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
         },
         
-        // แสดงสถานะมือถือ
-        showMobileStatus: function() {
-            const mobileStatus = document.getElementById('mobile-status');
-            const connectionType = document.getElementById('connection-type');
-            const networkIndicator = document.getElementById('network-indicator');
-            
-            if (mobileStatus && connectionType && networkIndicator) {
-                mobileStatus.classList.add('show');
-                
-                if (this.isMobile) {
-                    if (navigator.connection) {
-                        const conn = navigator.connection;
-                        connectionType.textContent = `มือถือ (${conn.effectiveType || 'ไม่ทราบ'})`;
-                        
-                        // ตั้งค่าตัวบ่งชี้เครือข่าย
-                        if (conn.type === 'wifi') {
-                            networkIndicator.textContent = 'Wi-Fi';
-                            networkIndicator.className = 'network-status wifi';
-                        } else if (this.isSlowNetwork) {
-                            networkIndicator.textContent = 'ช้า';
-                            networkIndicator.className = 'network-status slow';
-                        } else {
-                            networkIndicator.textContent = 'มือถือ';
-                            networkIndicator.className = 'network-status mobile';
-                        }
-                    } else {
-                        connectionType.textContent = 'มือถือ';
-                        networkIndicator.textContent = '📱';
-                    }
-                } else {
-                    connectionType.textContent = 'คอมพิวเตอร์';
-                    networkIndicator.textContent = '💻';
-                }
-            }
-        },
-        
-        // อัพเดตสถานะเครือข่าย
-        updateNetworkStatus: function() {
-            if (navigator.connection) {
-                const conn = navigator.connection;
-                this.isSlowNetwork = conn.effectiveType === 'slow-2g' || 
-                                     conn.effectiveType === '2g' ||
-                                     conn.saveData === true;
-                this.useWiFi = conn.type === 'wifi';
-                
-                console.log('📡 Network changed:', {
-                    type: conn.effectiveType,
-                    isSlow: this.isSlowNetwork,
-                    isWiFi: this.useWiFi
-                });
-                
-                this.showMobileNotification(`📡 เปลี่ยนเครือข่ายเป็น: ${conn.effectiveType || 'ไม่ทราบ'}`);
-            }
-        },
-        
-        // แสดงการแจ้งเตือนบนมือถือ
-        showMobileNotification: function(message) {
-            console.log('📱 Notification:', message);
-            
-            // แสดงข้อความชั่วคราว
-            const errorMsg = document.getElementById('error-message');
-            if (errorMsg) {
-                errorMsg.textContent = message;
-                errorMsg.style.display = 'block';
-                errorMsg.style.color = '#17a2b8';
-                
-                setTimeout(() => {
-                    errorMsg.style.display = 'none';
-                }, 3000);
+        // แสดง notice สำหรับมือถือ
+        showMobileNotice: function() {
+            const notice = document.getElementById('mobile-fix-notice');
+            if (notice) {
+                notice.classList.add('show');
             }
         },
         
         // Setup event listeners
         setupEventListeners: function() {
-            console.log('Setting up mobile event listeners...');
+            console.log('Setting up event listeners...');
         },
         
         // Setup custom inputs handling
@@ -1193,17 +1047,16 @@
             }
         },
         
-        // ✅ ฟังก์ชัน handleCertificateUpload แบบใหม่สำหรับมือถือ
+        // ✅ ฟังก์ชัน handleCertificateUpload ที่ทำงานบนมือถือ
         handleCertificateUpload: function(event) {
             const file = event.target.files[0];
             if (!file) return;
             
-            console.log('📱 File selected (Mobile Optimized):', {
+            this.logDebug('File selected:', {
                 name: file.name,
                 type: file.type,
                 size: file.size,
-                isMobile: this.isMobile,
-                isSlowNetwork: this.isSlowNetwork
+                isMobile: this.isMobile
             });
             
             // Validate file type
@@ -1223,193 +1076,38 @@
             }
             
             // Validate file size สำหรับมือถือ
-            if (this.isMobile && file.size > this.mobileMaxFileSize) {
-                const confirmUpload = confirm(
-                    `ไฟล์ขนาด ${this.formatFileSize(file.size)} ใหญ่เกินสำหรับมือถือ\n` +
-                    `(แนะนำสูงสุด ${this.formatFileSize(this.mobileMaxFileSize)})\n\n` +
-                    'ต้องการบีบอัดไฟล์ก่อนอัพโหลดหรือไม่?'
-                );
-                
-                if (!confirmUpload) {
-                    event.target.value = '';
-                    return;
-                }
-                
-                // บีบอัดไฟล์อัตโนมัติ
-                this.compressFileForMobile(file).then(compressedFile => {
-                    this.certificateFile = compressedFile;
-                    this.displayCertificateInfo(compressedFile, true);
-                }).catch(error => {
-                    console.error('Compression error:', error);
-                    alert('ไม่สามารถบีบอัดไฟล์ได้ กรุณาเลือกไฟล์ที่เล็กกว่า');
-                    event.target.value = '';
-                });
-                
+            const maxSize = this.isMobile ? (5 * 1024 * 1024) : (20 * 1024 * 1024);
+            if (file.size > maxSize) {
+                alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด ${this.formatFileSize(maxSize)})`);
+                event.target.value = '';
                 return;
             }
             
             this.certificateFile = file;
-            this.displayCertificateInfo(file, false);
+            this.displayCertificateInfo(file);
             
-            // แสดงตัวเลือกสำหรับมือถือถ้าไฟล์ใหญ่
-            if (this.isMobile && file.size > 1024 * 1024) { // > 1MB
-                this.showMobileUploadOptions();
+            // แสดง warning ถ้าไฟล์ใหญ่สำหรับมือถือ
+            if (this.isMobile && file.size > 2 * 1024 * 1024) {
+                this.showFileWarning();
             }
         },
         
-        // ✅ บีบอัดไฟล์สำหรับมือถือ
-        compressFileForMobile: function(file) {
-            return new Promise((resolve, reject) => {
-                if (file.type.startsWith('image/')) {
-                    this.compressImageForMobile(file)
-                        .then(resolve)
-                        .catch(reject);
-                } else if (file.type === 'application/pdf') {
-                    // สำหรับ PDF บนมือถือ เราไม่สามารถบีบอัดได้
-                    // แนะนำให้ใช้ไฟล์ที่เล็กกว่า
-                    reject(new Error('PDF files cannot be compressed on mobile. Please use a smaller file.'));
-                } else {
-                    // สำหรับไฟล์อื่นๆ ใช้ต้นฉบับ
-                    resolve(file);
-                }
-            });
-        },
-        
-        // ✅ บีบอัดรูปภาพสำหรับมือถือ
-        compressImageForMobile: function(file) {
-            return new Promise((resolve, reject) => {
-                if (file.size < 512 * 1024) { // < 512KB ไม่ต้องบีบอัด
-                    resolve(file);
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        
-                        // ตั้งขนาดสูงสุด 1024px สำหรับมือถือ
-                        const maxSize = 1024;
-                        let width = img.width;
-                        let height = img.height;
-                        
-                        if (width > height) {
-                            if (width > maxSize) {
-                                height = Math.round((height * maxSize) / width);
-                                width = maxSize;
-                            }
-                        } else {
-                            if (height > maxSize) {
-                                width = Math.round((width * maxSize) / height);
-                                height = maxSize;
-                            }
-                        }
-                        
-                        canvas.width = width;
-                        canvas.height = height;
-                        
-                        ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // คุณภาพขึ้นอยู่กับขนาดต้นฉบับ
-                        const quality = file.size > 5 * 1024 * 1024 ? 0.6 : 0.8;
-                        
-                        canvas.toBlob((blob) => {
-                            const compressedFile = new File([blob], file.name, {
-                                type: 'image/jpeg',
-                                lastModified: Date.now()
-                            });
-                            resolve(compressedFile);
-                        }, 'image/jpeg', quality);
-                    };
-                    
-                    img.onerror = reject;
-                    img.src = e.target.result;
-                };
-                
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        },
-        
-        // ✅ แสดงตัวเลือกอัพโหลดสำหรับมือถือ
-        showMobileUploadOptions: function() {
-            const mobileOptions = document.getElementById('mobile-options');
-            if (mobileOptions) {
-                mobileOptions.style.display = 'block';
-            }
-        },
-        
-        // ✅ ซ่อนตัวเลือกอัพโหลดสำหรับมือถือ
-        hideMobileUploadOptions: function() {
-            const mobileOptions = document.getElementById('mobile-options');
-            if (mobileOptions) {
-                mobileOptions.style.display = 'none';
-            }
-        },
-        
-        // ✅ ใช้การอัพโหลดแบบง่าย
-        useSimpleUpload: function() {
-            this.currentUploadMethod = 'simple';
-            this.hideMobileUploadOptions();
-            this.showMobileNotification('🚀 ใช้โหมดอัพโหลดแบบเร็วสำหรับมือถือ');
-        },
-        
-        // ✅ บีบอัดแล้วอัพโหลด
-        compressAndUpload: function() {
-            if (!this.certificateFile) return;
-            
-            this.currentUploadMethod = 'compress';
-            this.hideMobileUploadOptions();
-            
-            if (this.certificateFile.type.startsWith('image/')) {
-                this.showMobileNotification('🗜️ กำลังบีบอัดภาพ...');
-                
-                this.compressImageForMobile(this.certificateFile)
-                    .then(compressedFile => {
-                        this.certificateFile = compressedFile;
-                        this.displayCertificateInfo(compressedFile, true);
-                        this.showMobileNotification('✅ บีบอัดภาพสำเร็จ พร้อมอัพโหลด');
-                    })
-                    .catch(error => {
-                        console.error('Compression failed:', error);
-                        this.showMobileNotification('❌ บีบอัดภาพไม่สำเร็จ ใช้ไฟล์ต้นฉบับ');
-                    });
-            } else {
-                this.showMobileNotification('📄 ไฟล์นี้ไม่ใช่ภาพ ใช้การอัพโหลดแบบปกติ');
-            }
-        },
-        
-        // ✅ อัพโหลดเฉพาะข้อมูล (ไม่มีไฟล์)
-        uploadWithoutFile: function() {
-            this.currentUploadMethod = 'no-file';
-            this.certificateFile = null;
-            this.removeCertificate();
-            this.hideMobileUploadOptions();
-            this.showMobileNotification('📝 จะอัพโหลดเฉพาะข้อมูล (ไม่มีไฟล์แนบ)');
-        },
-        
-        displayCertificateInfo: function(file, isCompressed = false) {
+        displayCertificateInfo: function(file) {
             const infoDiv = document.getElementById('certificate-info');
             const nameSpan = document.getElementById('certificate-name');
             const sizeSpan = document.getElementById('certificate-size');
-            const optimizationSpan = document.getElementById('mobile-optimization');
             
             if (infoDiv && nameSpan && sizeSpan) {
                 nameSpan.textContent = file.name;
                 sizeSpan.textContent = this.formatFileSize(file.size);
-                
-                if (optimizationSpan) {
-                    if (isCompressed) {
-                        optimizationSpan.style.display = 'block';
-                        optimizationSpan.textContent = '✅ ไฟล์นี้ถูกบีบอัดสำหรับมือถือ';
-                    } else {
-                        optimizationSpan.style.display = 'none';
-                    }
-                }
-                
                 infoDiv.classList.add('show');
+            }
+        },
+        
+        showFileWarning: function() {
+            const warning = document.getElementById('file-warning');
+            if (warning) {
+                warning.style.display = 'block';
             }
         },
         
@@ -1425,10 +1123,10 @@
         
         removeCertificate: function() {
             this.certificateFile = null;
-            this.currentUploadMethod = 'auto';
             
             const infoDiv = document.getElementById('certificate-info');
             const fileInput = document.getElementById('certificateFile');
+            const warning = document.getElementById('file-warning');
             
             if (infoDiv) {
                 infoDiv.classList.remove('show');
@@ -1438,11 +1136,13 @@
                 fileInput.value = '';
             }
             
-            // ซ่อน progress bar และตัวเลือก
-            this.hideProgressBar();
-            this.hideMobileUploadOptions();
+            if (warning) {
+                warning.style.display = 'none';
+            }
             
-            console.log('🗑️ Certificate removed');
+            this.hideProgressBar();
+            
+            this.logDebug('Certificate removed');
         },
         
         // ✅ ฟังก์ชันแสดง progress bar
@@ -1487,17 +1187,8 @@
             }
         },
         
-        // ✅ ตั้งค่าเริ่มต้น progress bar
-        resetProgress: function() {
-            this.updateProgress(0, 'กำลังเตรียมไฟล์สำหรับมือถือ...');
-            this.showProgressBar();
-            this.cancelUploadFlag = false;
-            this.isUploading = true;
-        },
-        
         // ✅ ฟังก์ชันยกเลิกการอัพโหลด
         cancelUpload: function() {
-            this.cancelUploadFlag = true;
             this.isUploading = false;
             this.hideProgressBar();
             
@@ -1507,8 +1198,7 @@
                 submitBtn.disabled = false;
             }
             
-            this.showMobileNotification('❌ ยกเลิกการอัพโหลดแล้ว');
-            console.log('❌ Upload cancelled by user');
+            this.logDebug('Upload cancelled by user');
         },
         
         // Form validation
@@ -1574,7 +1264,7 @@
             return isValid;
         },
         
-        // ✅ Form Submission - แบบใหม่สำหรับมือถือ
+        // ✅ Form Submission - แก้ไขสำหรับมือถือ
         submitForm: function() {
             if (!this.validateForm()) {
                 const errorMsg = document.getElementById('error-message');
@@ -1593,6 +1283,8 @@
             submitBtn.innerHTML = '<span class="loading-spinner"></span> กำลังบันทึก...';
             submitBtn.disabled = true;
             
+            this.logDebug('Starting form submission...');
+            
             // Prepare data
             const formData = {
                 action: 'recordStudentWork',
@@ -1603,185 +1295,151 @@
                 awardLevel: this.getAwardLevel(),
                 awardDate: document.getElementById('awardDate').value,
                 isMobile: this.isMobile,
-                networkType: this.isSlowNetwork ? 'slow' : (this.useWiFi ? 'wifi' : 'mobile'),
-                uploadMethod: this.currentUploadMethod
+                timestamp: new Date().toISOString()
             };
             
+            this.logDebug('Form data prepared:', formData);
+            
             // ตรวจสอบการอัพโหลดไฟล์
-            if (this.certificateFile && this.currentUploadMethod !== 'no-file') {
-                // ใช้วิธีที่เหมาะสมตามสถานการณ์
-                if (this.currentUploadMethod === 'simple' || 
-                    (this.isMobile && this.certificateFile.size < 2 * 1024 * 1024)) {
-                    // ใช้วิธีง่ายสำหรับไฟล์เล็กหรือโหมด simple
-                    this.uploadSimple(formData, submitBtn, originalText);
-                } else if (this.currentUploadMethod === 'compress' || 
-                          (this.isMobile && this.certificateFile.type.startsWith('image/'))) {
-                    // ใช้วิธีบีบอัดสำหรับภาพ
-                    this.uploadCompressed(formData, submitBtn, originalText);
+            if (this.certificateFile) {
+                this.logDebug('Processing certificate file...');
+                
+                // ใช้วิธีที่เหมาะสมสำหรับมือถือ
+                if (this.isMobile) {
+                    this.processFileForMobile(formData, submitBtn, originalText);
                 } else {
-                    // ใช้วิธีปกติ
-                    this.uploadRegular(formData, submitBtn, originalText);
+                    this.processFileForDesktop(formData, submitBtn, originalText);
                 }
             } else {
-                // ไม่มีไฟล์แนบ
-                this.sendData(formData, submitBtn, originalText);
+                this.logDebug('No certificate file, sending text data only');
+                this.sendDataToServer(formData, submitBtn, originalText);
             }
         },
         
-        // ✅ อัพโหลดแบบง่าย (FormData ธรรมดา)
-        uploadSimple: function(formData, submitBtn, originalText) {
-            this.showMobileNotification('🚀 ใช้การอัพโหลดแบบเร็วสำหรับมือถือ');
+        // ✅ ประมวลผลไฟล์สำหรับมือถือ
+        processFileForMobile: function(formData, submitBtn, originalText) {
+            this.logDebug('Mobile file processing started');
             
-            // สร้าง FormData object
-            const fd = new FormData();
+            // แสดง progress
+            this.showProgressBar();
+            this.updateProgress(10, 'กำลังเตรียมไฟล์สำหรับมือถือ...');
             
-            // เพิ่มข้อมูลแบบ text
-            Object.keys(formData).forEach(key => {
-                fd.append(key, formData[key]);
-            });
-            
-            // เพิ่มไฟล์แบบ binary
-            fd.append('certificateFile', this.certificateFile);
-            fd.append('uploadStrategy', 'simple_formdata');
-            
-            this.resetProgress();
-            this.updateProgress(10, 'กำลังเตรียมข้อมูล...');
-            
-            // ส่งข้อมูลด้วย fetch
-            this.sendFormData(fd, submitBtn, originalText);
-        },
-        
-        // ✅ ส่ง FormData
-        sendFormData: function(formData, submitBtn, originalText) {
-            if (typeof window.submitFormDataToGoogleAppsScript === 'function') {
-                // ใช้ฟังก์ชันที่ส่ง FormData โดยตรง
-                window.submitFormDataToGoogleAppsScript(formData)
-                    .then(result => {
-                        this.handleSubmissionSuccess(result, submitBtn, originalText);
-                    })
-                    .catch(error => {
-                        console.error('❌ FormData submit error:', error);
-                        // ลองใช้วิธีเดิม
-                        this.uploadRegular(formData, submitBtn, originalText);
-                    });
+            // สำหรับมือถือ เราใช้วิธีที่เบากว่า
+            if (this.certificateFile.size > 3 * 1024 * 1024) {
+                // ไฟล์ใหญ่เกินไปสำหรับมือถือ
+                this.updateProgress(30, 'ไฟล์ใหญ่กำลังบีบอัด...');
+                
+                if (this.certificateFile.type.startsWith('image/')) {
+                    this.compressImageForMobileUpload(formData, submitBtn, originalText);
+                } else {
+                    // สำหรับไฟล์ที่ไม่ใช่ภาพ
+                    this.askToSkipFile(formData, submitBtn, originalText);
+                }
             } else {
-                // ใช้ fetch โดยตรง
-                this.uploadWithFetch(formData, submitBtn, originalText);
+                // ไฟล์เล็ก ใช้วิธีปกติ
+                this.updateProgress(40, 'กำลังอ่านไฟล์...');
+                this.readFileForMobile(formData, submitBtn, originalText);
             }
         },
         
-        // ✅ Upload with fetch
-        uploadWithFetch: function(formData, submitBtn, originalText) {
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyfqjHt8FzOa2W-I-_8dlGLc-z0DLI6KedV1m9xxFeD_devjTpKtlQ7gUwNDCJrwjA/exec';
+        // ✅ บีบอัดภาพสำหรับมือถือ
+        compressImageForMobileUpload: function(formData, submitBtn, originalText) {
+            const reader = new FileReader();
             
-            fetch(scriptUrl, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors' // ต้องใช้ no-cors สำหรับ Google Apps Script
-            })
-            .then(response => {
-                // เนื่องจากใช้ no-cors เราจึงไม่สามารถอ่าน response ได้
-                // แต่เราสามารถสมมติว่าสำเร็จ
-                this.handleSubmissionSuccess({ success: true }, submitBtn, originalText);
-            })
-            .catch(error => {
-                console.error('❌ Fetch upload error:', error);
-                this.showError(new Error('การเชื่อมต่อล้มเหลว กรุณาลองใหม่อีกครั้ง'));
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                this.hideProgressBar();
-            });
-        },
-        
-        // ✅ อัพโหลดแบบบีบอัด
-        uploadCompressed: function(formData, submitBtn, originalText) {
-            if (!this.certificateFile.type.startsWith('image/')) {
-                this.uploadRegular(formData, submitBtn, originalText);
-                return;
-            }
-            
-            this.showMobileNotification('🗜️ กำลังบีบอัดภาพก่อนอัพโหลด...');
-            this.updateProgress(20, 'กำลังบีบอัดภาพ...');
-            
-            this.compressImageForMobile(this.certificateFile)
-                .then(compressedFile => {
-                    this.updateProgress(50, 'บีบอัดสำเร็จ กำลังอ่านไฟล์...');
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
                     
-                    // อ่านไฟล์ที่บีบอัดแล้ว
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        try {
-                            const base64Data = e.target.result.split(',')[1];
-                            if (!base64Data) {
-                                throw new Error('Base64 conversion failed');
-                            }
+                    // ตั้งขนาดสูงสุด 800px สำหรับมือถือ
+                    const maxSize = 800;
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxSize) {
+                            height = Math.round((height * maxSize) / width);
+                            width = maxSize;
+                        }
+                    } else {
+                        if (height > maxSize) {
+                            width = Math.round((width * maxSize) / height);
+                            height = maxSize;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    this.updateProgress(60, 'กำลังบีบอัดภาพ...');
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    canvas.toBlob((blob) => {
+                        this.updateProgress(80, 'กำลังแปลงไฟล์...');
+                        
+                        const compressedReader = new FileReader();
+                        compressedReader.onload = (compressedEvent) => {
+                            const base64Data = compressedEvent.target.result.split(',')[1];
                             
                             formData.certificate = {
                                 base64Data: base64Data,
-                                fileName: compressedFile.name,
-                                mimeType: compressedFile.type,
-                                fileSize: compressedFile.size,
+                                fileName: 'compressed_' + this.certificateFile.name,
+                                mimeType: 'image/jpeg',
+                                fileSize: blob.size,
                                 isCompressed: true,
                                 originalSize: this.certificateFile.size
                             };
                             
-                            this.updateProgress(70, 'กำลังส่งข้อมูล...');
-                            this.sendData(formData, submitBtn, originalText);
+                            this.logDebug('Image compressed:', {
+                                original: this.certificateFile.size,
+                                compressed: blob.size
+                            });
                             
-                        } catch (error) {
-                            console.error('❌ Error processing compressed file:', error);
-                            this.uploadRegular(formData, submitBtn, originalText);
-                        }
-                    };
-                    
-                    reader.onerror = () => {
-                        this.uploadRegular(formData, submitBtn, originalText);
-                    };
-                    
-                    reader.readAsDataURL(compressedFile);
-                })
-                .catch(error => {
-                    console.error('❌ Compression failed:', error);
-                    this.uploadRegular(formData, submitBtn, originalText);
-                });
-        },
-        
-        // ✅ อัพโหลดแบบปกติ (Base64)
-        uploadRegular: function(formData, submitBtn, originalText) {
-            this.showMobileNotification('📤 กำลังอ่านไฟล์...');
-            this.updateProgress(30, 'กำลังอ่านไฟล์...');
-            
-            // สำหรับมือถือ จำกัดการอ่านไฟล์ใหญ่
-            if (this.isMobile && this.certificateFile.size > 5 * 1024 * 1024) {
-                const shouldContinue = confirm(
-                    `ไฟล์มีขนาดใหญ่ (${this.formatFileSize(this.certificateFile.size)})\n` +
-                    'การอ่านอาจใช้เวลานานบนมือถือ\n\n' +
-                    'ต้องการดำเนินการต่อหรือไม่?'
-                );
+                            this.sendDataToServer(formData, submitBtn, originalText);
+                        };
+                        
+                        compressedReader.onerror = () => {
+                            this.sendDataToServer(formData, submitBtn, originalText);
+                        };
+                        
+                        compressedReader.readAsDataURL(blob);
+                    }, 'image/jpeg', 0.7);
+                };
                 
-                if (!shouldContinue) {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    this.hideProgressBar();
-                    return;
-                }
-            }
-            
-            const reader = new FileReader();
-            let readTimeout;
-            
-            reader.onloadstart = () => {
-                // ตั้ง timeout สำหรับมือถือ
-                readTimeout = setTimeout(() => {
-                    reader.abort();
-                    this.showMobileNotification('⏰ ใช้เวลาอ่านไฟล์นานเกินไป');
-                    this.uploadSimple(formData, submitBtn, originalText);
-                }, 15000); // 15 วินาทีสำหรับมือถือ
+                img.onerror = () => {
+                    this.sendDataToServer(formData, submitBtn, originalText);
+                };
+                
+                img.src = e.target.result;
             };
             
+            reader.onerror = () => {
+                this.sendDataToServer(formData, submitBtn, originalText);
+            };
+            
+            reader.readAsDataURL(this.certificateFile);
+        },
+        
+        // ✅ ถามผู้ใช้ว่าจะข้ามไฟล์หรือไม่
+        askToSkipFile: function(formData, submitBtn, originalText) {
+            if (confirm('ไฟล์มีขนาดใหญ่บนมือถือ อาจใช้เวลานาน\nต้องการบันทึกเฉพาะข้อมูล (ไม่มีไฟล์แนบ) หรือไม่?')) {
+                this.certificateFile = null;
+                this.removeCertificate();
+                this.sendDataToServer(formData, submitBtn, originalText);
+            } else {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                this.hideProgressBar();
+            }
+        },
+        
+        // ✅ อ่านไฟล์สำหรับมือถือ
+        readFileForMobile: function(formData, submitBtn, originalText) {
+            const reader = new FileReader();
+            
             reader.onload = (e) => {
-                clearTimeout(readTimeout);
-                
                 try {
                     const base64Data = e.target.result.split(',')[1];
                     if (!base64Data) {
@@ -1795,12 +1453,12 @@
                         fileSize: this.certificateFile.size
                     };
                     
-                    this.updateProgress(60, 'อ่านไฟล์สำเร็จ กำลังส่งข้อมูล...');
-                    this.sendData(formData, submitBtn, originalText);
+                    this.updateProgress(90, 'อ่านไฟล์สำเร็จ กำลังส่งข้อมูล...');
+                    this.sendDataToServer(formData, submitBtn, originalText);
                     
                 } catch (error) {
-                    console.error('❌ Error processing file:', error);
-                    this.showError(error);
+                    this.logDebug('Error processing file:', error);
+                    this.showError('ไม่สามารถประมวลผลไฟล์ได้');
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                     this.hideProgressBar();
@@ -1808,16 +1466,16 @@
             };
             
             reader.onerror = (error) => {
-                clearTimeout(readTimeout);
-                console.error('❌ FileReader error:', error);
-                
-                // ลองใช้วิธี simple
-                this.uploadSimple(formData, submitBtn, originalText);
+                this.logDebug('FileReader error:', error);
+                this.showError('การอ่านไฟล์ล้มเหลว');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                this.hideProgressBar();
             };
             
             reader.onprogress = (event) => {
                 if (event.lengthComputable) {
-                    const percent = Math.round((event.loaded / event.total) * 30) + 30; // 30-60%
+                    const percent = Math.round((event.loaded / event.total) * 40) + 40; // 40-80%
                     this.updateProgress(percent, `กำลังอ่านไฟล์ ${Math.round((event.loaded / event.total) * 100)}%`);
                 }
             };
@@ -1825,57 +1483,85 @@
             reader.readAsDataURL(this.certificateFile);
         },
         
-        // ✅ Send data to server
-        sendData: function(formData, submitBtn, originalText) {
-            console.log('📤 Submitting data (Mobile Optimized):', {
-                hasFile: !!formData.certificate,
-                isMobile: this.isMobile,
-                uploadMethod: this.currentUploadMethod,
-                dataSize: JSON.stringify(formData).length
-            });
+        // ✅ ประมวลผลไฟล์สำหรับ Desktop
+        processFileForDesktop: function(formData, submitBtn, originalText) {
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                try {
+                    const base64Data = e.target.result.split(',')[1];
+                    if (!base64Data) {
+                        throw new Error('Base64 conversion failed');
+                    }
+                    
+                    formData.certificate = {
+                        base64Data: base64Data,
+                        fileName: this.certificateFile.name,
+                        mimeType: this.certificateFile.type,
+                        fileSize: this.certificateFile.size
+                    };
+                    
+                    this.sendDataToServer(formData, submitBtn, originalText);
+                    
+                } catch (error) {
+                    this.logDebug('Error processing file:', error);
+                    this.showError('ไม่สามารถประมวลผลไฟล์ได้');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            };
+            
+            reader.onerror = (error) => {
+                this.logDebug('FileReader error:', error);
+                this.showError('การอ่านไฟล์ล้มเหลว');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            };
+            
+            reader.readAsDataURL(this.certificateFile);
+        },
+        
+        // ✅ ส่งข้อมูลไปยัง server
+        sendDataToServer: function(formData, submitBtn, originalText) {
+            this.logDebug('Sending data to server...');
             
             if (typeof window.submitToGoogleAppsScript === 'function') {
-                // ✅ ใช้ timeout ที่นานขึ้นสำหรับมือถือ
-                const submissionPromise = window.submitToGoogleAppsScript(formData);
+                // ใช้ timeout ที่เหมาะสม
+                const timeout = this.isMobile ? 30000 : 15000;
                 
-                const timeout = this.isMobile ? this.mobileTimeout : 15000;
+                const submissionPromise = window.submitToGoogleAppsScript(formData);
                 const timeoutPromise = new Promise((_, reject) => {
-                    setTimeout(() => reject(new Error(`Request timeout after ${timeout/1000} seconds`)), timeout);
+                    setTimeout(() => reject(new Error('Request timeout')), timeout);
                 });
                 
                 Promise.race([submissionPromise, timeoutPromise])
                     .then(result => {
-                        console.log('✅ Submission result:', result);
+                        this.logDebug('Server response:', result);
                         this.handleSubmissionSuccess(result, submitBtn, originalText);
                     })
                     .catch(error => {
-                        console.error('❌ Submit error:', error);
+                        this.logDebug('Submission error:', error);
                         
-                        // ✅ ลองใหม่บนมือถือ
-                        if (this.isMobile && this.retryCount < this.maxRetries) {
+                        if (this.retryCount < this.maxRetries) {
                             this.retryCount++;
-                            this.showMobileNotification(`🔄 ลองใหม่ครั้งที่ ${this.retryCount}/${this.maxRetries}...`);
+                            this.logDebug(`Retrying... (${this.retryCount}/${this.maxRetries})`);
                             
                             setTimeout(() => {
-                                this.sendData(formData, submitBtn, originalText);
+                                this.sendDataToServer(formData, submitBtn, originalText);
                             }, 2000 * this.retryCount);
                         } else {
                             this.showError(error);
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            this.hideProgressBar();
                         }
-                    })
-                    .finally(() => {
-                        this.isUploading = false;
-                        this.hideProgressBar();
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
                     });
             } else {
-                console.error('submitToGoogleAppsScript function not found');
-                alert('ฟังก์ชันส่งข้อมูลไม่พบ');
-                this.isUploading = false;
-                this.hideProgressBar();
+                this.logDebug('submitToGoogleAppsScript not found');
+                alert('ไม่พบฟังก์ชันส่งข้อมูล');
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
+                this.hideProgressBar();
             }
         },
         
@@ -1885,13 +1571,13 @@
                 this.showSuccess(result.data || result);
                 setTimeout(() => this.resetFormOnSamePage(), 2000);
             } else {
-                throw new Error(result.error || result.message || 'เกิดข้อผิดพลาด');
+                this.showError(new Error(result.error || result.message || 'เกิดข้อผิดพลาด'));
             }
             
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
-            this.isUploading = false;
             this.hideProgressBar();
+            this.retryCount = 0;
         },
         
         // ✅ ฟังก์ชันแสดงผลสำเร็จ
@@ -1901,53 +1587,43 @@
             
             if (successMsg && successDetails) {
                 const studentName = data.studentName || 'นักเรียน';
-                const fileInfo = data.certificate ? ' (พร้อมไฟล์)' : '';
-                const methodInfo = this.currentUploadMethod === 'compress' ? ' (บีบอัดแล้ว)' : 
-                                 this.currentUploadMethod === 'simple' ? ' (อัพโหลดเร็ว)' : '';
-                
-                successDetails.textContent = `บันทึกผลงานนักเรียน "${studentName}" สำเร็จ${fileInfo}${methodInfo}`;
+                const fileInfo = data.certificate ? ' (พร้อมไฟล์แนบ)' : '';
+                successDetails.textContent = `บันทึกผลงานนักเรียน "${studentName}" สำเร็จ${fileInfo}`;
                 successMsg.style.display = 'flex';
                 successMsg.scrollIntoView({ behavior: 'smooth' });
-                
-                // รีเซ็ต upload method
-                this.currentUploadMethod = 'auto';
             }
+            
+            this.logDebug('Submission successful:', data);
         },
         
         // ✅ ฟังก์ชันแสดงข้อผิดพลาด
         showError: function(error) {
             const errorMsg = document.getElementById('error-message');
             if (errorMsg) {
-                let message = `❌ เกิดข้อผิดพลาด: ${error.message}`;
+                let message = error.message || 'เกิดข้อผิดพลาด';
                 
-                // ✅ ข้อความเฉพาะสำหรับมือถือ
                 if (this.isMobile) {
-                    if (error.message.includes('timeout')) {
-                        message += '\n\n📱 เครือข่ายช้าหรือขัดข้อง';
-                        message += '\n💡 ลองใช้ Wi-Fi หรืออัพโหลดใหม่';
-                    } else if (error.message.includes('memory') || error.message.includes('quota')) {
-                        message += '\n\n📱 หน่วยความจำไม่พอ';
-                        message += '\n💡 ลดขนาดไฟล์หรือใช้ไฟล์ที่เล็กกว่า';
+                    if (message.includes('timeout')) {
+                        message = 'การเชื่อมต่อใช้เวลานานเกินไป\nกรุณาลองใหม่อีกครั้ง';
+                    } else if (message.includes('memory') || message.includes('quota')) {
+                        message = 'หน่วยความจำไม่เพียงพอ\nกรุณาเลือกไฟล์ที่เล็กกว่า';
                     }
                 }
                 
-                errorMsg.textContent = message;
+                errorMsg.textContent = `❌ ${message}`;
                 errorMsg.style.display = 'block';
                 errorMsg.scrollIntoView({ behavior: 'smooth' });
             }
             
-            // รีเซ็ต upload method
-            this.currentUploadMethod = 'auto';
+            this.logDebug('Error shown:', error);
         },
         
         // ✅ Reset form on same page
         resetFormOnSamePage: function() {
-            console.log('🔄 Resetting student work form on same page...');
+            this.logDebug('Resetting form...');
             
-            // Reset student info
+            // Reset form fields
             document.getElementById('studentName').value = '';
-            
-            // Reset work type and project details
             document.getElementById('workType').value = '';
             document.getElementById('projectName').value = '';
             document.getElementById('awardLevel').value = '';
@@ -1959,7 +1635,7 @@
             document.getElementById('awardLevelCustom').value = '';
             document.getElementById('awardLevelCustom').style.display = 'none';
             
-            // ✅ Reset advisor
+            // Reset advisor
             const advisorSelect = document.getElementById('advisorName');
             if (advisorSelect) advisorSelect.value = '';
             
@@ -1993,23 +1669,58 @@
                 successMsg.style.display = 'none';
             }
             
-            // ✅ รีเซ็ตตัวแปร
-            this.currentUploadMethod = 'auto';
+            // Reset retry count
             this.retryCount = 0;
             
-            // ✅ โหลดรายชื่อครูที่ปรึกษาใหม่
-            setTimeout(() => {
-                this.loadAdvisorData();
-            }, 500);
+            this.logDebug('Form reset complete');
+        },
+        
+        // ✅ Debug functions
+        logDebug: function(message, data = null) {
+            if (this.useDebug) {
+                console.log(`[DEBUG] ${message}`, data || '');
+                
+                const debugContent = document.getElementById('debug-content');
+                if (debugContent) {
+                    const timestamp = new Date().toLocaleTimeString();
+                    let logEntry = `[${timestamp}] ${message}`;
+                    
+                    if (data) {
+                        if (typeof data === 'object') {
+                            logEntry += ': ' + JSON.stringify(data, null, 2);
+                        } else {
+                            logEntry += ': ' + data;
+                        }
+                    }
+                    
+                    debugContent.innerHTML = logEntry + '<br>' + debugContent.innerHTML;
+                }
+            }
+        },
+        
+        toggleDebug: function() {
+            this.useDebug = !this.useDebug;
+            const debugInfo = document.getElementById('debug-info');
+            if (debugInfo) {
+                if (this.useDebug) {
+                    debugInfo.classList.add('show');
+                } else {
+                    debugInfo.classList.remove('show');
+                }
+            }
             
-            console.log('✅ Student Work Form reset');
+            this.logDebug('Debug mode toggled:', this.useDebug);
         }
     };
     
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 DOM Content Loaded - Student Work Form (Mobile Optimized)');
-        studentWorkApp.init();
+        console.log('📄 DOM Content Loaded - Student Work Form (Mobile Fix)');
+        
+        // หน่วงเวลาเล็กน้อยเพื่อให้แน่ใจว่า DOM พร้อม
+        setTimeout(() => {
+            studentWorkApp.init();
+        }, 100);
     });
     
     // Initialize if DOM already loaded
@@ -2026,5 +1737,5 @@
     // Make app available globally
     window.studentWorkApp = studentWorkApp;
     
-    console.log('🎓 Student Work Form Script Loaded (Mobile Optimized)');
+    console.log('🎓 Student Work Form Script Loaded (Mobile Fix)');
 </script>
