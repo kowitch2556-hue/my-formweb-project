@@ -2,7 +2,7 @@
 <div class="main-form-container" id="teacheraward-form-container" style="margin-top: 0 !important; padding-top: 0 !important; position: relative; top: -15px;">
     <style>
     /* ======================================== */
-    /* 🏆 FORM TEACHER AWARD STYLES - MOBILE FIX 100% */
+    /* 🎨 FORM TEACHER AWARD STYLES - ใช้ !important */
     /* ======================================== */
     
     #teacheraward-form-container .form-teacheraward-container {
@@ -13,7 +13,7 @@
         padding-top: 5px !important;
     }
     
-    /* 📋 Form Styles */
+    /* 📋 Form Styles - เหมือนกับ formtraining.html */
     #teacheraward-form-container .form-section {
         margin-bottom: 30px !important;
         padding-bottom: 0 !important;
@@ -63,11 +63,10 @@
         font-size: 0.95em !important;
     }
     
-    /* 📝 Input Fields */
+    /* 📝 Input Fields - เหมือนกับ formtraining.html */
     #teacheraward-form-container input[type="text"],
     #teacheraward-form-container input[type="date"],
-    #teacheraward-form-container select,
-    #teacheraward-form-container textarea {
+    #teacheraward-form-container select {
         width: 100% !important;
         padding: 8px 12px !important;
         border: 1px solid #ced4da !important;
@@ -78,14 +77,8 @@
         box-sizing: border-box !important;
     }
     
-    #teacheraward-form-container textarea {
-        min-height: 80px !important;
-        resize: vertical !important;
-    }
-    
     #teacheraward-form-container input:focus,
-    #teacheraward-form-container select:focus,
-    #teacheraward-form-container textarea:focus {
+    #teacheraward-form-container select:focus {
         outline: none !important;
         border-color: #007bff !important;
         box-shadow: 0 0 0 3px rgba(0,123,255,0.25) !important;
@@ -96,7 +89,7 @@
         color: #999 !important;
     }
     
-    /* ✅ ปรับความกว้างฟิลด์ */
+    /* ✅ ปรับความกว้างฟิลด์ (แก้ไขใหม่) */
     #teacheraward-form-container .award-name-group {
         flex: 1.3 !important;
         min-width: 230px !important;
@@ -112,7 +105,7 @@
         min-width: 140px !important;
     }
     
-    /* ✅ ปรับเฉพาะ input date */
+    /* ✅ ปรับเฉพาะ input date ให้แสดงวันที่ครบถ้วน */
     #teacheraward-form-container input[type="date"] {
         min-width: 140px !important;
         font-size: 0.86em !important;
@@ -196,7 +189,7 @@
         color: #dc3545 !important;
     }
     
-    /* 📄 Certificate Upload */
+    /* 📄 Certificate Upload - เหมือนกับ formtraining.html */
     #teacheraward-form-container .certificate-upload {
         margin-top: 15px !important;
         padding: 15px !important;
@@ -213,9 +206,8 @@
         margin-bottom: 8px !important;
     }
     
-    /* ✅ ปุ่มเลือกไฟล์เกียรติบัตร */
     #teacheraward-form-container .certificate-upload-btn {
-        background: #007bff !important;
+        background: #6c757d !important;
         color: white !important;
         border: none !important;
         padding: 8px 15px !important;
@@ -228,7 +220,7 @@
     }
     
     #teacheraward-form-container .certificate-upload-btn:hover {
-        background: #0056b3 !important;
+        background: #5a6268 !important;
     }
     
     #teacheraward-form-container .certificate-info {
@@ -267,7 +259,7 @@
         display: none !important;
     }
     
-    /* 🚀 Submit Button */
+    /* 🚀 Submit Button - เหมือนกับ formtraining.html */
     #teacheraward-form-container .submit-section {
         text-align: center !important;
         margin-top: 40px !important;
@@ -301,7 +293,7 @@
         cursor: not-allowed !important;
     }
     
-    /* ⚠️ Error Messages */
+    /* ⚠️ Error Messages - เหมือนกับ formtraining.html */
     #teacheraward-form-container .error-message {
         color: #dc3545 !important;
         font-size: 0.82em !important;
@@ -310,8 +302,7 @@
     }
     
     #teacheraward-form-container .form-group.error input,
-    #teacheraward-form-container .form-group.error select,
-    #teacheraward-form-container .form-group.error textarea {
+    #teacheraward-form-container .form-group.error select {
         border-color: #dc3545 !important;
     }
     
@@ -319,7 +310,7 @@
         display: block !important;
     }
     
-    /* ✅ Success Message */
+    /* ✅ Success Message - เหมือนกับ formtraining.html */
     #teacheraward-form-container .success-message {
         background: #d4edda !important;
         color: #155724 !important;
@@ -332,7 +323,7 @@
         font-size: 0.86em !important;
     }
     
-    /* 🔄 Loading */
+    /* 🔄 Loading - เหมือนกับ formtraining.html */
     #teacheraward-form-container .loading-spinner {
         display: inline-block !important;
         width: 20px !important;
@@ -348,97 +339,7 @@
         to { transform: rotate(360deg) !important; }
     }
     
-    /* 📊 Progress Bar Styles - ใหม่! */
-    #teacheraward-form-container .upload-progress-container {
-        margin-top: 15px !important;
-        background: #f8f9fa !important;
-        border-radius: 6px !important;
-        padding: 15px !important;
-        display: none !important;
-    }
-    
-    #teacheraward-form-container .upload-progress-container.active {
-        display: block !important;
-    }
-    
-    #teacheraward-form-container .progress-info {
-        display: flex !important;
-        justify-content: space-between !important;
-        margin-bottom: 8px !important;
-        font-size: 0.85em !important;
-        color: #666 !important;
-    }
-    
-    #teacheraward-form-container .progress-bar {
-        height: 8px !important;
-        background: #e9ecef !important;
-        border-radius: 4px !important;
-        overflow: hidden !important;
-    }
-    
-    #teacheraward-form-container .progress-fill {
-        height: 100% !important;
-        background: linear-gradient(90deg, #007bff, #20c997) !important;
-        width: 0% !important;
-        transition: width 0.3s ease !important;
-    }
-    
-    #teacheraward-form-container .chunk-info {
-        margin-top: 10px !important;
-        font-size: 0.8em !important;
-        color: #6c757d !important;
-        text-align: center !important;
-    }
-    
-    /* 🔄 Cancel Button */
-    #teacheraward-form-container .cancel-upload-btn {
-        margin-top: 10px !important;
-        background: #dc3545 !important;
-        color: white !important;
-        border: none !important;
-        padding: 6px 15px !important;
-        border-radius: 4px !important;
-        cursor: pointer !important;
-        font-size: 0.85em !important;
-        display: inline-block !important;
-        transition: background 0.3s !important;
-    }
-    
-    #teacheraward-form-container .cancel-upload-btn:hover {
-        background: #c82333 !important;
-    }
-    
-    /* 📱 Mobile Fix Styles - ใหม่! */
-    #teacheraward-form-container .mobile-fix-notice {
-        background: #fff3cd !important;
-        color: #856404 !important;
-        padding: 10px 15px !important;
-        border-radius: 6px !important;
-        margin-bottom: 20px !important;
-        font-size: 0.85em !important;
-        border-left: 4px solid #ffc107 !important;
-        display: none !important;
-    }
-    
-    #teacheraward-form-container .mobile-fix-notice.show {
-        display: block !important;
-    }
-    
-    #teacheraward-form-container .debug-info {
-        background: #f8f9fa !important;
-        padding: 10px !important;
-        border-radius: 4px !important;
-        margin-top: 10px !important;
-        font-size: 0.75em !important;
-        color: #666 !important;
-        display: none !important;
-    }
-    
-    #teacheraward-form-container .debug-info.show {
-        display: block !important;
-    }
-    
-    /* 📱 Responsive */
+    /* 📱 Responsive - เหมือนกับ formtraining.html */
     @media (max-width: 768px) {
         #teacheraward-form-container .form-row {
             flex-direction: column !important;
@@ -463,8 +364,7 @@
         
         #teacheraward-form-container input[type="text"],
         #teacheraward-form-container input[type="date"],
-        #teacheraward-form-container select,
-        #teacheraward-form-container textarea {
+        #teacheraward-form-container select {
             font-size: 0.82em !important;
         }
         
@@ -490,11 +390,6 @@
     </style>
     
     <div class="form-teacheraward-container">
-        <!-- 📱 Mobile Fix Notice - ใหม่! -->
-        <div id="mobile-fix-notice" class="mobile-fix-notice">
-            <strong>📱 โหมดมือถือ:</strong> ระบบจะใช้วิธีการอัพโหลดที่เหมาะสมกับอุปกรณ์ของคุณอัตโนมัติ
-        </div>
-        
         <h1 style="margin: 0 0 10px 0; color: #333; font-size: 1.2em;">🏆 บันทึกผลงานรางวัลครู</h1>
         <p style="margin: 0 0 15px 0; color: #666; font-size: 0.95em;">กรอกข้อมูลให้ครบถ้วน</p>
         
@@ -508,35 +403,30 @@
                 <!-- ✅ Dropdown รายชื่อครูจาก Google Sheet -->
                 <div class="form-group" style="flex: 1;">
                     <label>ชื่อครู <span class="required">*</span></label>
-                    <div style="display: flex; gap: 10px; align-items: flex-start;">
-                        <div style="flex: 1;">
-                            <select id="teacherName" class="personnel-dropdown">
-                                <option value="">-- กำลังโหลดรายชื่อจากระบบ... --</option>
-                            </select>
-                        </div>
-                        
-                        <!-- ✅ ปุ่ม Refresh -->
-                        <div style="flex: 0 0 auto; margin-top: 28px;">
-                            <button type="button" class="refresh-btn" onclick="teacherAwardApp.refreshTeacherList()">
-                                🔄
-                            </button>
-                        </div>
-                    </div>
-                    
+                    <select id="teacherName" class="personnel-dropdown">
+                        <option value="">-- กำลังโหลดรายชื่อจากระบบ... --</option>
+                    </select>
                     <div class="error-message">กรุณาเลือกชื่อครู</div>
+                </div>
+                
+                <!-- ✅ ปุ่ม Refresh -->
+                <div class="form-group" style="flex: 0 0 auto; margin-top: 28px;">
+                    <button type="button" class="refresh-btn" onclick="teacherAwardApp.refreshTeacherList()">
+                        🔄
+                    </button>
                 </div>
             </div>
             
             <!-- ✅ สถานะการโหลด -->
-            <div id="teacher-status" class="teacher-status" style="margin-top: 10px;">
+            <div id="teacher-status" class="teacher-status">
                 ⏳ กำลังโหลดรายชื่อครู...
             </div>
             
             <!-- ✅ ช่องกรอกเอง (กรณีไม่มีในรายชื่อ) -->
-            <input type="text" id="teacherNameCustom" 
-                   class="custom-input" 
-                   placeholder="กรอกชื่อครู (กรณีไม่มีในรายชื่อ)"
-                   style="margin-top: 10px; width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em; display: none;">
+            <div style="margin-top: 10px;">
+                <input type="text" id="teacherNameCustom" placeholder="กรอกชื่อครู (กรณีไม่มีในรายชื่อ)" 
+                       style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em; display: none;">
+            </div>
         </div>
         
         <!-- 🏅 รายละเอียดรางวัล -->
@@ -571,8 +461,7 @@
                     <!-- ช่องกรอกระดับรางวัลเอง -->
                     <input type="text" id="awardLevelCustom" 
                            class="custom-award-level-input" 
-                           placeholder="กรุณากรอกระดับรางวัล"
-                           style="margin-top: 8px; width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em; display: none;">
+                           placeholder="กรุณากรอกระดับรางวัล">
                 </div>
                 
                 <!-- วันที่รับรางวัล -->
@@ -587,16 +476,16 @@
         <!-- 📄 ไฟล์เกียรติบัตร -->
         <div class="form-section">
             <div class="section-title">
-                📄 ไฟล์เกียรติบัตร/หลักฐาน (ถ้ามี)
+                📄 ไฟล์เกียรติบัตร (ถ้ามี)
             </div>
             
             <div class="certificate-upload">
-                <label>เลือกไฟล์เกียรติบัตรหรือหลักฐานผลงาน</label>
+                <label>เลือกไฟล์เกียรติบัตร</label>
                 <div style="margin-top: 10px;">
                     <button type="button" class="certificate-upload-btn" onclick="teacherAwardApp.triggerCertificateUpload()">
                         📄 เลือกไฟล์
                     </button>
-                    <input type="file" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
+                    <input type="file" id="certificateFile" accept=".pdf,.jpg,.jpeg,.png" 
                            onchange="teacherAwardApp.handleCertificateUpload(event)"
                            class="file-input">
                 </div>
@@ -606,44 +495,15 @@
                     <div>
                         <div id="certificate-name" style="font-weight: 500;"></div>
                         <div id="certificate-size" style="font-size: 0.85em; color: #666;"></div>
-                        <div id="file-warning" style="font-size: 0.75em; color: #dc3545; display: none;">
-                            ⚠️ ไฟล์ใหญ่ ระบบจะปรับแต่งการอัพโหลด
-                        </div>
                     </div>
                     <button type="button" class="remove-certificate" onclick="teacherAwardApp.removeCertificate()">
                         ลบไฟล์
                     </button>
                 </div>
-                
-                <!-- 📊 Progress Bar Container - ใหม่! -->
-                <div id="upload-progress" class="upload-progress-container">
-                    <div class="progress-info">
-                        <span id="progress-percentage">0%</span>
-                        <span id="progress-status">กำลังเตรียมไฟล์...</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div id="progress-fill" class="progress-fill"></div>
-                    </div>
-                    <div id="chunk-info" class="chunk-info">
-                        <span id="current-chunk">0</span>/<span id="total-chunks">0</span> parts
-                    </div>
-                    <button type="button" id="cancel-upload-btn" class="cancel-upload-btn" onclick="teacherAwardApp.cancelUpload()">
-                        ❌ ยกเลิกการอัพโหลด
-                    </button>
-                </div>
             </div>
             
             <div style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 0.81em; color: #666;">
-                <p style="margin: 0;">💡 <strong>สำหรับมือถือ:</strong> รองรับไฟล์ PDF, JPG, PNG, DOC, DOCX (แนะนำไม่เกิน 5MB)</p>
-            </div>
-            
-            <!-- Debug Info - ใหม่! -->
-            <div id="debug-info" class="debug-info">
-                <strong>Debug Info:</strong>
-                <div id="debug-content"></div>
-                <button onclick="teacherAwardApp.toggleDebug()" style="margin-top: 5px; background: #6c757d; color: white; border: none; padding: 3px 8px; border-radius: 3px; font-size: 0.7em;">
-                    Toggle Debug
-                </button>
+                <p style="margin: 0;">💡 <strong>หมายเหตุ:</strong> รองรับไฟล์ PDF, JPG, PNG (สูงสุด 10MB)</p>
             </div>
         </div>
         
@@ -652,7 +512,7 @@
             <div id="success-message" class="success-message" style="display: none;">
                 <span style="font-size: 1.5em;">✅</span>
                 <div>
-                    <strong>บันทึกผลงานรางวัลครูสำเร็จ!</strong>
+                    <strong>บันทึกข้อมูลสำเร็จ!</strong>
                     <div id="success-details" style="font-size: 0.9em;"></div>
                 </div>
             </div>
@@ -672,7 +532,7 @@
 
 <script>
     // ========================================
-    // 🏆 TEACHER AWARD APPLICATION - MOBILE FIX 100%
+    // 🏆 TEACHER AWARD APPLICATION - โหลดเฉพาะจาก Google Sheet
     // ========================================
     
     const teacherAwardApp = {
@@ -681,22 +541,10 @@
         autoRefreshInterval: null,
         retryCount: 0,
         maxRetries: 3,
-        isMobile: false,
-        useDebug: false,
-        isUploading: false,
         
         // Initialize the form
         init: function() {
-            console.log('🏆 Teacher Award Form Initializing (Mobile Fix 100%)...');
-            
-            // ตรวจสอบว่าเป็นมือถือ
-            this.isMobile = this.detectMobile();
-            console.log('📱 Is Mobile:', this.isMobile);
-            
-            // แสดง notice สำหรับมือถือ
-            if (this.isMobile) {
-                this.showMobileNotice();
-            }
+            console.log('🏆 Teacher Award Form Initializing...');
             
             // Setup event listeners
             this.setupEventListeners();
@@ -712,24 +560,10 @@
             // ✅ โหลดรายชื่อครูจาก Google Sheet
             this.loadTeacherData();
             
-            // ✅ ตั้งค่าอัพเดตอัตโนมัติ
+            // ✅ ตั้งค่าอัพเดตอัตโนมัติ (ทุก 2 นาที)
             this.setupAutoRefresh();
             
-            console.log('✅ Teacher Award Form Initialized (Mobile Fix 100%)');
-        },
-        
-        // ตรวจสอบว่าเป็นมือถือ
-        detectMobile: function() {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-        },
-        
-        // แสดง notice สำหรับมือถือ
-        showMobileNotice: function() {
-            const notice = document.getElementById('mobile-fix-notice');
-            if (notice) {
-                notice.classList.add('show');
-            }
+            console.log('✅ Teacher Award Form Initialized');
         },
         
         // Setup event listeners
@@ -745,17 +579,17 @@
             if (awardLevelSelect && customAwardLevelInput) {
                 awardLevelSelect.addEventListener('change', function() {
                     if (this.value === 'อื่น ๆ (กรอกเอง)') {
-                        customAwardLevelInput.style.display = 'block';
+                        customAwardLevelInput.classList.add('show');
                         customAwardLevelInput.focus();
                     } else {
-                        customAwardLevelInput.style.display = 'none';
+                        customAwardLevelInput.classList.remove('show');
                         customAwardLevelInput.value = '';
                     }
                 });
             }
         },
         
-        // ✅ โหลดรายชื่อครูจาก Google Sheet
+        // ✅ โหลดรายชื่อครูจาก Google Sheet เท่านั้น
         loadTeacherData: function() {
             console.log('📋 Loading teacher data from Google Sheet...');
             
@@ -878,7 +712,7 @@
                 
                 setTimeout(() => {
                     this.loadTeacherData();
-                }, 2000 * this.retryCount);
+                }, 2000 * this.retryCount); // เพิ่มความล่าช้าตามจำนวนครั้งที่ลอง
             }
         },
         
@@ -933,7 +767,7 @@
                 clearInterval(this.autoRefreshInterval);
             }
             
-            // อัพเดตรายชื่อทุก 2 นาที
+            // อัพเดตรายชื่อทุก 2 นาที (120000 มิลลิวินาที)
             this.autoRefreshInterval = setInterval(() => {
                 if (document.getElementById('teacherName')) {
                     console.log('🔄 Auto-refreshing teacher list from Google Sheet...');
@@ -977,84 +811,39 @@
             }
         },
         
-        // ✅ Get teacher name (handle custom input)
-        getTeacherName: function() {
-            const teacherNameSelect = document.getElementById('teacherName');
-            let teacherName = teacherNameSelect.value;
-            
-            if (teacherName === 'อื่น ๆ (กรอกเอง)') {
-                const customNameInput = document.getElementById('teacherNameCustom');
-                teacherName = customNameInput ? customNameInput.value.trim() : '';
-            }
-            
-            return teacherName || '';
-        },
-        
-        // ✅ Get award level (handle custom input)
-        getAwardLevel: function() {
-            const awardLevelSelect = document.getElementById('awardLevel');
-            let awardLevel = awardLevelSelect.value;
-            
-            if (awardLevel === 'อื่น ๆ (กรอกเอง)') {
-                const customAwardLevelInput = document.getElementById('awardLevelCustom');
-                awardLevel = customAwardLevelInput ? customAwardLevelInput.value.trim() : '';
-            }
-            
-            return awardLevel || '';
-        },
-        
         // Certificate Upload Functions
         triggerCertificateUpload: function() {
             const fileInput = document.getElementById('certificateFile');
-            if (fileInput) {
-                fileInput.value = '';
-                fileInput.click();
-            }
+            if (fileInput) fileInput.click();
         },
         
-        // ✅ ฟังก์ชัน handleCertificateUpload ที่ทำงานบนมือถือ
         handleCertificateUpload: function(event) {
             const file = event.target.files[0];
             if (!file) return;
             
-            this.logDebug('File selected:', {
-                name: file.name,
-                type: file.type,
-                size: file.size,
-                isMobile: this.isMobile
-            });
-            
             // Validate file type
-            const validTypes = [
-                'application/pdf', 
-                'image/jpeg', 
-                'image/jpg', 
-                'image/png',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-            ];
-            
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
             if (!validTypes.includes(file.type)) {
-                alert('กรุณาเลือกไฟล์ PDF, ภาพ หรือเอกสาร Word เท่านั้น (PDF, JPG, PNG, DOC, DOCX)');
+                alert('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)');
                 event.target.value = '';
                 return;
             }
             
-            // Validate file size สำหรับมือถือ
-            const maxSize = this.isMobile ? (5 * 1024 * 1024) : (20 * 1024 * 1024);
+            // Validate file size
+            const maxSize = 10 * 1024 * 1024; // 10MB
             if (file.size > maxSize) {
-                alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด ${this.formatFileSize(maxSize)})`);
+                alert('ไฟล์ขนาดใหญ่เกินไป (สูงสุด 10MB)');
                 event.target.value = '';
                 return;
             }
             
+            // Store file
             this.certificateFile = file;
+            
+            // Display file info
             this.displayCertificateInfo(file);
             
-            // แสดง warning ถ้าไฟล์ใหญ่สำหรับมือถือ
-            if (this.isMobile && file.size > 2 * 1024 * 1024) {
-                this.showFileWarning();
-            }
+            console.log('📄 Certificate file selected:', file.name);
         },
         
         displayCertificateInfo: function(file) {
@@ -1066,13 +855,6 @@
                 nameSpan.textContent = file.name;
                 sizeSpan.textContent = this.formatFileSize(file.size);
                 infoDiv.classList.add('show');
-            }
-        },
-        
-        showFileWarning: function() {
-            const warning = document.getElementById('file-warning');
-            if (warning) {
-                warning.style.display = 'block';
             }
         },
         
@@ -1091,7 +873,6 @@
             
             const infoDiv = document.getElementById('certificate-info');
             const fileInput = document.getElementById('certificateFile');
-            const warning = document.getElementById('file-warning');
             
             if (infoDiv) {
                 infoDiv.classList.remove('show');
@@ -1101,69 +882,34 @@
                 fileInput.value = '';
             }
             
-            if (warning) {
-                warning.style.display = 'none';
-            }
-            
-            this.hideProgressBar();
-            
-            this.logDebug('Certificate removed');
+            console.log('🗑️ Certificate removed');
         },
         
-        // ✅ ฟังก์ชันแสดง progress bar
-        showProgressBar: function() {
-            const progressContainer = document.getElementById('upload-progress');
-            if (progressContainer) {
-                progressContainer.classList.add('active');
+        // ✅ Get award level (handle custom input)
+        getAwardLevel: function() {
+            const awardLevelSelect = document.getElementById('awardLevel');
+            const customAwardLevelInput = document.getElementById('awardLevelCustom');
+            
+            let awardLevel = awardLevelSelect.value;
+            
+            if (awardLevel === 'อื่น ๆ (กรอกเอง)') {
+                awardLevel = customAwardLevelInput.value.trim();
             }
+            
+            return awardLevel;
         },
         
-        // ✅ ฟังก์ชันซ่อน progress bar
-        hideProgressBar: function() {
-            const progressContainer = document.getElementById('upload-progress');
-            if (progressContainer) {
-                progressContainer.classList.remove('active');
-            }
-        },
-        
-        // ✅ อัพเดต progress bar
-        updateProgress: function(percentage, status, currentChunk = 0, totalChunks = 0) {
-            const progressFill = document.getElementById('progress-fill');
-            const progressPercentage = document.getElementById('progress-percentage');
-            const progressStatus = document.getElementById('progress-status');
-            const currentChunkSpan = document.getElementById('current-chunk');
-            const totalChunksSpan = document.getElementById('total-chunks');
+        // ✅ Get teacher name (handle custom input)
+        getTeacherName: function() {
+            const teacherNameSelect = document.getElementById('teacherName');
+            let teacherName = teacherNameSelect.value;
             
-            if (progressFill) {
-                progressFill.style.width = percentage + '%';
+            if (teacherName === 'อื่น ๆ (กรอกเอง)') {
+                const customNameInput = document.getElementById('teacherNameCustom');
+                teacherName = customNameInput ? customNameInput.value.trim() : '';
             }
             
-            if (progressPercentage) {
-                progressPercentage.textContent = Math.round(percentage) + '%';
-            }
-            
-            if (progressStatus) {
-                progressStatus.textContent = status || `กำลังอัพโหลด...`;
-            }
-            
-            if (currentChunkSpan && totalChunksSpan && totalChunks > 0) {
-                currentChunkSpan.textContent = currentChunk;
-                totalChunksSpan.textContent = totalChunks;
-            }
-        },
-        
-        // ✅ ฟังก์ชันยกเลิกการอัพโหลด
-        cancelUpload: function() {
-            this.isUploading = false;
-            this.hideProgressBar();
-            
-            const submitBtn = document.getElementById('submit-btn');
-            if (submitBtn) {
-                submitBtn.innerHTML = '<span>💾</span> บันทึกข้อมูล';
-                submitBtn.disabled = false;
-            }
-            
-            this.logDebug('Upload cancelled by user');
+            return teacherName;
         },
         
         // Form validation
@@ -1222,8 +968,8 @@
             return isValid;
         },
         
-        // ✅ Form Submission - แก้ไขใหม่ 100%
-        submitForm: async function() {
+        // Form Submission
+        submitForm: function() {
             if (!this.validateForm()) {
                 const errorMsg = document.getElementById('error-message');
                 if (errorMsg) {
@@ -1241,317 +987,91 @@
             submitBtn.innerHTML = '<span class="loading-spinner"></span> กำลังบันทึก...';
             submitBtn.disabled = true;
             
-            this.logDebug('Starting form submission...');
-            
             // Prepare data
-            const formData = {
+            const data = {
                 action: 'recordTeacherAward',
                 teacherName: this.getTeacherName(),
                 awardName: document.getElementById('awardName').value.trim(),
                 awardLevel: this.getAwardLevel(),
-                awardDate: document.getElementById('awardDate').value,
-                isMobile: this.isMobile,
-                timestamp: new Date().toISOString()
+                awardDate: document.getElementById('awardDate').value
             };
             
-            this.logDebug('Form data prepared:', formData);
-            
-            // ตรวจสอบการอัพโหลดไฟล์
+            // Add certificate if exists
             if (this.certificateFile) {
-                this.logDebug('Processing certificate file...');
-                
-                // แสดง progress
-                this.showProgressBar();
-                this.updateProgress(10, 'กำลังเตรียมไฟล์...');
-                
-                try {
-                    // ใช้วิธีใหม่ 100% ทำงานบนมือถือ
-                    await this.processFileNewMethod(formData, submitBtn, originalText);
-                } catch (error) {
-                    this.logDebug('New method failed, trying fallback:', error);
-                    await this.processFileFallback(formData, submitBtn, originalText);
-                }
-            } else {
-                this.logDebug('No certificate file, sending text data only');
-                this.sendDataToServer(formData, submitBtn, originalText);
-            }
-        },
-        
-        // ✅ วิธีใหม่ 100% ทำงานบนมือถือ
-        processFileNewMethod: async function(formData, submitBtn, originalText) {
-            this.logDebug('Using new method (arrayBuffer)...');
-            
-            // ตรวจสอบประเภทไฟล์
-            const isImage = this.certificateFile.type.startsWith('image/');
-            const isJPEG = this.certificateFile.type === 'image/jpeg' || this.certificateFile.type === 'image/jpg';
-            
-            this.updateProgress(20, 'กำลังอ่านไฟล์...');
-            
-            try {
-                // วิธีที่ 1: ใช้ arrayBuffer() สำหรับทุกอุปกรณ์
-                const arrayBuffer = await this.certificateFile.arrayBuffer();
-                
-                this.updateProgress(60, 'กำลังแปลงข้อมูล...');
-                
-                // แปลง arrayBuffer เป็น base64
-                const base64 = await this.arrayBufferToBase64(arrayBuffer);
-                
-                this.updateProgress(80, 'แปลงสำเร็จ...');
-                
-                formData.certificate = {
-                    base64Data: base64,
-                    fileName: this.certificateFile.name,
-                    mimeType: this.certificateFile.type,
-                    fileSize: this.certificateFile.size,
-                    isImage: isImage,
-                    isJPEG: isJPEG,
-                    method: 'arrayBuffer'
-                };
-                
-                this.updateProgress(90, 'กำลังส่งข้อมูล...');
-                await this.sendDataToServer(formData, submitBtn, originalText);
-                
-            } catch (error) {
-                this.logDebug('arrayBuffer method failed:', error);
-                throw error; // ให้ fallback ไปจัดการ
-            }
-        },
-        
-        // ✅ แปลง ArrayBuffer เป็น Base64
-        arrayBufferToBase64: function(buffer) {
-            return new Promise((resolve) => {
-                this.logDebug('Converting arrayBuffer to base64...');
-                
-                // วิธีที่เร็วและปลอดภัยสำหรับมือถือ
-                const bytes = new Uint8Array(buffer);
-                let binary = '';
-                
-                // ใช้ chunk เพื่อไม่ให้เบราว์เซอร์ค้าง
-                const chunkSize = 32768; // 32KB chunks
-                const totalChunks = Math.ceil(bytes.length / chunkSize);
-                
-                let processedChunks = 0;
-                
-                const processChunk = () => {
-                    const start = processedChunks * chunkSize;
-                    const end = Math.min(start + chunkSize, bytes.length);
-                    
-                    // แปลง chunk
-                    for (let i = start; i < end; i++) {
-                        binary += String.fromCharCode(bytes[i]);
-                    }
-                    
-                    processedChunks++;
-                    
-                    // อัพเดท progress
-                    const progress = 60 + (processedChunks / totalChunks * 20);
-                    this.updateProgress(progress, `กำลังแปลงข้อมูล... (${processedChunks}/${totalChunks})`);
-                    
-                    if (processedChunks < totalChunks) {
-                        // ใช้ setTimeout เพื่อให้เบราว์เซอร์หายใจ
-                        setTimeout(processChunk, 0);
-                    } else {
-                        // เสร็จสิ้น
-                        const base64 = btoa(binary);
-                        resolve(base64);
-                    }
-                };
-                
-                // เริ่มแปลง
-                processChunk();
-            });
-        },
-        
-        // ✅ Fallback method ถ้าวิธีหลักล้มเหลว
-        processFileFallback: async function(formData, submitBtn, originalText) {
-            this.logDebug('Using fallback method...');
-            
-            return new Promise((resolve, reject) => {
+                // Read file as base64
                 const reader = new FileReader();
-                
-                // ตั้ง timeout
-                const timeout = setTimeout(() => {
-                    reader.abort();
-                    this.logDebug('FileReader timeout');
-                    reject(new Error('การอ่านไฟล์ใช้เวลานานเกินไป'));
-                }, 10000);
-                
                 reader.onload = (e) => {
-                    clearTimeout(timeout);
-                    
-                    try {
-                        const base64Data = e.target.result.split(',')[1];
-                        if (!base64Data) {
-                            throw new Error('Base64 conversion failed');
-                        }
-                        
-                        formData.certificate = {
-                            base64Data: base64Data,
-                            fileName: this.certificateFile.name,
-                            mimeType: this.certificateFile.type,
-                            fileSize: this.certificateFile.size,
-                            method: 'FileReader_fallback'
-                        };
-                        
-                        this.updateProgress(90, 'อ่านไฟล์สำเร็จ กำลังส่งข้อมูล...');
-                        this.sendDataToServer(formData, submitBtn, originalText)
-                            .then(resolve)
-                            .catch(reject);
-                        
-                    } catch (error) {
-                        this.logDebug('Fallback processing error:', error);
-                        reject(error);
-                    }
-                };
-                
-                reader.onerror = (error) => {
-                    clearTimeout(timeout);
-                    this.logDebug('FileReader error:', error);
-                    reject(new Error('การอ่านไฟล์ล้มเหลว'));
-                };
-                
-                // สำหรับ JPEG ให้ใช้ readAsArrayBuffer ก่อน
-                if (this.certificateFile.type === 'image/jpeg' || this.certificateFile.type === 'image/jpg') {
-                    reader.readAsArrayBuffer(this.certificateFile);
-                    reader.onload = (e) => {
-                        clearTimeout(timeout);
-                        try {
-                            // แปลง ArrayBuffer เป็น base64
-                            const bytes = new Uint8Array(e.target.result);
-                            let binary = '';
-                            for (let i = 0; i < bytes.byteLength; i++) {
-                                binary += String.fromCharCode(bytes[i]);
-                            }
-                            const base64Data = btoa(binary);
-                            
-                            formData.certificate = {
-                                base64Data: base64Data,
-                                fileName: this.certificateFile.name,
-                                mimeType: this.certificateFile.type,
-                                fileSize: this.certificateFile.size,
-                                method: 'ArrayBuffer_fallback'
-                            };
-                            
-                            this.updateProgress(90, 'อ่านไฟล์สำเร็จ กำลังส่งข้อมูล...');
-                            this.sendDataToServer(formData, submitBtn, originalText)
-                                .then(resolve)
-                                .catch(reject);
-                            
-                        } catch (error) {
-                            reject(error);
-                        }
+                    data.certificate = {
+                        base64Data: e.target.result.split(',')[1],
+                        fileName: this.certificateFile.name,
+                        mimeType: this.certificateFile.type
                     };
-                } else {
-                    // ไฟล์อื่นๆ ใช้ readAsDataURL
-                    reader.readAsDataURL(this.certificateFile);
-                }
-            });
+                    
+                    this.sendData(data, submitBtn, originalText);
+                };
+                
+                reader.onerror = () => {
+                    alert('เกิดข้อผิดพลาดในการอ่านไฟล์');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                };
+                
+                reader.readAsDataURL(this.certificateFile);
+            } else {
+                this.sendData(data, submitBtn, originalText);
+            }
         },
         
-        // ✅ ส่งข้อมูลไปยัง server
-        sendDataToServer: async function(formData, submitBtn, originalText) {
-            this.logDebug('Sending data to server...');
+        // Send data to server
+        sendData: function(data, submitBtn, originalText) {
+            console.log('Submitting teacher award data:', data);
             
+            // Use existing submitToGoogleAppsScript from main.js
             if (typeof window.submitToGoogleAppsScript === 'function') {
-                try {
-                    // ใช้ timeout ที่เหมาะสม
-                    const timeout = this.isMobile ? 45000 : 20000;
-                    
-                    const result = await Promise.race([
-                        window.submitToGoogleAppsScript(formData),
-                        new Promise((_, reject) => {
-                            setTimeout(() => reject(new Error('Request timeout')), timeout);
-                        })
-                    ]);
-                    
-                    this.logDebug('Server response:', result);
-                    this.handleSubmissionSuccess(result, submitBtn, originalText);
-                    
-                } catch (error) {
-                    this.logDebug('Submission error:', error);
-                    
-                    if (this.retryCount < this.maxRetries) {
-                        this.retryCount++;
-                        this.logDebug(`Retrying... (${this.retryCount}/${this.maxRetries})`);
-                        this.updateProgress(95, `ลองใหม่ครั้งที่ ${this.retryCount}...`);
-                        
-                        // ลองใหม่หลังจาก delay
-                        await new Promise(resolve => setTimeout(resolve, 2000 * this.retryCount));
-                        await this.sendDataToServer(formData, submitBtn, originalText);
-                    } else {
-                        this.showError(error);
+                window.submitToGoogleAppsScript(data)
+                    .then(result => {
+                        if (result.success) {
+                            const successMsg = document.getElementById('success-message');
+                            const successDetails = document.getElementById('success-details');
+                            
+                            if (successMsg && successDetails) {
+                                successDetails.textContent = `บันทึกผลงานรางวัลครู "${data.teacherName}" สำเร็จ`;
+                                successMsg.style.display = 'flex';
+                                successMsg.scrollIntoView({ behavior: 'smooth' });
+                            }
+                            
+                            // ✅ รีเซ็ตฟอร์มบนหน้าเดิม
+                            setTimeout(() => {
+                                this.resetFormOnSamePage();
+                            }, 2000);
+                        } else {
+                            throw new Error(result.error || 'เกิดข้อผิดพลาด');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Submit error:', error);
+                        const errorMsg = document.getElementById('error-message');
+                        if (errorMsg) {
+                            errorMsg.textContent = `❌ เกิดข้อผิดพลาด: ${error.message}`;
+                            errorMsg.style.display = 'block';
+                            errorMsg.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    })
+                    .finally(() => {
                         submitBtn.innerHTML = originalText;
                         submitBtn.disabled = false;
-                        this.hideProgressBar();
-                    }
-                }
+                    });
             } else {
-                this.logDebug('submitToGoogleAppsScript not found');
-                alert('ไม่พบฟังก์ชันส่งข้อมูล');
+                console.error('submitToGoogleAppsScript function not found');
+                alert('ฟังก์ชันส่งข้อมูลไม่พบ');
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-                this.hideProgressBar();
             }
-        },
-        
-        // ✅ จัดการผลลัพธ์การส่งข้อมูล
-        handleSubmissionSuccess: function(result, submitBtn, originalText) {
-            if (result.success || result.status === 'SUCCESS') {
-                this.showSuccess(result.data || result);
-                setTimeout(() => this.resetFormOnSamePage(), 2000);
-            } else {
-                this.showError(new Error(result.error || result.message || 'เกิดข้อผิดพลาด'));
-            }
-            
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            this.hideProgressBar();
-            this.retryCount = 0;
-        },
-        
-        // ✅ ฟังก์ชันแสดงผลสำเร็จ
-        showSuccess: function(data) {
-            const successMsg = document.getElementById('success-message');
-            const successDetails = document.getElementById('success-details');
-            
-            if (successMsg && successDetails) {
-                const teacherName = data.teacherName || 'ครู';
-                const fileInfo = data.certificate ? ' (พร้อมไฟล์แนบ)' : '';
-                successDetails.textContent = `บันทึกผลงานรางวัลครู "${teacherName}" สำเร็จ${fileInfo}`;
-                successMsg.style.display = 'flex';
-                successMsg.scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            this.logDebug('Submission successful:', data);
-        },
-        
-        // ✅ ฟังก์ชันแสดงข้อผิดพลาด
-        showError: function(error) {
-            const errorMsg = document.getElementById('error-message');
-            if (errorMsg) {
-                let message = error.message || 'เกิดข้อผิดพลาด';
-                
-                if (this.isMobile) {
-                    if (message.includes('timeout')) {
-                        message = 'การเชื่อมต่อใช้เวลานานเกินไป\nกรุณาลองใหม่อีกครั้งหรือใช้ Wi-Fi';
-                    } else if (message.includes('memory') || message.includes('quota')) {
-                        message = 'หน่วยความจำไม่เพียงพอ\nกรุณาเลือกไฟล์ที่เล็กกว่า';
-                    } else if (message.includes('อ่านไฟล์')) {
-                        message = 'การอ่านไฟล์ล้มเหลว\nกรุณาลองเลือกไฟล์ใหม่';
-                    }
-                }
-                
-                errorMsg.textContent = `❌ ${message}`;
-                errorMsg.style.display = 'block';
-                errorMsg.scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            this.logDebug('Error shown:', error);
         },
         
         // ✅ Reset form on same page
         resetFormOnSamePage: function() {
-            this.logDebug('Resetting form...');
+            console.log('🔄 Resetting teacher award form on same page...');
             
             // Reset teacher name
             const teacherNameSelect = document.getElementById('teacherName');
@@ -1571,12 +1091,13 @@
             const customAwardLevelInput = document.getElementById('awardLevelCustom');
             if (customAwardLevelInput) {
                 customAwardLevelInput.value = '';
-                customAwardLevelInput.style.display = 'none';
+                customAwardLevelInput.classList.remove('show');
             }
             
             // Set default date to today
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('awardDate').value = today;
+            const awardDateInput = document.getElementById('awardDate');
+            if (awardDateInput) awardDateInput.value = today;
             
             // Reset certificate
             this.removeCertificate();
@@ -1603,63 +1124,17 @@
                 this.loadTeacherData();
             }, 500);
             
-            this.logDebug('Form reset complete');
-        },
-        
-        // ✅ Debug functions
-        logDebug: function(message, data = null) {
-            if (this.useDebug) {
-                console.log(`[DEBUG] ${message}`, data || '');
-                
-                const debugContent = document.getElementById('debug-content');
-                if (debugContent) {
-                    const timestamp = new Date().toLocaleTimeString();
-                    let logEntry = `[${timestamp}] ${message}`;
-                    
-                    if (data) {
-                        if (typeof data === 'object') {
-                            logEntry += ': ' + JSON.stringify(data, null, 2);
-                        } else {
-                            logEntry += ': ' + data;
-                        }
-                    }
-                    
-                    debugContent.innerHTML = logEntry + '<br>' + debugContent.innerHTML;
-                }
-            }
-        },
-        
-        toggleDebug: function() {
-            this.useDebug = !this.useDebug;
-            const debugInfo = document.getElementById('debug-info');
-            if (debugInfo) {
-                if (this.useDebug) {
-                    debugInfo.classList.add('show');
-                } else {
-                    debugInfo.classList.remove('show');
-                }
-            }
-            
-            this.logDebug('Debug mode toggled:', this.useDebug);
+            console.log('✅ Teacher Award Form reset - staying on same page');
         }
     };
     
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 DOM Content Loaded - Teacher Award Form (Mobile Fix 100%)');
-        
-        // หน่วงเวลาเล็กน้อยเพื่อให้แน่ใจว่า DOM พร้อม
-        setTimeout(() => {
-            teacherAwardApp.init();
-        }, 100);
+        console.log('📄 DOM Content Loaded - Teacher Award Form');
+        teacherAwardApp.init();
     });
     
-    // Initialize if DOM already loaded
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(() => teacherAwardApp.init(), 100);
-    }
-    
-    // Expose initialize function for main.js
+    // Also expose initialize function for main.js
     window.initializeTeacherAwardForm = function() {
         console.log('initializeTeacherAwardForm called from main.js');
         teacherAwardApp.init();
@@ -1668,5 +1143,6 @@
     // Make app available globally
     window.teacherAwardApp = teacherAwardApp;
     
-    console.log('🏆 Teacher Award Form Script Loaded (Mobile Fix 100%)');
+    // Log to console for debugging
+    console.log('🏆 Teacher Award Form Script Loaded');
 </script>
