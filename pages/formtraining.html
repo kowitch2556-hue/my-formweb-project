@@ -807,7 +807,23 @@
     body {
         overscroll-behavior-y: contain !important;
     }
-</style>
+    
+    /* เพิ่มสไตล์สำหรับปุ่มอัปโหลดที่ทำงานบนมือถือ */
+    #training-form-container .photo-item.mobile-uploading {
+        border-color: #007bff !important;
+        background: #f0f8ff !important;
+    }
+    
+    #training-form-container .photo-item.mobile-uploading .photo-placeholder {
+        animation: pulse 1.5s infinite !important;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+    </style>
     
     <div class="form-training-container">
         <h1 style="margin: 0 0 10px 0; color: #333; font-size: 16px;">📝 บันทึกข้อมูลการอบรม/ศึกษาดูงาน/วิทยากร</h1>
@@ -898,7 +914,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 1</span>
                         <img class="photo-preview" id="photo-preview-0">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 0)">×</button>
-                        <input type="file" class="file-input" accept="image/*" 
+                        <input type="file" class="file-input" accept="image/*" capture="environment"
                                onchange="trainingApp.handlePhotoUpload(event, 0)" data-index="0">
                     </div>
                     
@@ -908,7 +924,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 2</span>
                         <img class="photo-preview" id="photo-preview-1">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 1)">×</button>
-                        <input type="file" class="file-input" accept="image/*" 
+                        <input type="file" class="file-input" accept="image/*" capture="environment"
                                onchange="trainingApp.handlePhotoUpload(event, 1)" data-index="1">
                     </div>
                     
@@ -918,7 +934,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 3</span>
                         <img class="photo-preview" id="photo-preview-2">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 2)">×</button>
-                        <input type="file" class="file-input" accept="image/*" 
+                        <input type="file" class="file-input" accept="image/*" capture="environment"
                                onchange="trainingApp.handlePhotoUpload(event, 2)" data-index="2">
                     </div>
                     
@@ -928,7 +944,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 4</span>
                         <img class="photo-preview" id="photo-preview-3">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 3)">×</button>
-                        <input type="file" class="file-input" accept="image/*" 
+                        <input type="file" class="file-input" accept="image/*" capture="environment"
                                onchange="trainingApp.handlePhotoUpload(event, 3)" data-index="3">
                     </div>
                 </div>
@@ -939,10 +955,21 @@
                             style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; -webkit-tap-highlight-color: transparent;">
                         📁 เลือกหลายรูปพร้อมกัน (สูงสุด 4 รูป)
                     </button>
-                    <input type="file" id="batch-upload" accept="image/*" multiple 
+                    <input type="file" id="batch-upload" accept="image/*" multiple capture="environment"
                            style="display: none;" onchange="trainingApp.handleBatchUpload(event)">
                     <p style="font-size: 12px; color: #666; margin-top: 10px;">
                         หรือลากไฟล์รูปภาพมาวางในพื้นที่นี้
+                    </p>
+                </div>
+                
+                <!-- Mobile Camera Button -->
+                <div id="mobile-camera-section" style="text-align: center; margin: 20px 0; display: none;">
+                    <button type="button" onclick="trainingApp.openCamera()" 
+                            style="background: #007bff; color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-size: 14px; -webkit-tap-highlight-color: transparent;">
+                        📷 ถ่ายภาพด้วยกล้อง
+                    </button>
+                    <p style="font-size: 12px; color: #666; margin-top: 8px;">
+                        ถ่ายภาพใหม่โดยตรงจากกล้อง
                     </p>
                 </div>
                 
@@ -984,7 +1011,7 @@
 
 <script>
 // ========================================
-// 🎯 TRAINING FORM APPLICATION - UPDATED
+// 🎯 TRAINING FORM APPLICATION - FIXED FOR MOBILE
 // ========================================
 
 const trainingApp = {
@@ -996,31 +1023,46 @@ const trainingApp = {
     batchUploadInProgress: false,
     isSubmitting: false,
     isMobile: false,
+    isIOS: false,
+    isAndroid: false,
+    cameraStream: null,
+    mobileUploadQueue: [],
     
     init: function() {
         console.log('🎯 Training Form Initializing...');
         
-        // ตรวจสอบว่าเป็น mobile device
-        this.isMobile = this.detectMobile();
-        console.log('📱 Is Mobile:', this.isMobile);
+        // ตรวจสอบอุปกรณ์
+        this.detectDevice();
+        console.log('📱 Device Detection:', {
+            isMobile: this.isMobile,
+            isIOS: this.isIOS,
+            isAndroid: this.isAndroid,
+            userAgent: navigator.userAgent
+        });
         
         this.addCourse();
         this.setupEventListeners();
         this.setupMobileEvents();
         
-        // ✅ โหลดรายชื่อจาก main.js
-        setTimeout(() => {
-            if (typeof window.loadPersonnelData === 'function') {
-                window.loadPersonnelData();
-            }
-        }, 300);
+        // ✅ โหลดรายชื่อครูจาก main.js
+        this.loadPersonnelData();
         
         console.log('✅ Training Form Initialized');
     },
     
-    detectMobile: function() {
+    detectDevice: function() {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+        const ua = userAgent.toLowerCase();
+        
+        this.isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+        this.isIOS = /iphone|ipad|ipod/i.test(ua);
+        this.isAndroid = /android/i.test(ua);
+        
+        return {
+            isMobile: this.isMobile,
+            isIOS: this.isIOS,
+            isAndroid: this.isAndroid
+        };
     },
     
     setupMobileEvents: function() {
@@ -1049,6 +1091,14 @@ const trainingApp = {
                 }, 300);
             }
         });
+        
+        // ✅ แสดงปุ่มถ่ายภาพสำหรับมือถือ
+        if (this.isMobile) {
+            const mobileCameraSection = document.getElementById('mobile-camera-section');
+            if (mobileCameraSection) {
+                mobileCameraSection.style.display = 'block';
+            }
+        }
     },
     
     setupEventListeners: function() {
@@ -1057,15 +1107,10 @@ const trainingApp = {
         tabButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                const tabName = btn.id === 'tab-data' ? 'data' : 'photos';
+                const tabName = btn.textContent.includes('1') ? 'data' : 'photos';
                 this.switchTab(tabName);
             });
         });
-        
-        const tabsContainer = document.querySelector('.training-tabs');
-        if (tabsContainer) {
-            tabsContainer.style.display = 'flex';
-        }
         
         this.setupDragAndDrop();
     },
@@ -1100,16 +1145,17 @@ const trainingApp = {
     },
     
     switchTab: function(tabName) {
-        document.querySelectorAll('.tab-btn').forEach(btn => {
+        // อัปเดต tab buttons
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(btn => {
             btn.classList.remove('active');
+            if ((tabName === 'data' && btn.textContent.includes('1')) || 
+                (tabName === 'photos' && btn.textContent.includes('2'))) {
+                btn.classList.add('active');
+            }
         });
         
-        const activeBtn = tabName === 'data' ? 
-            document.getElementById('tab-data') : 
-            document.getElementById('tab-photos');
-        
-        if (activeBtn) activeBtn.classList.add('active');
-        
+        // อัปเดต tab content
         document.querySelectorAll('.tab-content').forEach(content => {
             content.classList.remove('active');
         });
@@ -1260,7 +1306,13 @@ const trainingApp = {
     
     triggerFileInput: function(index) {
         const fileInput = document.querySelectorAll('.file-input')[index];
-        if (fileInput) fileInput.click();
+        if (fileInput) {
+            // บนมือถือ iOS ให้ล้าง value ก่อนเพื่อให้สามารถเลือกรูปเดิมได้
+            if (this.isIOS) {
+                fileInput.value = '';
+            }
+            fileInput.click();
+        }
     },
     
     batchUploadPhotos: function() {
@@ -1271,209 +1323,251 @@ const trainingApp = {
         
         const batchUploadInput = document.getElementById('batch-upload');
         if (batchUploadInput) {
-            batchUploadInput.value = '';
+            // บนมือถือ iOS ให้ล้าง value ก่อน
+            if (this.isIOS) {
+                batchUploadInput.value = '';
+            }
             batchUploadInput.click();
         }
     },
     
-    // ✅ ปรับปรุง handleCertificateUpload ให้ทำงานบนมือถือ
-    handleCertificateUpload: async function(event, courseNum) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        console.log('Certificate file selected:', {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            isMobile: this.isMobile
-        });
-        
-        // Validate file type
-        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
-        if (!validTypes.includes(file.type)) {
-            alert('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)');
-            event.target.value = '';
+    // ✅ ฟังก์ชันเปิดกล้องโดยตรง (สำหรับมือถือ)
+    openCamera: function() {
+        if (!this.isMobile) {
+            alert('ฟังก์ชันนี้สำหรับอุปกรณ์มือถือเท่านั้น');
             return;
         }
         
-        // ✅ ใช้ limit 30MB สำหรับทุกอุปกรณ์
-        const maxSize = 30 * 1024 * 1024; // 30MB
-        if (file.size > maxSize) {
-            alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`);
-            event.target.value = '';
+        // สร้าง input สำหรับถ่ายภาพ
+        const cameraInput = document.createElement('input');
+        cameraInput.type = 'file';
+        cameraInput.accept = 'image/*';
+        cameraInput.capture = 'environment'; // ใช้กล้องหลัง
+        cameraInput.style.display = 'none';
+        
+        cameraInput.onchange = (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                this.processPhotoFromCamera(file);
+            }
+        };
+        
+        document.body.appendChild(cameraInput);
+        cameraInput.click();
+        
+        // ลบ element หลังจากใช้
+        setTimeout(() => {
+            if (document.body.contains(cameraInput)) {
+                document.body.removeChild(cameraInput);
+            }
+        }, 1000);
+    },
+    
+    // ✅ ประมวลผลภาพจากกล้อง
+    processPhotoFromCamera: function(file) {
+        if (!file.type.match('image.*')) {
+            alert('กรุณาเลือกรูปภาพเท่านั้น');
             return;
         }
         
-        try {
-            // แสดง progress สำหรับไฟล์ใหญ่
-            if (file.size > 5 * 1024 * 1024) {
-                this.showProgressForCertificate(courseNum);
-            }
-            
-            // ใช้ arrayBuffer สำหรับทุกอุปกรณ์ (วิธีใหม่ที่ทำงานบนมือถือ)
-            const arrayBuffer = await file.arrayBuffer();
-            
-            // แปลง arrayBuffer เป็น base64
-            const base64 = await this.arrayBufferToBase64(arrayBuffer);
-            
-            this.uploadedCertificates[courseNum] = {
-                base64Data: base64,
-                fileName: file.name,
-                mimeType: file.type,
-                fileSize: file.size,
-                method: 'arrayBuffer'
-            };
-            
-            // แสดงข้อมูลไฟล์
-            const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
-            const nameSpan = document.getElementById(`certificate-name-${courseNum}`);
-            
-            if (infoDiv && nameSpan) {
-                nameSpan.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
-                infoDiv.style.display = 'flex';
-            }
-            
-            console.log('Certificate processed successfully for course:', courseNum);
-            
-        } catch (error) {
-            console.error('Error processing certificate:', error);
-            
-            // Fallback ใช้ FileReader
-            try {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const base64Data = e.target.result.split(',')[1];
-                    this.uploadedCertificates[courseNum] = {
-                        base64Data: base64Data,
-                        fileName: file.name,
-                        mimeType: file.type,
-                        fileSize: file.size,
-                        method: 'FileReader_fallback'
-                    };
-                    
-                    const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
-                    const nameSpan = document.getElementById(`certificate-name-${courseNum}`);
-                    
-                    if (infoDiv && nameSpan) {
-                        nameSpan.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
-                        infoDiv.style.display = 'flex';
-                    }
-                };
-                reader.onerror = () => {
-                    alert('เกิดข้อผิดพลาดในการอ่านไฟล์');
-                    event.target.value = '';
-                };
-                reader.readAsDataURL(file);
-            } catch (fallbackError) {
-                console.error('Fallback also failed:', fallbackError);
-                alert('ไม่สามารถอ่านไฟล์ได้ กรุณาลองไฟล์อื่น');
-                event.target.value = '';
+        // หาช่องว่างสำหรับอัปโหลด
+        let emptyIndex = -1;
+        for (let i = 0; i < 4; i++) {
+            if (this.uploadedPhotos[i] === null) {
+                emptyIndex = i;
+                break;
             }
         }
+        
+        if (emptyIndex === -1) {
+            alert('ไม่สามารถอัปโหลดรูปได้ เนื่องจากครบ 4 รูปแล้ว');
+            return;
+        }
+        
+        // แสดงสถานะกำลังอัปโหลด
+        const photoItem = document.querySelectorAll('.photo-item')[emptyIndex];
+        if (photoItem) {
+            photoItem.classList.add('mobile-uploading');
+        }
+        
+        // ใช้ FileReader สำหรับมือถือ
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            const preview = document.getElementById(`photo-preview-${emptyIndex}`);
+            
+            if (preview && photoItem) {
+                // ลบสถานะกำลังอัปโหลด
+                photoItem.classList.remove('mobile-uploading');
+                
+                // แสดงภาพ
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                photoItem.classList.add('uploaded');
+                
+                // บันทึกข้อมูล
+                this.uploadedPhotos[emptyIndex] = {
+                    base64Data: e.target.result.split(',')[1],
+                    fileName: `camera_${Date.now()}.jpg`,
+                    mimeType: file.type,
+                    lastModified: file.lastModified,
+                    source: 'camera'
+                };
+                
+                this.updatePhotoCount();
+                
+                // แจ้งเตือน
+                this.showMobileToast('ถ่ายภาพสำเร็จ!', 'success');
+            }
+        };
+        
+        reader.onerror = () => {
+            if (photoItem) {
+                photoItem.classList.remove('mobile-uploading');
+            }
+            this.showMobileToast('เกิดข้อผิดพลาดในการอ่านภาพ', 'error');
+        };
+        
+        reader.readAsDataURL(file);
     },
     
-    // ✅ แปลง ArrayBuffer เป็น Base64 (ทำงานบนมือถือ)
-    arrayBufferToBase64: function(buffer) {
-        return new Promise((resolve) => {
-            const bytes = new Uint8Array(buffer);
-            let binary = '';
-            
-            // ใช้ chunk เพื่อไม่ให้เบราว์เซอร์ค้าง
-            const chunkSize = 32768; // 32KB chunks
-            const totalChunks = Math.ceil(bytes.length / chunkSize);
-            
-            let processedChunks = 0;
-            
-            const processChunk = () => {
-                const start = processedChunks * chunkSize;
-                const end = Math.min(start + chunkSize, bytes.length);
-                
-                // แปลง chunk
-                for (let i = start; i < end; i++) {
-                    binary += String.fromCharCode(bytes[i]);
+    // ✅ แจ้งเตือนบนมือถือ
+    showMobileToast: function(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 9999;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideDown 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+        `;
+        
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideUp 0.3s ease';
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
                 }
-                
-                processedChunks++;
-                
-                if (processedChunks < totalChunks) {
-                    // ใช้ setTimeout เพื่อให้เบราว์เซอร์หายใจ
-                    setTimeout(processChunk, 0);
-                } else {
-                    // เสร็จสิ้น
-                    const base64 = btoa(binary);
-                    resolve(base64);
+            }, 300);
+        }, 3000);
+        
+        // เพิ่ม CSS animation
+        if (!document.querySelector('#toast-animations')) {
+            const style = document.createElement('style');
+            style.id = 'toast-animations';
+            style.textContent = `
+                @keyframes slideDown {
+                    from { top: -50px; opacity: 0; }
+                    to { top: 20px; opacity: 1; }
                 }
-            };
-            
-            // เริ่มแปลง
-            processChunk();
-        });
-    },
-    
-    // ✅ แสดง progress สำหรับไฟล์เกียรติบัตรใหญ่
-    showProgressForCertificate: function(courseNum) {
-        // สร้าง progress container ถ้ายังไม่มี
-        let progressContainer = document.getElementById(`certificate-progress-${courseNum}`);
-        if (!progressContainer) {
-            progressContainer = document.createElement('div');
-            progressContainer.id = `certificate-progress-${courseNum}`;
-            progressContainer.className = 'upload-progress-container';
-            progressContainer.innerHTML = `
-                <div class="progress-info">
-                    <span id="certificate-progress-percentage-${courseNum}">0%</span>
-                    <span id="certificate-progress-status-${courseNum}">กำลังประมวลผลไฟล์...</span>
-                </div>
-                <div class="progress-bar">
-                    <div id="certificate-progress-fill-${courseNum}" class="progress-fill"></div>
-                </div>
-                <button type="button" onclick="trainingApp.cancelCertificateUpload(${courseNum})" 
-                        class="cancel-upload-btn" style="margin-top: 10px;">
-                    ❌ ยกเลิก
-                </button>
+                @keyframes slideUp {
+                    from { top: 20px; opacity: 1; }
+                    to { top: -50px; opacity: 0; }
+                }
             `;
-            
-            const certificateUpload = document.getElementById(`certificate-upload-${courseNum}`);
-            if (certificateUpload) {
-                certificateUpload.appendChild(progressContainer);
-            }
+            document.head.appendChild(style);
         }
-        
-        progressContainer.classList.add('active');
     },
     
-    // ✅ ยกเลิกการอัพโหลดเกียรติบัตร
-    cancelCertificateUpload: function(courseNum) {
-        delete this.uploadedCertificates[courseNum];
-        const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
-        const fileInput = document.getElementById(`certificateFile-${courseNum}`);
-        const progressContainer = document.getElementById(`certificate-progress-${courseNum}`);
-        
-        if (infoDiv) infoDiv.style.display = 'none';
-        if (fileInput) fileInput.value = '';
-        if (progressContainer) progressContainer.classList.remove('active');
-    },
-    
-    formatFileSize: function(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    },
-    
+    // ✅ ฟังก์ชันอัปโหลดรูปภาพ (รองรับมือถือ)
     handlePhotoUpload: function(event, index) {
         const file = event.target.files[0];
         if (!file) return;
         
-        this.processPhotoFile(file, index);
+        // ตรวจสอบประเภทไฟล์
+        if (!file.type.match('image.*')) {
+            this.showMobileToast('กรุณาเลือกรูปภาพเท่านั้น (JPG, PNG)', 'error');
+            return;
+        }
+        
+        // ตรวจสอบขนาดไฟล์ (30MB)
+        const maxSize = 30 * 1024 * 1024;
+        if (file.size > maxSize) {
+            this.showMobileToast(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`, 'error');
+            return;
+        }
+        
+        // สำหรับมือถือ ให้แสดงสถานะ loading
+        if (this.isMobile) {
+            const photoItem = document.querySelectorAll('.photo-item')[index];
+            if (photoItem) {
+                photoItem.classList.add('mobile-uploading');
+            }
+        }
+        
+        this.processPhotoFileMobile(file, index);
     },
     
+    // ✅ ประมวลผลไฟล์ภาพสำหรับมือถือ
+    processPhotoFileMobile: function(file, index) {
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            const preview = document.getElementById(`photo-preview-${index}`);
+            const photoItem = document.querySelectorAll('.photo-item')[index];
+            
+            if (preview && photoItem) {
+                // ลบสถานะ loading
+                if (this.isMobile) {
+                    photoItem.classList.remove('mobile-uploading');
+                }
+                
+                // แสดงภาพ
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                photoItem.classList.add('uploaded');
+                
+                // บันทึกข้อมูล
+                this.uploadedPhotos[index] = {
+                    base64Data: e.target.result.split(',')[1],
+                    fileName: file.name,
+                    mimeType: file.type,
+                    lastModified: file.lastModified,
+                    source: 'file'
+                };
+                
+                this.updatePhotoCount();
+                
+                // แจ้งเตือนบนมือถือ
+                if (this.isMobile) {
+                    this.showMobileToast('อัปโหลดรูปภาพสำเร็จ!', 'success');
+                }
+            }
+        };
+        
+        reader.onerror = () => {
+            // ลบสถานะ loading
+            if (this.isMobile) {
+                const photoItem = document.querySelectorAll('.photo-item')[index];
+                if (photoItem) {
+                    photoItem.classList.remove('mobile-uploading');
+                }
+            }
+            
+            this.showMobileToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
+        };
+        
+        reader.readAsDataURL(file);
+    },
+    
+    // ✅ ฟังก์ชันอัปโหลดหลายรูปพร้อมกัน (รองรับมือถือ)
     handleBatchUpload: function(event) {
         const files = event.target.files;
         if (!files || files.length === 0) return;
         
+        // แสดง progress
         const progressDiv = document.getElementById('upload-progress');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
@@ -1482,23 +1576,25 @@ const trainingApp = {
         if (progressBar) progressBar.style.width = '0%';
         if (progressText) progressText.textContent = 'กำลังประมวลผล...';
         
+        // ตรวจสอบช่องว่าง
         const availableSlots = 4 - this.uploadedPhotos.filter(photo => photo !== null).length;
         const filesToProcess = Math.min(files.length, availableSlots);
         
         if (filesToProcess === 0) {
-            alert('ไม่สามารถอัปโหลดรูปได้ เนื่องจากครบ 4 รูปแล้ว');
+            this.showMobileToast('ไม่สามารถอัปโหลดรูปได้ เนื่องจากครบ 4 รูปแล้ว', 'error');
             if (progressDiv) progressDiv.style.display = 'none';
             return;
         }
         
         if (files.length > availableSlots) {
-            alert(`สามารถอัปโหลดได้เพียง ${availableSlots} รูป จาก ${files.length} รูปที่เลือก`);
+            this.showMobileToast(`สามารถอัปโหลดได้เพียง ${availableSlots} รูป จาก ${files.length} รูปที่เลือก`, 'info');
         }
         
         this.batchUploadInProgress = true;
         let processed = 0;
         let successful = 0;
         
+        // หาช่องว่างทั้งหมด
         const emptySlots = [];
         for (let i = 0; i < 4; i++) {
             if (this.uploadedPhotos[i] === null) {
@@ -1513,6 +1609,7 @@ const trainingApp = {
                 
                 if (successful > 0) {
                     this.updatePhotoCount();
+                    this.showMobileToast(`อัปโหลดสำเร็จ ${successful} รูป`, 'success');
                 }
                 
                 event.target.value = '';
@@ -1522,6 +1619,7 @@ const trainingApp = {
             const file = files[processed];
             const slotIndex = emptySlots[processed];
             
+            // อัปเดต progress
             if (progressBar) {
                 progressBar.style.width = `${((processed + 1) / filesToProcess) * 100}%`;
             }
@@ -1529,6 +1627,7 @@ const trainingApp = {
                 progressText.textContent = `กำลังอัปโหลดรูปที่ ${processed + 1}/${filesToProcess}`;
             }
             
+            // ตรวจสอบว่าเป็นรูปภาพหรือไม่
             if (!file.type.match('image.*')) {
                 console.warn(`ไฟล์ ${file.name} ไม่ใช่รูปภาพ`);
                 processed++;
@@ -1536,7 +1635,7 @@ const trainingApp = {
                 return;
             }
             
-            // ✅ ใช้ limit 30MB สำหรับรูปภาพ
+            // ตรวจสอบขนาดไฟล์
             const maxSize = 30 * 1024 * 1024;
             if (file.size > maxSize) {
                 console.warn(`ไฟล์ ${file.name} ใหญ่เกินไป`);
@@ -1545,16 +1644,31 @@ const trainingApp = {
                 return;
             }
             
+            // สำหรับมือถือ ให้แสดงสถานะ loading
+            if (this.isMobile) {
+                const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
+                if (photoItem) {
+                    photoItem.classList.add('mobile-uploading');
+                }
+            }
+            
             const reader = new FileReader();
             reader.onload = (e) => {
                 const preview = document.getElementById(`photo-preview-${slotIndex}`);
                 const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
                 
                 if (preview && photoItem) {
+                    // ลบสถานะ loading
+                    if (this.isMobile) {
+                        photoItem.classList.remove('mobile-uploading');
+                    }
+                    
+                    // แสดงภาพ
                     preview.src = e.target.result;
                     preview.style.display = 'block';
                     photoItem.classList.add('uploaded');
                     
+                    // บันทึกข้อมูล
                     this.uploadedPhotos[slotIndex] = {
                         base64Data: e.target.result.split(',')[1],
                         fileName: file.name,
@@ -1570,6 +1684,14 @@ const trainingApp = {
             };
             
             reader.onerror = () => {
+                // ลบสถานะ loading
+                if (this.isMobile) {
+                    const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
+                    if (photoItem) {
+                        photoItem.classList.remove('mobile-uploading');
+                    }
+                }
+                
                 console.error(`เกิดข้อผิดพลาดในการอ่านไฟล์ ${file.name}`);
                 processed++;
                 setTimeout(processNextFile, 100);
@@ -1579,48 +1701,6 @@ const trainingApp = {
         };
         
         processNextFile();
-    },
-    
-    processPhotoFile: function(file, index) {
-        if (!file.type.match('image.*')) {
-            alert('กรุณาเลือกรูปภาพเท่านั้น (JPG, PNG)');
-            return false;
-        }
-        
-        // ✅ ใช้ limit 30MB สำหรับรูปภาพ
-        const maxSize = 30 * 1024 * 1024;
-        if (file.size > maxSize) {
-            alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`);
-            return false;
-        }
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const preview = document.getElementById(`photo-preview-${index}`);
-            const photoItem = document.querySelectorAll('.photo-item')[index];
-            
-            if (preview && photoItem) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-                photoItem.classList.add('uploaded');
-                
-                this.uploadedPhotos[index] = {
-                    base64Data: e.target.result.split(',')[1],
-                    fileName: file.name,
-                    mimeType: file.type,
-                    lastModified: file.lastModified
-                };
-                
-                this.updatePhotoCount();
-            }
-        };
-        
-        reader.onerror = () => {
-            alert('เกิดข้อผิดพลาดในการอ่านไฟล์รูปภาพ');
-        };
-        
-        reader.readAsDataURL(file);
-        return true;
     },
     
     removePhoto: function(event, index) {
@@ -1639,6 +1719,11 @@ const trainingApp = {
             if (fileInput) fileInput.value = '';
             
             this.updatePhotoCount();
+            
+            // แจ้งเตือนบนมือถือ
+            if (this.isMobile) {
+                this.showMobileToast('ลบรูปภาพสำเร็จ', 'info');
+            }
         }
     },
     
@@ -1665,9 +1750,147 @@ const trainingApp = {
         if (fileInput) fileInput.value = '';
     },
     
+    // ✅ โหลดรายชื่อครูจาก main.js
+    loadPersonnelData: function() {
+        console.log('👤 Loading personnel data...');
+        
+        const fullNameSelect = document.getElementById('fullName');
+        if (!fullNameSelect) {
+            console.error('❌ fullName select element not found');
+            return;
+        }
+        
+        // ตั้งค่าตัวเลือกเริ่มต้น
+        fullNameSelect.innerHTML = '<option value="">-- กำลังโหลดรายชื่อ... --</option>';
+        
+        // ใช้ฟังก์ชันจาก main.js ถ้ามี
+        if (typeof window.loadPersonnelData === 'function') {
+            console.log('✅ Using main.js loadPersonnelData function');
+            window.loadPersonnelData();
+        } else if (typeof window.personnelList !== 'undefined' && Array.isArray(window.personnelList)) {
+            // ถ้ามีข้อมูลใน personnelList ให้ใช้ข้อมูลนั้น
+            console.log('✅ Using existing personnelList data');
+            this.populatePersonnelDropdown(window.personnelList);
+        } else {
+            console.log('⚠️ No personnel data found, using default');
+            // ถ้าไม่มีข้อมูล ให้โหลดผ่าน fetch โดยตรง
+            this.fetchPersonnelData();
+        }
+    },
+    
+    // ✅ ดึงข้อมูลครูจาก Google Apps Script
+    fetchPersonnelData: function() {
+        const fullNameSelect = document.getElementById('fullName');
+        if (!fullNameSelect) return;
+        
+        // เปลี่ยนข้อความขณะโหลด
+        fullNameSelect.innerHTML = '<option value="">-- กำลังโหลดรายชื่อครู... --</option>';
+        
+        // ส่งคำขอดึงรายชื่อครู
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL'; // เปลี่ยนเป็น URL ของคุณ
+        
+        fetch(scriptURL + '?action=getPersonnel', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('✅ Personnel data received:', data);
+            this.populatePersonnelDropdown(data);
+        })
+        .catch(error => {
+            console.error('❌ Error fetching personnel data:', error);
+            
+            // แสดงข้อความ error
+            fullNameSelect.innerHTML = `
+                <option value="">-- ไม่สามารถโหลดรายชื่อได้ --</option>
+                <option value="อื่น ๆ (กรอกเอง)">อื่น ๆ (กรอกเอง)</option>
+            `;
+            
+            // แสดงช่องกรอกเอง
+            const customNameInput = document.getElementById('fullNameCustom');
+            if (customNameInput) {
+                customNameInput.style.display = 'block';
+            }
+        });
+    },
+    
+    // ✅ เติมข้อมูลลงใน dropdown
+    populatePersonnelDropdown: function(personnelList) {
+        const fullNameSelect = document.getElementById('fullName');
+        if (!fullNameSelect) return;
+        
+        if (!Array.isArray(personnelList) || personnelList.length === 0) {
+            fullNameSelect.innerHTML = `
+                <option value="">-- ไม่พบข้อมูลครู --</option>
+                <option value="อื่น ๆ (กรอกเอง)">อื่น ๆ (กรอกเอง)</option>
+            `;
+            return;
+        }
+        
+        // เรียงลำดับชื่อตามตัวอักษร
+        personnelList.sort((a, b) => {
+            if (typeof a === 'string' && typeof b === 'string') {
+                return a.localeCompare(b, 'th');
+            }
+            return 0;
+        });
+        
+        // สร้าง options
+        let optionsHTML = '<option value="">-- เลือกชื่อ-นามสกุล --</option>';
+        
+        personnelList.forEach(person => {
+            if (person && typeof person === 'string' && person.trim() !== '') {
+                optionsHTML += `<option value="${person.trim()}">${person.trim()}</option>`;
+            }
+        });
+        
+        // เพิ่มตัวเลือก "อื่น ๆ"
+        optionsHTML += '<option value="อื่น ๆ (กรอกเอง)">อื่น ๆ (กรอกเอง)</option>';
+        
+        fullNameSelect.innerHTML = optionsHTML;
+        
+        // เพิ่ม event listener สำหรับตัวเลือก "อื่น ๆ"
+        fullNameSelect.addEventListener('change', function() {
+            const customNameInput = document.getElementById('fullNameCustom');
+            if (customNameInput) {
+                if (this.value === 'อื่น ๆ (กรอกเอง)') {
+                    customNameInput.style.display = 'block';
+                    customNameInput.focus();
+                } else {
+                    customNameInput.style.display = 'none';
+                    customNameInput.value = '';
+                }
+            }
+        });
+        
+        console.log(`✅ Loaded ${personnelList.length} personnel records`);
+    },
+    
+    // ✅ ฟังก์ชัน refresh รายชื่อครู
+    refreshPersonnelList: function() {
+        console.log('🔄 Refreshing personnel list...');
+        
+        // เรียกใช้งานฟังก์ชันจาก main.js ถ้ามี
+        if (typeof window.refreshPersonnelList === 'function') {
+            window.refreshPersonnelList('fullName');
+        } else {
+            // หรือเรียก fetch โดยตรง
+            this.fetchPersonnelData();
+        }
+    },
+    
     validateForm: function() {
         let isValid = true;
         
+        // รีเซ็ต error ทั้งหมด
         document.querySelectorAll('.form-group').forEach(group => {
             group.classList.remove('error');
         });
@@ -1675,7 +1898,7 @@ const trainingApp = {
         const errorMsg = document.getElementById('error-message');
         if (errorMsg) errorMsg.style.display = 'none';
         
-        // Validate name
+        // ตรวจสอบชื่อ
         const fullNameSelect = document.getElementById('fullName');
         const customNameInput = document.getElementById('fullNameCustom');
         
@@ -1693,7 +1916,7 @@ const trainingApp = {
             isValid = false;
         }
         
-        // Validate courses
+        // ตรวจสอบหลักสูตร
         for (let i = 1; i <= this.courseCount; i++) {
             const type = document.getElementById(`type-${i}`);
             const courseName = document.getElementById(`courseName-${i}`);
@@ -1721,12 +1944,18 @@ const trainingApp = {
             }
         }
         
-        // Validate photos
+        // ตรวจสอบรูปภาพ
         const photoCount = this.uploadedPhotos.filter(photo => photo !== null).length;
         if (photoCount < 4) {
             if (errorMsg) {
                 errorMsg.textContent = `กรุณาอัปโหลดรูปกิจกรรมให้ครบ 4 รูป (ปัจจุบัน ${photoCount}/4 รูป)`;
                 errorMsg.style.display = 'block';
+                
+                // บนมือถือให้แจ้งเตือนแบบ toast
+                if (this.isMobile) {
+                    this.showMobileToast(`กรุณาอัปโหลดรูปกิจกรรมให้ครบ 4 รูป (ปัจจุบัน ${photoCount}/4 รูป)`, 'error');
+                }
+                
                 this.switchTab('photos');
             }
             isValid = false;
@@ -1758,7 +1987,7 @@ const trainingApp = {
             errorMsg.textContent = '';
         }
         
-        // Get full name
+        // ดึงข้อมูลชื่อ
         const fullNameSelect = document.getElementById('fullName');
         const customNameInput = document.getElementById('fullNameCustom');
         
@@ -1775,7 +2004,7 @@ const trainingApp = {
             return;
         }
         
-        // Prepare data
+        // เตรียมข้อมูล
         const data = {
             action: 'recordTraining',
             fullName: fullName,
@@ -1783,7 +2012,7 @@ const trainingApp = {
             activityPhotos: this.uploadedPhotos.filter(photo => photo !== null)
         };
         
-        // Add courses
+        // เพิ่มข้อมูลหลักสูตร
         for (let i = 1; i <= this.courseCount; i++) {
             const course = {
                 type: document.getElementById(`type-${i}`).value,
@@ -1809,7 +2038,7 @@ const trainingApp = {
             photosCount: data.activityPhotos.length
         });
         
-        // Use submit function from main.js
+        // ใช้ฟังก์ชันจาก main.js
         if (typeof window.submitToGoogleAppsScript === 'function') {
             window.submitToGoogleAppsScript(data)
                 .then(result => {
@@ -1823,6 +2052,11 @@ const trainingApp = {
                             successDetails.textContent = `บันทึกข้อมูลการอบรม ${data.courses.length} หลักสูตรสำเร็จ`;
                             successMsg.style.display = 'flex';
                             successMsg.scrollIntoView({ behavior: 'smooth' });
+                            
+                            // บนมือถือแสดง toast
+                            if (this.isMobile) {
+                                this.showMobileToast('บันทึกข้อมูลสำเร็จ!', 'success');
+                            }
                         }
                         
                         setTimeout(() => {
@@ -1848,6 +2082,11 @@ const trainingApp = {
                         errorMsg.textContent = `⚠️ ${errorMessage}`;
                         errorMsg.style.display = 'block';
                         errorMsg.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    
+                    // บนมือถือแสดง toast
+                    if (this.isMobile) {
+                        this.showMobileToast(errorMessage, 'error');
                     }
                 })
                 .finally(() => {
@@ -1909,6 +2148,7 @@ const trainingApp = {
         });
         document.querySelectorAll('.photo-item').forEach(item => {
             item.classList.remove('uploaded');
+            item.classList.remove('mobile-uploading');
         });
         document.querySelectorAll('.file-input').forEach(input => {
             input.value = '';
@@ -1939,31 +2179,127 @@ const trainingApp = {
         
         // 8. โหลดรายชื่อใหม่
         setTimeout(() => {
-            if (typeof window.loadPersonnelData === 'function') {
-                window.loadPersonnelData();
-            }
+            this.loadPersonnelData();
         }, 500);
+    },
+    
+    // ✅ ฟังก์ชันจัดการไฟล์เกียรติบัตร (รองรับมือถือ)
+    handleCertificateUpload: async function(event, courseNum) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        console.log('Certificate file selected:', {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            isMobile: this.isMobile
+        });
+        
+        // ตรวจสอบประเภทไฟล์
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        if (!validTypes.includes(file.type)) {
+            this.showMobileToast('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)', 'error');
+            event.target.value = '';
+            return;
+        }
+        
+        // ตรวจสอบขนาดไฟล์ (30MB)
+        const maxSize = 30 * 1024 * 1024;
+        if (file.size > maxSize) {
+            this.showMobileToast(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`, 'error');
+            event.target.value = '';
+            return;
+        }
+        
+        try {
+            // แสดงสถานะ loading บนมือถือ
+            if (this.isMobile) {
+                this.showMobileToast('กำลังประมวลผลไฟล์...', 'info');
+            }
+            
+            // ใช้ FileReader สำหรับทุกอุปกรณ์
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                const base64Data = e.target.result.split(',')[1];
+                
+                this.uploadedCertificates[courseNum] = {
+                    base64Data: base64Data,
+                    fileName: file.name,
+                    mimeType: file.type,
+                    fileSize: file.size,
+                    method: 'FileReader'
+                };
+                
+                // แสดงข้อมูลไฟล์
+                const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
+                const nameSpan = document.getElementById(`certificate-name-${courseNum}`);
+                
+                if (infoDiv && nameSpan) {
+                    nameSpan.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
+                    infoDiv.style.display = 'flex';
+                }
+                
+                console.log('Certificate processed successfully for course:', courseNum);
+                
+                // แจ้งเตือนบนมือถือ
+                if (this.isMobile) {
+                    this.showMobileToast('อัปโหลดไฟล์เกียรติบัตรสำเร็จ!', 'success');
+                }
+            };
+            
+            reader.onerror = () => {
+                console.error('Error reading certificate file');
+                this.showMobileToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
+                event.target.value = '';
+            };
+            
+            reader.readAsDataURL(file);
+            
+        } catch (error) {
+            console.error('Error processing certificate:', error);
+            this.showMobileToast('ไม่สามารถอ่านไฟล์ได้ กรุณาลองไฟล์อื่น', 'error');
+            event.target.value = '';
+        }
+    },
+    
+    formatFileSize: function(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
+};
+
+// ประกาศฟังก์ชัน refreshPersonnelList สำหรับเรียกจาก HTML
+window.refreshPersonnelList = function() {
+    trainingApp.refreshPersonnelList();
 };
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 DOM Content Loaded - Form Training');
     
+    // ตรวจสอบว่ามี element ที่จำเป็นหรือไม่
     const fullNameSelect = document.getElementById('fullName');
-    if (fullNameSelect) {
-        fullNameSelect.innerHTML = '<option value="">-- กำลังเตรียมฟอร์ม... --</option>';
+    if (!fullNameSelect) {
+        console.error('❌ Required element #fullName not found');
     }
     
+    // เริ่มต้นแอพพลิเคชัน
     setTimeout(() => {
         trainingApp.init();
     }, 300);
 });
 
+// ประกาศ object ไว้ใน window สำหรับเรียกใช้จากภายนอก
 window.trainingApp = trainingApp;
 window.initTrainingForm = function() {
     return trainingApp.init();
 };
 
-console.log('🎯 Training Form Script Loaded - Updated');
+console.log('🎯 Training Form Script Loaded - Fixed for Mobile');
 </script>
