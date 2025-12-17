@@ -2,7 +2,7 @@
 <div class="main-form-container" id="training-form-container" style="margin-top: 0 !important; padding-top: 0 !important; position: relative; top: -15px;">
     <style>
     /* ======================================== */
-    /* 🎨 FORM TRAINING STYLES */
+    /* 🎨 FORM TRAINING STYLES - UPDATED */
     /* ======================================== */
     
     #training-form-container .form-training-container {
@@ -24,16 +24,20 @@
     
     #training-form-container .tab-btn {
         flex: 1 !important;
-        padding: 10px 20px !important;
+        padding: 12px 15px !important;
         border: none !important;
         background: none !important;
-        font-size: 0.98em !important;
+        font-size: 14px !important;
         font-weight: 500 !important;
         cursor: pointer !important;
         transition: all 0.3s !important;
         text-align: center !important;
         color: #555 !important;
         border-right: 1px solid #dee2e6 !important;
+        -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+        -webkit-touch-callout: none !important;
+        -webkit-user-select: none !important;
+        user-select: none !important;
     }
     
     #training-form-container .tab-btn:last-child {
@@ -57,6 +61,7 @@
         background: white !important;
         border-radius: 0 0 8px 8px !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        overflow: visible !important;
     }
     
     #training-form-container .tab-content.active {
@@ -87,7 +92,7 @@
         margin-bottom: 15px !important;
         padding-bottom: 8px !important;
         border-bottom: 2px solid #e9ecef !important;
-        font-size: 0.88em !important;
+        font-size: 14px !important;
         display: flex !important;
         align-items: center !important;
         gap: 10px !important;
@@ -96,7 +101,7 @@
     #training-form-container .form-row {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 20px !important;
+        gap: 15px !important;
         margin-bottom: 15px !important;
     }
     
@@ -130,12 +135,12 @@
         margin-bottom: 6px !important;
         font-weight: 500 !important;
         color: #333 !important;
-        font-size: 0.95em !important;
+        font-size: 13px !important;
     }
     
     #training-form-container .form-group .required {
         color: #dc3545 !important;
-        font-size: 0.95em !important;
+        font-size: 13px !important;
     }
     
     #training-form-container input[type="text"],
@@ -143,21 +148,49 @@
     #training-form-container input[type="number"],
     #training-form-container select {
         width: 100% !important;
-        padding: 8px 12px !important;
+        padding: 10px 12px !important;
         border: 1px solid #ced4da !important;
         border-radius: 6px !important;
-        font-size: 0.88em !important;
+        font-size: 14px !important;
         font-family: 'Sarabun', sans-serif !important;
         transition: border-color 0.3s !important;
         box-sizing: border-box !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        background-color: white !important;
+        height: 42px !important;
+        line-height: normal !important;
+    }
+    
+    /* ป้องกัน iOS zoom */
+    @media screen and (max-width: 768px) {
+        #training-form-container input[type="text"],
+        #training-form-container input[type="date"],
+        #training-form-container input[type="number"],
+        #training-form-container select,
+        #training-form-container textarea {
+            font-size: 16px !important;
+        }
     }
     
     #training-form-container select.type-select {
-        padding: 8px 12px !important;
+        padding: 10px 12px !important;
     }
     
     #training-form-container input[type="date"] {
-        padding: 8px 10px !important;
+        padding: 10px !important;
+        position: relative !important;
+    }
+    
+    /* Fix iOS date input */
+    #training-form-container input[type="date"]::-webkit-inner-spin-button,
+    #training-form-container input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute !important;
+        right: 0 !important;
+        height: 100% !important;
+        width: 30px !important;
+        opacity: 0.5 !important;
     }
     
     #training-form-container input:focus,
@@ -170,7 +203,7 @@
     #training-form-container .checkbox-container {
         display: flex !important;
         align-items: center !important;
-        gap: 10px !important;
+        gap: 8px !important;
         margin-top: 8px !important;
     }
     
@@ -183,20 +216,22 @@
     #training-form-container .checkbox-container label {
         margin: 0 !important;
         cursor: pointer !important;
-        font-size: 0.86em !important;
+        font-size: 13px !important;
     }
     
     #training-form-container .certificate-upload-btn {
         background: #6c757d !important;
         color: white !important;
         border: none !important;
-        padding: 8px 15px !important;
+        padding: 10px 15px !important;
         border-radius: 4px !important;
         cursor: pointer !important;
-        font-size: 0.9em !important;
+        font-size: 14px !important;
         margin-top: 10px !important;
         display: inline-block !important;
         transition: background 0.3s !important;
+        min-height: 40px !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     #training-form-container .certificate-upload-btn:hover {
@@ -204,7 +239,7 @@
     }
     
     #training-form-container input::placeholder {
-        font-size: 0.81em !important;
+        font-size: 13px !important;
         color: #999 !important;
     }
     
@@ -212,7 +247,7 @@
         background: #f8f9fa !important;
         padding: 15px !important;
         border-radius: 8px !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 15px !important;
         border: 1px solid #dee2e6 !important;
         position: relative !important;
     }
@@ -221,7 +256,7 @@
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 15px !important;
     }
     
     #training-form-container .course-number {
@@ -234,7 +269,7 @@
         align-items: center !important;
         justify-content: center !important;
         font-weight: bold !important;
-        font-size: 0.9em !important;
+        font-size: 12px !important;
     }
     
     #training-form-container .remove-course {
@@ -248,8 +283,11 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 0.95em !important;
+        font-size: 14px !important;
         transition: background 0.3s !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     #training-form-container .remove-course:hover {
@@ -260,15 +298,20 @@
         background: #28a745 !important;
         color: white !important;
         border: none !important;
-        padding: 10px 20px !important;
+        padding: 12px 20px !important;
         border-radius: 6px !important;
         cursor: pointer !important;
-        font-size: 0.86em !important;
+        font-size: 14px !important;
         display: flex !important;
         align-items: center !important;
+        justify-content: center !important;
         gap: 8px !important;
         margin: 15px auto !important;
         transition: background 0.3s !important;
+        min-height: 40px !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     #training-form-container .add-course-btn:hover {
@@ -282,7 +325,7 @@
     #training-form-container .photo-grid {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 15px !important;
+        gap: 10px !important;
         margin: 20px 0 !important;
         max-width: 100% !important;
     }
@@ -290,11 +333,11 @@
     #training-form-container .photo-item {
         border: 2px dashed #dee2e6 !important;
         border-radius: 8px !important;
-        padding: 15px !important;
+        padding: 10px !important;
         text-align: center !important;
         cursor: pointer !important;
         transition: all 0.3s !important;
-        height: 160px !important;
+        height: 120px !important;
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
@@ -304,6 +347,7 @@
         overflow: hidden !important;
         box-sizing: border-box !important;
         aspect-ratio: 1 / 1 !important;
+        -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
     }
     
     #training-form-container .photo-item:hover {
@@ -333,9 +377,9 @@
     }
     
     #training-form-container .photo-placeholder {
-        font-size: 2.5em !important;
+        font-size: 24px !important;
         color: #6c757d !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 5px !important;
         z-index: 1 !important;
         position: relative !important;
     }
@@ -345,7 +389,7 @@
     }
     
     #training-form-container .photo-label {
-        font-size: 0.77em !important;
+        font-size: 11px !important;
         color: #6c757d !important;
         margin-top: 5px !important;
         z-index: 1 !important;
@@ -374,9 +418,12 @@
         display: none !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 0.8em !important;
+        font-size: 12px !important;
         z-index: 2 !important;
         transition: background 0.3s !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     #training-form-container .photo-item.uploaded .remove-photo {
@@ -405,7 +452,7 @@
     }
     
     #training-form-container .certificate-upload label {
-        font-size: 0.86em !important;
+        font-size: 13px !important;
         font-weight: 500 !important;
         color: #333 !important;
         display: block !important;
@@ -421,7 +468,7 @@
         background: white !important;
         border-radius: 4px !important;
         border: 1px solid #dee2e6 !important;
-        font-size: 0.81em !important;
+        font-size: 12px !important;
     }
     
     #training-form-container .personnel-dropdown {
@@ -434,6 +481,10 @@
         cursor: pointer !important;
         transition: border-color 0.3s !important;
         font-family: 'Sarabun', sans-serif !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        height: 42px !important;
     }
     
     #training-form-container .personnel-dropdown:focus {
@@ -446,8 +497,8 @@
         background: #f8f9fa !important;
         color: #333 !important;
         border: 2px solid #dee2e6 !important;
-        width: 40px !important;
-        height: 40px !important;
+        width: 42px !important;
+        height: 42px !important;
         border-radius: 8px !important;
         cursor: pointer !important;
         font-size: 16px !important;
@@ -455,6 +506,8 @@
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.3s !important;
+        padding: 0 !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     #training-form-container .refresh-btn:hover {
@@ -480,15 +533,20 @@
         background: #007bff !important;
         color: white !important;
         border: none !important;
-        padding: 15px 40px !important;
+        padding: 12px 30px !important;
         border-radius: 8px !important;
-        font-size: 0.89em !important;
+        font-size: 14px !important;
         font-weight: 500 !important;
         cursor: pointer !important;
         transition: all 0.3s !important;
         display: inline-flex !important;
         align-items: center !important;
+        justify-content: center !important;
         gap: 10px !important;
+        min-height: 44px !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        -webkit-tap-highlight-color: transparent !important;
     }
     
     #training-form-container .submit-btn:hover:not(:disabled) {
@@ -504,7 +562,7 @@
     
     #training-form-container .error-message {
         color: #dc3545 !important;
-        font-size: 0.82em !important;
+        font-size: 12px !important;
         margin-top: 5px !important;
         display: none !important;
     }
@@ -527,7 +585,7 @@
         display: none !important;
         align-items: center !important;
         gap: 10px !important;
-        font-size: 0.86em !important;
+        font-size: 13px !important;
     }
     
     #training-form-container .loading-spinner {
@@ -545,33 +603,104 @@
         to { transform: rotate(360deg) !important; }
     }
     
-    /* 📱 Responsive */
-    @media (max-width: 1024px) {
-        #training-form-container .photo-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 12px !important;
-        }
-        
-        #training-form-container .photo-item {
-            height: 140px !important;
-        }
+    /* 📊 Progress Bar สำหรับอัพโหลด */
+    #training-form-container .upload-progress-container {
+        margin-top: 15px !important;
+        background: #f8f9fa !important;
+        border-radius: 6px !important;
+        padding: 15px !important;
+        display: none !important;
     }
     
+    #training-form-container .upload-progress-container.active {
+        display: block !important;
+    }
+    
+    #training-form-container .progress-info {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: 8px !important;
+        font-size: 12px !important;
+        color: #666 !important;
+    }
+    
+    #training-form-container .progress-bar {
+        height: 8px !important;
+        background: #e9ecef !important;
+        border-radius: 4px !important;
+        overflow: hidden !important;
+    }
+    
+    #training-form-container .progress-fill {
+        height: 100% !important;
+        background: linear-gradient(90deg, #28a745, #20c997) !important;
+        width: 0% !important;
+        transition: width 0.3s ease !important;
+    }
+    
+    #training-form-container .cancel-upload-btn {
+        margin-top: 10px !important;
+        background: #dc3545 !important;
+        color: white !important;
+        border: none !important;
+        padding: 6px 15px !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 12px !important;
+        display: inline-block !important;
+        transition: background 0.3s !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+    
+    #training-form-container .cancel-upload-btn:hover {
+        background: #c82333 !important;
+    }
+    
+    /* 📱 Mobile Responsive */
     @media (max-width: 768px) {
+        #training-form-container {
+            padding: 10px !important;
+            margin: 0 !important;
+            overflow-x: hidden !important;
+            position: relative !important;
+        }
+        
+        #training-form-container .form-training-container {
+            padding: 10px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin: 0 !important;
+        }
+        
         #training-form-container .training-tabs {
-            flex-direction: column !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            white-space: nowrap !important;
+            border-radius: 6px !important;
         }
         
         #training-form-container .tab-btn {
+            flex: none !important;
+            min-width: 140px !important;
+            font-size: 13px !important;
             padding: 12px !important;
-            border-right: none !important;
-            border-bottom: 1px solid #dee2e6 !important;
-            font-size: 0.86em !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            height: auto !important;
+            line-height: 1.3 !important;
+        }
+        
+        #training-form-container .tab-content {
+            padding: 15px !important;
+            border-radius: 0 0 6px 6px !important;
+            overflow: visible !important;
         }
         
         #training-form-container .form-row {
             flex-direction: column !important;
             gap: 15px !important;
+            margin-bottom: 15px !important;
         }
         
         #training-form-container .form-group,
@@ -579,51 +708,115 @@
         #training-form-container .form-group.checkbox-group {
             min-width: 100% !important;
             flex: 1 !important;
-        }
-        
-        #training-form-container .photo-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-        }
-        
-        #training-form-container .photo-item {
-            height: 150px !important;
-        }
-        
-        #training-form-container .section-title {
-            font-size: .90em !important;
-        }
-        
-        #training-form-container .form-group label {
-            font-size: 0.83em !important;
+            width: 100% !important;
         }
         
         #training-form-container input[type="text"],
         #training-form-container input[type="date"],
         #training-form-container input[type="number"],
         #training-form-container select {
-            font-size: 0.80em !important;
+            height: 44px !important;
+            padding: 12px !important;
+        }
+        
+        #training-form-container .personnel-dropdown {
+            height: 44px !important;
+            padding: 12px !important;
+        }
+        
+        #training-form-container .refresh-btn {
+            width: 44px !important;
+            height: 44px !important;
+            margin-top: 28px !important;
+        }
+        
+        #training-form-container .photo-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+        
+        #training-form-container .photo-item {
+            height: 140px !important;
+            padding: 8px !important;
+        }
+        
+        #training-form-container .section-title {
+            font-size: 13px !important;
+        }
+        
+        #training-form-container .form-group label {
+            font-size: 12px !important;
+        }
+        
+        #training-form-container .course-item {
+            padding: 12px !important;
+            margin-bottom: 12px !important;
+        }
+        
+        #training-form-container .add-course-btn,
+        #training-form-container .submit-btn {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 15px 0 !important;
+        }
+        
+        /* ป้องกันการ zoom บน iOS */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        
+        /* Fix for iOS scrolling */
+        .tab-content {
+            -webkit-overflow-scrolling: touch !important;
         }
     }
     
     @media (max-width: 480px) {
         #training-form-container .photo-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        #training-form-container .photo-item {
+            height: 130px !important;
+        }
+        
+        #training-form-container .tab-btn {
+            min-width: 130px !important;
+            font-size: 12px !important;
+            padding: 10px 8px !important;
+        }
+    }
+    
+    @media (max-width: 375px) {
+        #training-form-container .photo-grid {
             grid-template-columns: 1fr !important;
         }
         
         #training-form-container .photo-item {
-            height: 180px !important;
+            height: 150px !important;
         }
+    }
+    
+    /* ป้องกันการเลือกข้อความบนมือถือ */
+    * {
+        -webkit-tap-highlight-color: transparent !important;
+        -webkit-touch-callout: none !important;
+    }
+    
+    /* ป้องกันการ bounce บน iOS */
+    body {
+        overscroll-behavior-y: contain !important;
     }
 </style>
     
     <div class="form-training-container">
-        <h1 style="margin: 0 0 10px 0; color: #333; font-size: 1.2em;">📝 บันทึกข้อมูลการอบรม/ศึกษาดูงาน/วิทยากร</h1>
-        <p style="margin: 0 0 15px 0; color: #666; font-size: 0.95em;">กรอกข้อมูลให้ครบถ้วนทั้ง 2 แท็บ</p>
+        <h1 style="margin: 0 0 10px 0; color: #333; font-size: 16px;">📝 บันทึกข้อมูลการอบรม/ศึกษาดูงาน/วิทยากร</h1>
+        <p style="margin: 0 0 15px 0; color: #666; font-size: 13px;">กรอกข้อมูลให้ครบถ้วนทั้ง 2 แท็บ</p>
         
         <!-- 📑 Tabs Navigation -->
         <div class="training-tabs">
-            <button class="tab-btn active" id="tab-data" onclick="trainingApp.switchTab('data')">1. แบบบันทึกข้อมูล</button>
-            <button class="tab-btn" id="tab-photos" onclick="trainingApp.switchTab('photos')">2. รูปกิจกรรม (4 รูป)</button>
+            <button class="tab-btn active" onclick="trainingApp.switchTab('data')">1. แบบบันทึกข้อมูล</button>
+            <button class="tab-btn" onclick="trainingApp.switchTab('photos')">2. รูปกิจกรรม (4 รูป)</button>
         </div>
         
         <!-- 📋 Tab 1: ข้อมูลการอบรม -->
@@ -656,17 +849,17 @@
                 <div id="personnel-search-container" style="display: none;">
                     <input type="text" id="personnel-search" 
                            placeholder="🔍 ค้นหาชื่อ..." 
-                           style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em;">
+                           style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px;">
                 </div>
                 
                 <!-- ✅ ช่องกรอกเอง -->
                 <div style="margin-top: 10px;">
                     <input type="text" id="fullNameCustom" placeholder="กรอกชื่อ-นามสกุล (กรณีไม่มีในรายชื่อ)" 
-                           style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 0.85em; display: none;">
+                           style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px; display: none;">
                 </div>
                 
                 <!-- ✅ จำนวนรายชื่อ (ซ่อนไว้) -->
-                <div id="personnel-status" style="margin-top: 10px; font-size: 0.85em; color: #666; display: none;"></div>
+                <div id="personnel-status" style="margin-top: 10px; font-size: 12px; color: #666; display: none;"></div>
             </div>
             
             <div class="form-section" style="margin-top: 30px;">
@@ -692,7 +885,7 @@
                     📸 รูปกิจกรรม (ต้องครบ 4 รูป)
                 </div>
                 
-                <p style="text-align: center; color: #666; margin-bottom: 20px; font-size: 0.85em;">
+                <p style="text-align: center; color: #666; margin-bottom: 20px; font-size: 13px;">
                     คลิกที่กล่องด้านล่างเพื่อเลือกรูปภาพ (รองรับ .jpg, .png)<br>
                     สามารถเลือกทีละรูปหรือหลายรูปพร้อมกันได้
                 </p>
@@ -743,24 +936,24 @@
                 <!-- Batch Upload -->
                 <div style="text-align: center; margin: 30px 0;">
                     <button type="button" onclick="trainingApp.batchUploadPhotos()" 
-                            style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.855em;">
+                            style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; -webkit-tap-highlight-color: transparent;">
                         📁 เลือกหลายรูปพร้อมกัน (สูงสุด 4 รูป)
                     </button>
                     <input type="file" id="batch-upload" accept="image/*" multiple 
                            style="display: none;" onchange="trainingApp.handleBatchUpload(event)">
-                    <p style="font-size: 0.85em; color: #666; margin-top: 10px;">
+                    <p style="font-size: 12px; color: #666; margin-top: 10px;">
                         หรือลากไฟล์รูปภาพมาวางในพื้นที่นี้
                     </p>
                 </div>
                 
                 <!-- Photo Status -->
-                <div id="photo-status" style="text-align: center; color: #666; margin-top: 20px; font-size: 0.855em;">
+                <div id="photo-status" style="text-align: center; color: #666; margin-top: 20px; font-size: 13px;">
                     📸 อัปโหลดแล้ว: <span id="uploaded-count">0</span>/4 รูป
                     <div id="upload-progress" style="margin-top: 10px; display: none;">
                         <div style="width: 100%; background: #e9ecef; border-radius: 10px; height: 10px;">
                             <div id="progress-bar" style="width: 0%; height: 100%; background: #28a745; border-radius: 10px; transition: width 0.3s;"></div>
                         </div>
-                        <div id="progress-text" style="margin-top: 5px; font-size: 0.85em;"></div>
+                        <div id="progress-text" style="margin-top: 5px; font-size: 12px;"></div>
                     </div>
                 </div>
             </div>
@@ -769,10 +962,10 @@
         <!-- Submit Section -->
         <div class="submit-section">
             <div id="success-message" class="success-message" style="display: none;">
-                <span style="font-size: 1.5em;">✅</span>
+                <span style="font-size: 20px;">✅</span>
                 <div>
                     <strong>บันทึกข้อมูลสำเร็จ!</strong>
-                    <div id="success-details" style="font-size: 0.9em;"></div>
+                    <div id="success-details" style="font-size: 12px;"></div>
                 </div>
             </div>
             
@@ -782,7 +975,7 @@
                 <span>💾</span> บันทึกข้อมูล
             </button>
             
-            <div style="margin-top: 20px; color: #666; font-size: 0.9em;">
+            <div style="margin-top: 20px; color: #666; font-size: 12px;">
                 <p>⚠️ กรุณาตรวจสอบข้อมูลให้ครบถ้วนก่อนบันทึก</p>
             </div>
         </div>
@@ -791,7 +984,7 @@
 
 <script>
 // ========================================
-// 🎯 TRAINING FORM APPLICATION
+// 🎯 TRAINING FORM APPLICATION - UPDATED
 // ========================================
 
 const trainingApp = {
@@ -802,12 +995,18 @@ const trainingApp = {
     batchUploadQueue: [],
     batchUploadInProgress: false,
     isSubmitting: false,
+    isMobile: false,
     
     init: function() {
         console.log('🎯 Training Form Initializing...');
         
+        // ตรวจสอบว่าเป็น mobile device
+        this.isMobile = this.detectMobile();
+        console.log('📱 Is Mobile:', this.isMobile);
+        
         this.addCourse();
         this.setupEventListeners();
+        this.setupMobileEvents();
         
         // ✅ โหลดรายชื่อจาก main.js
         setTimeout(() => {
@@ -817,6 +1016,39 @@ const trainingApp = {
         }, 300);
         
         console.log('✅ Training Form Initialized');
+    },
+    
+    detectMobile: function() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+    },
+    
+    setupMobileEvents: function() {
+        // ✅ ป้องกัน double-tap zoom บนมือถือ
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        // ✅ ป้องกัน pull-to-refresh บน mobile
+        document.addEventListener('touchmove', function(event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        // ✅ ทำให้ input ไม่ถูกซ่อนโดย keyboard บน mobile
+        window.addEventListener('resize', function() {
+            if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+                setTimeout(function() {
+                    document.activeElement.scrollIntoView({ 
+                        block: 'center',
+                        behavior: 'smooth' 
+                    });
+                }, 300);
+            }
+        });
     },
     
     setupEventListeners: function() {
@@ -969,7 +1201,7 @@ const trainingApp = {
                         <span>📄</span>
                         <span id="certificate-name-${this.courseCount}"></span>
                         <button type="button" onclick="trainingApp.removeCertificate(${this.courseCount})" 
-                                style="margin-left: auto; background: #dc3545; color: white; border: none; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; cursor: pointer;">
+                                style="margin-left: auto; background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; font-size: 12px; cursor: pointer;">
                             ลบ
                         </button>
                     </div>
@@ -1021,7 +1253,9 @@ const trainingApp = {
     
     triggerCertificateUpload: function(courseNum) {
         const fileInput = document.getElementById(`certificateFile-${courseNum}`);
-        if (fileInput) fileInput.click();
+        if (fileInput) {
+            fileInput.click();
+        }
     },
     
     triggerFileInput: function(index) {
@@ -1040,6 +1274,193 @@ const trainingApp = {
             batchUploadInput.value = '';
             batchUploadInput.click();
         }
+    },
+    
+    // ✅ ปรับปรุง handleCertificateUpload ให้ทำงานบนมือถือ
+    handleCertificateUpload: async function(event, courseNum) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        console.log('Certificate file selected:', {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            isMobile: this.isMobile
+        });
+        
+        // Validate file type
+        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        if (!validTypes.includes(file.type)) {
+            alert('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)');
+            event.target.value = '';
+            return;
+        }
+        
+        // ✅ ใช้ limit 30MB สำหรับทุกอุปกรณ์
+        const maxSize = 30 * 1024 * 1024; // 30MB
+        if (file.size > maxSize) {
+            alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`);
+            event.target.value = '';
+            return;
+        }
+        
+        try {
+            // แสดง progress สำหรับไฟล์ใหญ่
+            if (file.size > 5 * 1024 * 1024) {
+                this.showProgressForCertificate(courseNum);
+            }
+            
+            // ใช้ arrayBuffer สำหรับทุกอุปกรณ์ (วิธีใหม่ที่ทำงานบนมือถือ)
+            const arrayBuffer = await file.arrayBuffer();
+            
+            // แปลง arrayBuffer เป็น base64
+            const base64 = await this.arrayBufferToBase64(arrayBuffer);
+            
+            this.uploadedCertificates[courseNum] = {
+                base64Data: base64,
+                fileName: file.name,
+                mimeType: file.type,
+                fileSize: file.size,
+                method: 'arrayBuffer'
+            };
+            
+            // แสดงข้อมูลไฟล์
+            const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
+            const nameSpan = document.getElementById(`certificate-name-${courseNum}`);
+            
+            if (infoDiv && nameSpan) {
+                nameSpan.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
+                infoDiv.style.display = 'flex';
+            }
+            
+            console.log('Certificate processed successfully for course:', courseNum);
+            
+        } catch (error) {
+            console.error('Error processing certificate:', error);
+            
+            // Fallback ใช้ FileReader
+            try {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const base64Data = e.target.result.split(',')[1];
+                    this.uploadedCertificates[courseNum] = {
+                        base64Data: base64Data,
+                        fileName: file.name,
+                        mimeType: file.type,
+                        fileSize: file.size,
+                        method: 'FileReader_fallback'
+                    };
+                    
+                    const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
+                    const nameSpan = document.getElementById(`certificate-name-${courseNum}`);
+                    
+                    if (infoDiv && nameSpan) {
+                        nameSpan.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
+                        infoDiv.style.display = 'flex';
+                    }
+                };
+                reader.onerror = () => {
+                    alert('เกิดข้อผิดพลาดในการอ่านไฟล์');
+                    event.target.value = '';
+                };
+                reader.readAsDataURL(file);
+            } catch (fallbackError) {
+                console.error('Fallback also failed:', fallbackError);
+                alert('ไม่สามารถอ่านไฟล์ได้ กรุณาลองไฟล์อื่น');
+                event.target.value = '';
+            }
+        }
+    },
+    
+    // ✅ แปลง ArrayBuffer เป็น Base64 (ทำงานบนมือถือ)
+    arrayBufferToBase64: function(buffer) {
+        return new Promise((resolve) => {
+            const bytes = new Uint8Array(buffer);
+            let binary = '';
+            
+            // ใช้ chunk เพื่อไม่ให้เบราว์เซอร์ค้าง
+            const chunkSize = 32768; // 32KB chunks
+            const totalChunks = Math.ceil(bytes.length / chunkSize);
+            
+            let processedChunks = 0;
+            
+            const processChunk = () => {
+                const start = processedChunks * chunkSize;
+                const end = Math.min(start + chunkSize, bytes.length);
+                
+                // แปลง chunk
+                for (let i = start; i < end; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                
+                processedChunks++;
+                
+                if (processedChunks < totalChunks) {
+                    // ใช้ setTimeout เพื่อให้เบราว์เซอร์หายใจ
+                    setTimeout(processChunk, 0);
+                } else {
+                    // เสร็จสิ้น
+                    const base64 = btoa(binary);
+                    resolve(base64);
+                }
+            };
+            
+            // เริ่มแปลง
+            processChunk();
+        });
+    },
+    
+    // ✅ แสดง progress สำหรับไฟล์เกียรติบัตรใหญ่
+    showProgressForCertificate: function(courseNum) {
+        // สร้าง progress container ถ้ายังไม่มี
+        let progressContainer = document.getElementById(`certificate-progress-${courseNum}`);
+        if (!progressContainer) {
+            progressContainer = document.createElement('div');
+            progressContainer.id = `certificate-progress-${courseNum}`;
+            progressContainer.className = 'upload-progress-container';
+            progressContainer.innerHTML = `
+                <div class="progress-info">
+                    <span id="certificate-progress-percentage-${courseNum}">0%</span>
+                    <span id="certificate-progress-status-${courseNum}">กำลังประมวลผลไฟล์...</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="certificate-progress-fill-${courseNum}" class="progress-fill"></div>
+                </div>
+                <button type="button" onclick="trainingApp.cancelCertificateUpload(${courseNum})" 
+                        class="cancel-upload-btn" style="margin-top: 10px;">
+                    ❌ ยกเลิก
+                </button>
+            `;
+            
+            const certificateUpload = document.getElementById(`certificate-upload-${courseNum}`);
+            if (certificateUpload) {
+                certificateUpload.appendChild(progressContainer);
+            }
+        }
+        
+        progressContainer.classList.add('active');
+    },
+    
+    // ✅ ยกเลิกการอัพโหลดเกียรติบัตร
+    cancelCertificateUpload: function(courseNum) {
+        delete this.uploadedCertificates[courseNum];
+        const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
+        const fileInput = document.getElementById(`certificateFile-${courseNum}`);
+        const progressContainer = document.getElementById(`certificate-progress-${courseNum}`);
+        
+        if (infoDiv) infoDiv.style.display = 'none';
+        if (fileInput) fileInput.value = '';
+        if (progressContainer) progressContainer.classList.remove('active');
+    },
+    
+    formatFileSize: function(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     },
     
     handlePhotoUpload: function(event, index) {
@@ -1115,7 +1536,9 @@ const trainingApp = {
                 return;
             }
             
-            if (file.size > 5 * 1024 * 1024) {
+            // ✅ ใช้ limit 30MB สำหรับรูปภาพ
+            const maxSize = 30 * 1024 * 1024;
+            if (file.size > maxSize) {
                 console.warn(`ไฟล์ ${file.name} ใหญ่เกินไป`);
                 processed++;
                 setTimeout(processNextFile, 100);
@@ -1164,8 +1587,10 @@ const trainingApp = {
             return false;
         }
         
-        if (file.size > 5 * 1024 * 1024) {
-            alert('ไฟล์ขนาดใหญ่เกินไป (สูงสุด 5MB)');
+        // ✅ ใช้ limit 30MB สำหรับรูปภาพ
+        const maxSize = 30 * 1024 * 1024;
+        if (file.size > maxSize) {
+            alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`);
             return false;
         }
         
@@ -1229,44 +1654,6 @@ const trainingApp = {
             countElement.style.color = '#666';
             countElement.style.fontWeight = 'normal';
         }
-    },
-    
-    handleCertificateUpload: function(event, courseNum) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
-        if (!validTypes.includes(file.type)) {
-            alert('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น');
-            event.target.value = '';
-            return;
-        }
-        
-        const maxSize = file.type === 'application/pdf' ? 10 * 1024 * 1024 : 5 * 1024 * 1024;
-        if (file.size > maxSize) {
-            alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด ${file.type === 'application/pdf' ? '10MB' : '5MB'})`);
-            event.target.value = '';
-            return;
-        }
-        
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.uploadedCertificates[courseNum] = {
-                base64Data: e.target.result.split(',')[1],
-                fileName: file.name,
-                mimeType: file.type,
-                fileSize: file.size
-            };
-            
-            const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
-            const nameSpan = document.getElementById(`certificate-name-${courseNum}`);
-            
-            if (infoDiv && nameSpan) {
-                nameSpan.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
-                infoDiv.style.display = 'flex';
-            }
-        };
-        reader.readAsDataURL(file);
     },
     
     removeCertificate: function(courseNum) {
@@ -1348,7 +1735,7 @@ const trainingApp = {
         return isValid;
     },
     
-    submitForm: function() {
+    submitForm: async function() {
         if (this.isSubmitting) {
             console.log('⏳ Already submitting, please wait...');
             return;
@@ -1438,7 +1825,6 @@ const trainingApp = {
                             successMsg.scrollIntoView({ behavior: 'smooth' });
                         }
                         
-                        // ✅ แก้ไขตรงนี้: รีเซ็ตฟอร์มที่หน้าเดิม ไม่เด้งไปหน้า home
                         setTimeout(() => {
                             this.resetForm();
                         }, 2000);
@@ -1490,15 +1876,11 @@ const trainingApp = {
     
     resetForm: function() {
         console.log('🔄 Resetting form on same page...');
-        
-        // ✅ 1. รีเซ็ตฟอร์มแบบเฉพาะหน้า (ไม่ใช้ฟังก์ชันจาก main.js ที่อาจจะเปลี่ยนหน้า)
         this.resetFormOnSamePage();
-        
         console.log('✅ Form reset complete - staying on same page');
     },
     
     resetFormOnSamePage: function() {
-        // ✅ รีเซ็ตเฉพาะหน้า formtraining.html เท่านั้น
         console.log('🔄 Resetting form locally...');
         
         // 1. รีเซ็ต dropdown ชื่อ
@@ -1583,5 +1965,5 @@ window.initTrainingForm = function() {
     return trainingApp.init();
 };
 
-console.log('🎯 Training Form Script Loaded');
+console.log('🎯 Training Form Script Loaded - Updated');
 </script>
