@@ -807,22 +807,6 @@
     body {
         overscroll-behavior-y: contain !important;
     }
-    
-    /* เพิ่มสไตล์สำหรับปุ่มอัปโหลดที่ทำงานบนมือถือ */
-    #training-form-container .photo-item.mobile-uploading {
-        border-color: #007bff !important;
-        background: #f0f8ff !important;
-    }
-    
-    #training-form-container .photo-item.mobile-uploading .photo-placeholder {
-        animation: pulse 1.5s infinite !important;
-    }
-    
-    @keyframes pulse {
-        0% { opacity: 0.6; }
-        50% { opacity: 1; }
-        100% { opacity: 0.6; }
-    }
     </style>
     
     <div class="form-training-container">
@@ -914,7 +898,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 1</span>
                         <img class="photo-preview" id="photo-preview-0">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 0)">×</button>
-                        <input type="file" class="file-input" accept="image/*" capture="environment"
+                        <input type="file" class="file-input" accept="image/*"
                                onchange="trainingApp.handlePhotoUpload(event, 0)" data-index="0">
                     </div>
                     
@@ -924,7 +908,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 2</span>
                         <img class="photo-preview" id="photo-preview-1">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 1)">×</button>
-                        <input type="file" class="file-input" accept="image/*" capture="environment"
+                        <input type="file" class="file-input" accept="image/*"
                                onchange="trainingApp.handlePhotoUpload(event, 1)" data-index="1">
                     </div>
                     
@@ -934,7 +918,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 3</span>
                         <img class="photo-preview" id="photo-preview-2">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 2)">×</button>
-                        <input type="file" class="file-input" accept="image/*" capture="environment"
+                        <input type="file" class="file-input" accept="image/*"
                                onchange="trainingApp.handlePhotoUpload(event, 2)" data-index="2">
                     </div>
                     
@@ -944,7 +928,7 @@
                         <span class="photo-label">รูปกิจกรรมที่ 4</span>
                         <img class="photo-preview" id="photo-preview-3">
                         <button type="button" class="remove-photo" onclick="trainingApp.removePhoto(event, 3)">×</button>
-                        <input type="file" class="file-input" accept="image/*" capture="environment"
+                        <input type="file" class="file-input" accept="image/*"
                                onchange="trainingApp.handlePhotoUpload(event, 3)" data-index="3">
                     </div>
                 </div>
@@ -955,21 +939,10 @@
                             style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; -webkit-tap-highlight-color: transparent;">
                         📁 เลือกหลายรูปพร้อมกัน (สูงสุด 4 รูป)
                     </button>
-                    <input type="file" id="batch-upload" accept="image/*" multiple capture="environment"
+                    <input type="file" id="batch-upload" accept="image/*" multiple
                            style="display: none;" onchange="trainingApp.handleBatchUpload(event)">
                     <p style="font-size: 12px; color: #666; margin-top: 10px;">
                         หรือลากไฟล์รูปภาพมาวางในพื้นที่นี้
-                    </p>
-                </div>
-                
-                <!-- Mobile Camera Button -->
-                <div id="mobile-camera-section" style="text-align: center; margin: 20px 0; display: none;">
-                    <button type="button" onclick="trainingApp.openCamera()" 
-                            style="background: #007bff; color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-size: 14px; -webkit-tap-highlight-color: transparent;">
-                        📷 ถ่ายภาพด้วยกล้อง
-                    </button>
-                    <p style="font-size: 12px; color: #666; margin-top: 8px;">
-                        ถ่ายภาพใหม่โดยตรงจากกล้อง
                     </p>
                 </div>
                 
@@ -1011,7 +984,7 @@
 
 <script>
 // ========================================
-// 🎯 TRAINING FORM APPLICATION - FIXED FOR MOBILE
+// 🎯 TRAINING FORM APPLICATION - FIXED FOR MOBILE UPLOAD
 // ========================================
 
 const trainingApp = {
@@ -1025,8 +998,6 @@ const trainingApp = {
     isMobile: false,
     isIOS: false,
     isAndroid: false,
-    cameraStream: null,
-    mobileUploadQueue: [],
     
     init: function() {
         console.log('🎯 Training Form Initializing...');
@@ -1091,14 +1062,6 @@ const trainingApp = {
                 }, 300);
             }
         });
-        
-        // ✅ แสดงปุ่มถ่ายภาพสำหรับมือถือ
-        if (this.isMobile) {
-            const mobileCameraSection = document.getElementById('mobile-camera-section');
-            if (mobileCameraSection) {
-                mobileCameraSection.style.display = 'block';
-            }
-        }
     },
     
     setupEventListeners: function() {
@@ -1310,8 +1273,13 @@ const trainingApp = {
             // บนมือถือ iOS ให้ล้าง value ก่อนเพื่อให้สามารถเลือกรูปเดิมได้
             if (this.isIOS) {
                 fileInput.value = '';
+                // ใช้ timeout เพื่อให้ iOS รีเซ็ต input
+                setTimeout(() => {
+                    if (fileInput) fileInput.click();
+                }, 100);
+            } else {
+                fileInput.click();
             }
-            fileInput.click();
         }
     },
     
@@ -1326,113 +1294,435 @@ const trainingApp = {
             // บนมือถือ iOS ให้ล้าง value ก่อน
             if (this.isIOS) {
                 batchUploadInput.value = '';
+                // ใช้ timeout เพื่อให้ iOS รีเซ็ต input
+                setTimeout(() => {
+                    if (batchUploadInput) batchUploadInput.click();
+                }, 100);
+            } else {
+                batchUploadInput.click();
             }
-            batchUploadInput.click();
         }
     },
     
-    // ✅ ฟังก์ชันเปิดกล้องโดยตรง (สำหรับมือถือ)
-    openCamera: function() {
-        if (!this.isMobile) {
-            alert('ฟังก์ชันนี้สำหรับอุปกรณ์มือถือเท่านั้น');
+    // ✅ ฟังก์ชันอัปโหลดรูปภาพ (แก้ไขสำหรับมือถือ)
+    handlePhotoUpload: function(event, index) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        console.log('📱 Mobile photo upload attempt:', {
+            index: index,
+            fileName: file.name,
+            fileType: file.type,
+            fileSize: file.size,
+            isMobile: this.isMobile,
+            isIOS: this.isIOS
+        });
+        
+        // ตรวจสอบประเภทไฟล์
+        if (!this.isValidImageFile(file)) {
+            alert('กรุณาเลือกรูปภาพเท่านั้น (JPG, PNG)');
             return;
         }
         
-        // สร้าง input สำหรับถ่ายภาพ
-        const cameraInput = document.createElement('input');
-        cameraInput.type = 'file';
-        cameraInput.accept = 'image/*';
-        cameraInput.capture = 'environment'; // ใช้กล้องหลัง
-        cameraInput.style.display = 'none';
+        // ตรวจสอบขนาดไฟล์ (ลดเป็น 10MB สำหรับมือถือ)
+        const maxSize = this.isMobile ? 10 * 1024 * 1024 : 30 * 1024 * 1024;
+        if (file.size > maxSize) {
+            alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด ${this.isMobile ? '10' : '30'}MB)`);
+            return;
+        }
         
-        cameraInput.onchange = (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                this.processPhotoFromCamera(file);
-            }
-        };
-        
-        document.body.appendChild(cameraInput);
-        cameraInput.click();
-        
-        // ลบ element หลังจากใช้
-        setTimeout(() => {
-            if (document.body.contains(cameraInput)) {
-                document.body.removeChild(cameraInput);
-            }
-        }, 1000);
+        // สำหรับมือถือ ให้ใช้วิธีที่เสถียรกว่า
+        if (this.isMobile) {
+            this.processPhotoForMobile(file, index);
+        } else {
+            this.processPhotoForDesktop(file, index);
+        }
     },
     
-    // ✅ ประมวลผลภาพจากกล้อง
-    processPhotoFromCamera: function(file) {
-        if (!file.type.match('image.*')) {
-            alert('กรุณาเลือกรูปภาพเท่านั้น');
-            return;
-        }
+    // ✅ ตรวจสอบว่าเป็นไฟล์ภาพที่ถูกต้อง
+    isValidImageFile: function(file) {
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        return validTypes.includes(file.type);
+    },
+    
+    // ✅ ประมวลผลภาพสำหรับมือถือ (ใช้วิธีที่เสถียรกว่า)
+    processPhotoForMobile: function(file, index) {
+        console.log('📱 Processing photo for mobile:', index);
         
-        // หาช่องว่างสำหรับอัปโหลด
-        let emptyIndex = -1;
-        for (let i = 0; i < 4; i++) {
-            if (this.uploadedPhotos[i] === null) {
-                emptyIndex = i;
-                break;
-            }
-        }
-        
-        if (emptyIndex === -1) {
-            alert('ไม่สามารถอัปโหลดรูปได้ เนื่องจากครบ 4 รูปแล้ว');
-            return;
-        }
-        
-        // แสดงสถานะกำลังอัปโหลด
-        const photoItem = document.querySelectorAll('.photo-item')[emptyIndex];
-        if (photoItem) {
-            photoItem.classList.add('mobile-uploading');
-        }
-        
-        // ใช้ FileReader สำหรับมือถือ
-        const reader = new FileReader();
-        
-        reader.onload = (e) => {
-            const preview = document.getElementById(`photo-preview-${emptyIndex}`);
+        try {
+            // วิธีที่ 1: ใช้ createObjectURL สำหรับแสดงภาพทันที
+            const objectURL = URL.createObjectURL(file);
+            
+            // แสดงภาพ preview
+            const preview = document.getElementById(`photo-preview-${index}`);
+            const photoItem = document.querySelectorAll('.photo-item')[index];
             
             if (preview && photoItem) {
-                // ลบสถานะกำลังอัปโหลด
-                photoItem.classList.remove('mobile-uploading');
-                
-                // แสดงภาพ
-                preview.src = e.target.result;
+                preview.src = objectURL;
                 preview.style.display = 'block';
                 photoItem.classList.add('uploaded');
                 
-                // บันทึกข้อมูล
-                this.uploadedPhotos[emptyIndex] = {
+                // บันทึก objectURL ไว้ลบทีหลัง
+                if (!preview.dataset.objectURL) {
+                    preview.dataset.objectURL = objectURL;
+                }
+            }
+            
+            // วิธีที่ 2: ใช้ FileReader สำหรับแปลงเป็น base64
+            const reader = new FileReader();
+            
+            reader.onload = (e) => {
+                console.log('✅ FileReader loaded successfully for mobile');
+                
+                // อัปเดตข้อมูลภาพ
+                this.uploadedPhotos[index] = {
                     base64Data: e.target.result.split(',')[1],
-                    fileName: `camera_${Date.now()}.jpg`,
+                    fileName: file.name,
                     mimeType: file.type,
                     lastModified: file.lastModified,
-                    source: 'camera'
+                    source: 'mobile'
                 };
                 
                 this.updatePhotoCount();
                 
-                // แจ้งเตือน
-                this.showMobileToast('ถ่ายภาพสำเร็จ!', 'success');
+                // ปล่อย objectURL
+                setTimeout(() => {
+                    if (objectURL) {
+                        URL.revokeObjectURL(objectURL);
+                    }
+                }, 1000);
+                
+                // แจ้งเตือนสำเร็จ
+                if (this.isMobile) {
+                    this.showToast('อัปโหลดรูปภาพสำเร็จ!', 'success');
+                }
+            };
+            
+            reader.onerror = (error) => {
+                console.error('❌ FileReader error on mobile:', error);
+                
+                // แสดงข้อผิดพลาด
+                if (this.isMobile) {
+                    this.showToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
+                }
+                
+                // ลบภาพ preview
+                this.removePhoto({ stopPropagation: () => {} }, index);
+            };
+            
+            // เริ่มอ่านไฟล์
+            reader.readAsDataURL(file);
+            
+        } catch (error) {
+            console.error('❌ Error processing photo for mobile:', error);
+            
+            // ลองวิธีสำรองสำหรับ iOS
+            if (this.isIOS) {
+                this.fallbackProcessForIOS(file, index);
+            } else {
+                this.showToast('ไม่สามารถอ่านไฟล์ภาพได้', 'error');
+            }
+        }
+    },
+    
+    // ✅ วิธีสำรองสำหรับ iOS
+    fallbackProcessForIOS: function(file, index) {
+        console.log('📱 Trying fallback for iOS:', index);
+        
+        // ใช้ createObjectURL เฉพาะสำหรับ preview
+        const objectURL = URL.createObjectURL(file);
+        
+        const preview = document.getElementById(`photo-preview-${index}`);
+        const photoItem = document.querySelectorAll('.photo-item')[index];
+        
+        if (preview && photoItem) {
+            preview.src = objectURL;
+            preview.style.display = 'block';
+            photoItem.classList.add('uploaded');
+            
+            // บันทึกข้อมูลแบบ minimal
+            this.uploadedPhotos[index] = {
+                objectURL: objectURL,
+                fileName: file.name,
+                mimeType: file.type,
+                lastModified: file.lastModified,
+                source: 'ios_fallback'
+            };
+            
+            this.updatePhotoCount();
+            
+            // แจ้งเตือน
+            this.showToast('อัปโหลดสำเร็จ (iOS)', 'success');
+        }
+    },
+    
+    // ✅ ประมวลผลภาพสำหรับ desktop
+    processPhotoForDesktop: function(file, index) {
+        const reader = new FileReader();
+        
+        reader.onload = (e) => {
+            const preview = document.getElementById(`photo-preview-${index}`);
+            const photoItem = document.querySelectorAll('.photo-item')[index];
+            
+            if (preview && photoItem) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                photoItem.classList.add('uploaded');
+                
+                this.uploadedPhotos[index] = {
+                    base64Data: e.target.result.split(',')[1],
+                    fileName: file.name,
+                    mimeType: file.type,
+                    lastModified: file.lastModified,
+                    source: 'desktop'
+                };
+                
+                this.updatePhotoCount();
             }
         };
         
         reader.onerror = () => {
-            if (photoItem) {
-                photoItem.classList.remove('mobile-uploading');
-            }
-            this.showMobileToast('เกิดข้อผิดพลาดในการอ่านภาพ', 'error');
+            alert('เกิดข้อผิดพลาดในการอ่านไฟล์รูปภาพ');
         };
         
         reader.readAsDataURL(file);
     },
     
-    // ✅ แจ้งเตือนบนมือถือ
-    showMobileToast: function(message, type = 'info') {
+    // ✅ ฟังก์ชันอัปโหลดหลายรูปพร้อมกัน (แก้ไขสำหรับมือถือ)
+    handleBatchUpload: function(event) {
+        const files = event.target.files;
+        if (!files || files.length === 0) return;
+        
+        console.log('📱 Batch upload attempt:', {
+            fileCount: files.length,
+            isMobile: this.isMobile
+        });
+        
+        // แสดง progress
+        const progressDiv = document.getElementById('upload-progress');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        
+        if (progressDiv) progressDiv.style.display = 'block';
+        if (progressBar) progressBar.style.width = '0%';
+        if (progressText) progressText.textContent = 'กำลังประมวลผล...';
+        
+        // ตรวจสอบช่องว่าง
+        const availableSlots = 4 - this.uploadedPhotos.filter(photo => photo !== null).length;
+        const filesToProcess = Math.min(files.length, availableSlots);
+        
+        if (filesToProcess === 0) {
+            this.showToast('ไม่สามารถอัปโหลดรูปได้ เนื่องจากครบ 4 รูปแล้ว', 'error');
+            if (progressDiv) progressDiv.style.display = 'none';
+            return;
+        }
+        
+        if (files.length > availableSlots) {
+            this.showToast(`สามารถอัปโหลดได้เพียง ${availableSlots} รูป จาก ${files.length} รูปที่เลือก`, 'info');
+        }
+        
+        this.batchUploadInProgress = true;
+        let processed = 0;
+        let successful = 0;
+        
+        // หาช่องว่างทั้งหมด
+        const emptySlots = [];
+        for (let i = 0; i < 4; i++) {
+            if (this.uploadedPhotos[i] === null) {
+                emptySlots.push(i);
+            }
+        }
+        
+        const processNextFile = () => {
+            if (processed >= filesToProcess || processed >= emptySlots.length) {
+                this.batchUploadInProgress = false;
+                if (progressDiv) progressDiv.style.display = 'none';
+                
+                if (successful > 0) {
+                    this.updatePhotoCount();
+                    this.showToast(`อัปโหลดสำเร็จ ${successful} รูป`, 'success');
+                }
+                
+                event.target.value = '';
+                return;
+            }
+            
+            const file = files[processed];
+            const slotIndex = emptySlots[processed];
+            
+            // อัปเดต progress
+            if (progressBar) {
+                progressBar.style.width = `${((processed + 1) / filesToProcess) * 100}%`;
+            }
+            if (progressText) {
+                progressText.textContent = `กำลังอัปโหลดรูปที่ ${processed + 1}/${filesToProcess}`;
+            }
+            
+            // ตรวจสอบว่าเป็นรูปภาพหรือไม่
+            if (!this.isValidImageFile(file)) {
+                console.warn(`ไฟล์ ${file.name} ไม่ใช่รูปภาพ`);
+                processed++;
+                setTimeout(processNextFile, 100);
+                return;
+            }
+            
+            // ตรวจสอบขนาดไฟล์
+            const maxSize = this.isMobile ? 10 * 1024 * 1024 : 30 * 1024 * 1024;
+            if (file.size > maxSize) {
+                console.warn(`ไฟล์ ${file.name} ใหญ่เกินไป`);
+                processed++;
+                setTimeout(processNextFile, 100);
+                return;
+            }
+            
+            // สำหรับมือถือใช้วิธีที่เสถียรกว่า
+            if (this.isMobile) {
+                try {
+                    // ใช้ createObjectURL สำหรับแสดงภาพทันที
+                    const objectURL = URL.createObjectURL(file);
+                    
+                    const preview = document.getElementById(`photo-preview-${slotIndex}`);
+                    const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
+                    
+                    if (preview && photoItem) {
+                        preview.src = objectURL;
+                        preview.style.display = 'block';
+                        photoItem.classList.add('uploaded');
+                        
+                        // บันทึก objectURL
+                        if (!preview.dataset.objectURL) {
+                            preview.dataset.objectURL = objectURL;
+                        }
+                    }
+                    
+                    // ใช้ FileReader สำหรับแปลงเป็น base64
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.uploadedPhotos[slotIndex] = {
+                            base64Data: e.target.result.split(',')[1],
+                            fileName: file.name,
+                            mimeType: file.type,
+                            lastModified: file.lastModified,
+                            source: 'mobile_batch'
+                        };
+                        
+                        successful++;
+                        processed++;
+                        
+                        // ปล่อย objectURL
+                        setTimeout(() => {
+                            if (objectURL) {
+                                URL.revokeObjectURL(objectURL);
+                            }
+                        }, 1000);
+                        
+                        setTimeout(processNextFile, 100);
+                    };
+                    
+                    reader.onerror = () => {
+                        console.error(`เกิดข้อผิดพลาดในการอ่านไฟล์ ${file.name}`);
+                        processed++;
+                        setTimeout(processNextFile, 100);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                    
+                } catch (error) {
+                    console.error(`Error processing ${file.name}:`, error);
+                    processed++;
+                    setTimeout(processNextFile, 100);
+                }
+            } else {
+                // สำหรับ desktop ใช้วิธีปกติ
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const preview = document.getElementById(`photo-preview-${slotIndex}`);
+                    const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
+                    
+                    if (preview && photoItem) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                        photoItem.classList.add('uploaded');
+                        
+                        this.uploadedPhotos[slotIndex] = {
+                            base64Data: e.target.result.split(',')[1],
+                            fileName: file.name,
+                            mimeType: file.type,
+                            lastModified: file.lastModified
+                        };
+                        
+                        successful++;
+                    }
+                    
+                    processed++;
+                    setTimeout(processNextFile, 100);
+                };
+                
+                reader.onerror = () => {
+                    console.error(`เกิดข้อผิดพลาดในการอ่านไฟล์ ${file.name}`);
+                    processed++;
+                    setTimeout(processNextFile, 100);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        };
+        
+        processNextFile();
+    },
+    
+    removePhoto: function(event, index) {
+        if (event && event.stopPropagation) {
+            event.stopPropagation();
+        }
+        
+        const preview = document.getElementById(`photo-preview-${index}`);
+        const photoItem = document.querySelectorAll('.photo-item')[index];
+        
+        if (preview && photoItem) {
+            // ลบ objectURL ถ้ามี
+            if (preview.dataset.objectURL) {
+                URL.revokeObjectURL(preview.dataset.objectURL);
+                delete preview.dataset.objectURL;
+            }
+            
+            preview.src = '';
+            preview.style.display = 'none';
+            photoItem.classList.remove('uploaded');
+            this.uploadedPhotos[index] = null;
+            
+            const fileInput = document.querySelectorAll('.file-input')[index];
+            if (fileInput) fileInput.value = '';
+            
+            this.updatePhotoCount();
+        }
+    },
+    
+    updatePhotoCount: function() {
+        const count = this.uploadedPhotos.filter(photo => photo !== null).length;
+        const countElement = document.getElementById('uploaded-count');
+        if (countElement) countElement.textContent = count;
+        
+        if (count === 4) {
+            countElement.style.color = '#28a745';
+            countElement.style.fontWeight = 'bold';
+        } else {
+            countElement.style.color = '#666';
+            countElement.style.fontWeight = 'normal';
+        }
+    },
+    
+    removeCertificate: function(courseNum) {
+        delete this.uploadedCertificates[courseNum];
+        const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
+        const fileInput = document.getElementById(`certificateFile-${courseNum}`);
+        
+        if (infoDiv) infoDiv.style.display = 'none';
+        if (fileInput) fileInput.value = '';
+    },
+    
+    // ✅ แสดง toast notification
+    showToast: function(message, type = 'info') {
         const toast = document.createElement('div');
         toast.style.cssText = `
             position: fixed;
@@ -1463,7 +1753,7 @@ const trainingApp = {
             }, 300);
         }, 3000);
         
-        // เพิ่ม CSS animation
+        // เพิ่ม CSS animation ถ้ายังไม่มี
         if (!document.querySelector('#toast-animations')) {
             const style = document.createElement('style');
             style.id = 'toast-animations';
@@ -1479,275 +1769,6 @@ const trainingApp = {
             `;
             document.head.appendChild(style);
         }
-    },
-    
-    // ✅ ฟังก์ชันอัปโหลดรูปภาพ (รองรับมือถือ)
-    handlePhotoUpload: function(event, index) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        // ตรวจสอบประเภทไฟล์
-        if (!file.type.match('image.*')) {
-            this.showMobileToast('กรุณาเลือกรูปภาพเท่านั้น (JPG, PNG)', 'error');
-            return;
-        }
-        
-        // ตรวจสอบขนาดไฟล์ (30MB)
-        const maxSize = 30 * 1024 * 1024;
-        if (file.size > maxSize) {
-            this.showMobileToast(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`, 'error');
-            return;
-        }
-        
-        // สำหรับมือถือ ให้แสดงสถานะ loading
-        if (this.isMobile) {
-            const photoItem = document.querySelectorAll('.photo-item')[index];
-            if (photoItem) {
-                photoItem.classList.add('mobile-uploading');
-            }
-        }
-        
-        this.processPhotoFileMobile(file, index);
-    },
-    
-    // ✅ ประมวลผลไฟล์ภาพสำหรับมือถือ
-    processPhotoFileMobile: function(file, index) {
-        const reader = new FileReader();
-        
-        reader.onload = (e) => {
-            const preview = document.getElementById(`photo-preview-${index}`);
-            const photoItem = document.querySelectorAll('.photo-item')[index];
-            
-            if (preview && photoItem) {
-                // ลบสถานะ loading
-                if (this.isMobile) {
-                    photoItem.classList.remove('mobile-uploading');
-                }
-                
-                // แสดงภาพ
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-                photoItem.classList.add('uploaded');
-                
-                // บันทึกข้อมูล
-                this.uploadedPhotos[index] = {
-                    base64Data: e.target.result.split(',')[1],
-                    fileName: file.name,
-                    mimeType: file.type,
-                    lastModified: file.lastModified,
-                    source: 'file'
-                };
-                
-                this.updatePhotoCount();
-                
-                // แจ้งเตือนบนมือถือ
-                if (this.isMobile) {
-                    this.showMobileToast('อัปโหลดรูปภาพสำเร็จ!', 'success');
-                }
-            }
-        };
-        
-        reader.onerror = () => {
-            // ลบสถานะ loading
-            if (this.isMobile) {
-                const photoItem = document.querySelectorAll('.photo-item')[index];
-                if (photoItem) {
-                    photoItem.classList.remove('mobile-uploading');
-                }
-            }
-            
-            this.showMobileToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
-        };
-        
-        reader.readAsDataURL(file);
-    },
-    
-    // ✅ ฟังก์ชันอัปโหลดหลายรูปพร้อมกัน (รองรับมือถือ)
-    handleBatchUpload: function(event) {
-        const files = event.target.files;
-        if (!files || files.length === 0) return;
-        
-        // แสดง progress
-        const progressDiv = document.getElementById('upload-progress');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        
-        if (progressDiv) progressDiv.style.display = 'block';
-        if (progressBar) progressBar.style.width = '0%';
-        if (progressText) progressText.textContent = 'กำลังประมวลผล...';
-        
-        // ตรวจสอบช่องว่าง
-        const availableSlots = 4 - this.uploadedPhotos.filter(photo => photo !== null).length;
-        const filesToProcess = Math.min(files.length, availableSlots);
-        
-        if (filesToProcess === 0) {
-            this.showMobileToast('ไม่สามารถอัปโหลดรูปได้ เนื่องจากครบ 4 รูปแล้ว', 'error');
-            if (progressDiv) progressDiv.style.display = 'none';
-            return;
-        }
-        
-        if (files.length > availableSlots) {
-            this.showMobileToast(`สามารถอัปโหลดได้เพียง ${availableSlots} รูป จาก ${files.length} รูปที่เลือก`, 'info');
-        }
-        
-        this.batchUploadInProgress = true;
-        let processed = 0;
-        let successful = 0;
-        
-        // หาช่องว่างทั้งหมด
-        const emptySlots = [];
-        for (let i = 0; i < 4; i++) {
-            if (this.uploadedPhotos[i] === null) {
-                emptySlots.push(i);
-            }
-        }
-        
-        const processNextFile = () => {
-            if (processed >= filesToProcess || processed >= emptySlots.length) {
-                this.batchUploadInProgress = false;
-                if (progressDiv) progressDiv.style.display = 'none';
-                
-                if (successful > 0) {
-                    this.updatePhotoCount();
-                    this.showMobileToast(`อัปโหลดสำเร็จ ${successful} รูป`, 'success');
-                }
-                
-                event.target.value = '';
-                return;
-            }
-            
-            const file = files[processed];
-            const slotIndex = emptySlots[processed];
-            
-            // อัปเดต progress
-            if (progressBar) {
-                progressBar.style.width = `${((processed + 1) / filesToProcess) * 100}%`;
-            }
-            if (progressText) {
-                progressText.textContent = `กำลังอัปโหลดรูปที่ ${processed + 1}/${filesToProcess}`;
-            }
-            
-            // ตรวจสอบว่าเป็นรูปภาพหรือไม่
-            if (!file.type.match('image.*')) {
-                console.warn(`ไฟล์ ${file.name} ไม่ใช่รูปภาพ`);
-                processed++;
-                setTimeout(processNextFile, 100);
-                return;
-            }
-            
-            // ตรวจสอบขนาดไฟล์
-            const maxSize = 30 * 1024 * 1024;
-            if (file.size > maxSize) {
-                console.warn(`ไฟล์ ${file.name} ใหญ่เกินไป`);
-                processed++;
-                setTimeout(processNextFile, 100);
-                return;
-            }
-            
-            // สำหรับมือถือ ให้แสดงสถานะ loading
-            if (this.isMobile) {
-                const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
-                if (photoItem) {
-                    photoItem.classList.add('mobile-uploading');
-                }
-            }
-            
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const preview = document.getElementById(`photo-preview-${slotIndex}`);
-                const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
-                
-                if (preview && photoItem) {
-                    // ลบสถานะ loading
-                    if (this.isMobile) {
-                        photoItem.classList.remove('mobile-uploading');
-                    }
-                    
-                    // แสดงภาพ
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    photoItem.classList.add('uploaded');
-                    
-                    // บันทึกข้อมูล
-                    this.uploadedPhotos[slotIndex] = {
-                        base64Data: e.target.result.split(',')[1],
-                        fileName: file.name,
-                        mimeType: file.type,
-                        lastModified: file.lastModified
-                    };
-                    
-                    successful++;
-                }
-                
-                processed++;
-                setTimeout(processNextFile, 100);
-            };
-            
-            reader.onerror = () => {
-                // ลบสถานะ loading
-                if (this.isMobile) {
-                    const photoItem = document.querySelectorAll('.photo-item')[slotIndex];
-                    if (photoItem) {
-                        photoItem.classList.remove('mobile-uploading');
-                    }
-                }
-                
-                console.error(`เกิดข้อผิดพลาดในการอ่านไฟล์ ${file.name}`);
-                processed++;
-                setTimeout(processNextFile, 100);
-            };
-            
-            reader.readAsDataURL(file);
-        };
-        
-        processNextFile();
-    },
-    
-    removePhoto: function(event, index) {
-        event.stopPropagation();
-        
-        const preview = document.getElementById(`photo-preview-${index}`);
-        const photoItem = document.querySelectorAll('.photo-item')[index];
-        
-        if (preview && photoItem) {
-            preview.src = '';
-            preview.style.display = 'none';
-            photoItem.classList.remove('uploaded');
-            this.uploadedPhotos[index] = null;
-            
-            const fileInput = document.querySelectorAll('.file-input')[index];
-            if (fileInput) fileInput.value = '';
-            
-            this.updatePhotoCount();
-            
-            // แจ้งเตือนบนมือถือ
-            if (this.isMobile) {
-                this.showMobileToast('ลบรูปภาพสำเร็จ', 'info');
-            }
-        }
-    },
-    
-    updatePhotoCount: function() {
-        const count = this.uploadedPhotos.filter(photo => photo !== null).length;
-        const countElement = document.getElementById('uploaded-count');
-        if (countElement) countElement.textContent = count;
-        
-        if (count === 4) {
-            countElement.style.color = '#28a745';
-            countElement.style.fontWeight = 'bold';
-        } else {
-            countElement.style.color = '#666';
-            countElement.style.fontWeight = 'normal';
-        }
-    },
-    
-    removeCertificate: function(courseNum) {
-        delete this.uploadedCertificates[courseNum];
-        const infoDiv = document.getElementById(`certificate-info-${courseNum}`);
-        const fileInput = document.getElementById(`certificateFile-${courseNum}`);
-        
-        if (infoDiv) infoDiv.style.display = 'none';
-        if (fileInput) fileInput.value = '';
     },
     
     // ✅ โหลดรายชื่อครูจาก main.js
@@ -1953,7 +1974,7 @@ const trainingApp = {
                 
                 // บนมือถือให้แจ้งเตือนแบบ toast
                 if (this.isMobile) {
-                    this.showMobileToast(`กรุณาอัปโหลดรูปกิจกรรมให้ครบ 4 รูป (ปัจจุบัน ${photoCount}/4 รูป)`, 'error');
+                    this.showToast(`กรุณาอัปโหลดรูปกิจกรรมให้ครบ 4 รูป (ปัจจุบัน ${photoCount}/4 รูป)`, 'error');
                 }
                 
                 this.switchTab('photos');
@@ -2055,7 +2076,7 @@ const trainingApp = {
                             
                             // บนมือถือแสดง toast
                             if (this.isMobile) {
-                                this.showMobileToast('บันทึกข้อมูลสำเร็จ!', 'success');
+                                this.showToast('บันทึกข้อมูลสำเร็จ!', 'success');
                             }
                         }
                         
@@ -2086,7 +2107,7 @@ const trainingApp = {
                     
                     // บนมือถือแสดง toast
                     if (this.isMobile) {
-                        this.showMobileToast(errorMessage, 'error');
+                        this.showToast(errorMessage, 'error');
                     }
                 })
                 .finally(() => {
@@ -2143,12 +2164,16 @@ const trainingApp = {
         // 3. รีเซ็ต photos
         this.uploadedPhotos = Array(4).fill(null);
         document.querySelectorAll('.photo-preview').forEach(preview => {
+            // ลบ objectURL ถ้ามี
+            if (preview.dataset.objectURL) {
+                URL.revokeObjectURL(preview.dataset.objectURL);
+                delete preview.dataset.objectURL;
+            }
             preview.src = '';
             preview.style.display = 'none';
         });
         document.querySelectorAll('.photo-item').forEach(item => {
             item.classList.remove('uploaded');
-            item.classList.remove('mobile-uploading');
         });
         document.querySelectorAll('.file-input').forEach(input => {
             input.value = '';
@@ -2198,15 +2223,15 @@ const trainingApp = {
         // ตรวจสอบประเภทไฟล์
         const validTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
         if (!validTypes.includes(file.type)) {
-            this.showMobileToast('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)', 'error');
+            this.showToast('กรุณาเลือกไฟล์ PDF หรือรูปภาพเท่านั้น (PDF, JPG, PNG)', 'error');
             event.target.value = '';
             return;
         }
         
-        // ตรวจสอบขนาดไฟล์ (30MB)
-        const maxSize = 30 * 1024 * 1024;
+        // ตรวจสอบขนาดไฟล์
+        const maxSize = this.isMobile ? 10 * 1024 * 1024 : 30 * 1024 * 1024;
         if (file.size > maxSize) {
-            this.showMobileToast(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด 30MB)`, 'error');
+            this.showToast(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด ${this.isMobile ? '10' : '30'}MB)`, 'error');
             event.target.value = '';
             return;
         }
@@ -2214,7 +2239,7 @@ const trainingApp = {
         try {
             // แสดงสถานะ loading บนมือถือ
             if (this.isMobile) {
-                this.showMobileToast('กำลังประมวลผลไฟล์...', 'info');
+                this.showToast('กำลังประมวลผลไฟล์...', 'info');
             }
             
             // ใช้ FileReader สำหรับทุกอุปกรณ์
@@ -2244,13 +2269,13 @@ const trainingApp = {
                 
                 // แจ้งเตือนบนมือถือ
                 if (this.isMobile) {
-                    this.showMobileToast('อัปโหลดไฟล์เกียรติบัตรสำเร็จ!', 'success');
+                    this.showToast('อัปโหลดไฟล์เกียรติบัตรสำเร็จ!', 'success');
                 }
             };
             
             reader.onerror = () => {
                 console.error('Error reading certificate file');
-                this.showMobileToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
+                this.showToast('เกิดข้อผิดพลาดในการอ่านไฟล์', 'error');
                 event.target.value = '';
             };
             
@@ -2258,7 +2283,7 @@ const trainingApp = {
             
         } catch (error) {
             console.error('Error processing certificate:', error);
-            this.showMobileToast('ไม่สามารถอ่านไฟล์ได้ กรุณาลองไฟล์อื่น', 'error');
+            this.showToast('ไม่สามารถอ่านไฟล์ได้ กรุณาลองไฟล์อื่น', 'error');
             event.target.value = '';
         }
     },
@@ -2301,5 +2326,5 @@ window.initTrainingForm = function() {
     return trainingApp.init();
 };
 
-console.log('🎯 Training Form Script Loaded - Fixed for Mobile');
+console.log('🎯 Training Form Script Loaded - Fixed Mobile Upload');
 </script>
