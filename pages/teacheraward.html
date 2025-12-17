@@ -634,7 +634,7 @@
             </div>
             
             <div style="margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 0.81em; color: #666;">
-                <p style="margin: 0;">💡 <strong>สำหรับมือถือ:</strong> รองรับไฟล์ PDF, JPG, PNG, DOC, DOCX (แนะนำไม่เกิน 5MB)</p>
+                <p style="margin: 0;">💡 <strong>สำหรับมือถือ:</strong> รองรับไฟล์ PDF, JPG, PNG, DOC, DOCX (แนะนำไม่เกิน 10MB)</p>
             </div>
             
             <!-- Debug Info - ใหม่! -->
@@ -1041,7 +1041,7 @@
             }
             
             // Validate file size สำหรับมือถือ
-            const maxSize = this.isMobile ? (5 * 1024 * 1024) : (20 * 1024 * 1024);
+            const maxSize = this.isMobile ? (10 * 1024 * 1024) : (20 * 1024 * 1024);
             if (file.size > maxSize) {
                 alert(`ไฟล์ขนาดใหญ่เกินไป (สูงสุด ${this.formatFileSize(maxSize)})`);
                 event.target.value = '';
@@ -1052,7 +1052,7 @@
             this.displayCertificateInfo(file);
             
             // แสดง warning ถ้าไฟล์ใหญ่สำหรับมือถือ
-            if (this.isMobile && file.size > 2 * 1024 * 1024) {
+            if (this.isMobile && file.size > 5 * 1024 * 1024) {
                 this.showFileWarning();
             }
         },
